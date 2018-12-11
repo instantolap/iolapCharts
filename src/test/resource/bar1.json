@@ -1,0 +1,22 @@
+{
+  "type": "bar",
+  "rotated": true,
+  "stacked": true,
+  "title": "Single data series?",
+  "scale": {
+    "title": "Amount"
+  },
+  "samples": {
+    "title": "Day of week"
+  },
+  "content": {
+    "barwidth": 0.75,
+    "shine": 5
+  },
+  "canvas": {
+    "verticalbackground": "#eee"
+  },
+  "legend": {
+    "display": true
+  }
+}

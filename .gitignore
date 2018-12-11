@@ -1,0 +1,7 @@
+/target/
+/output/
+/.idea/*
+/.idea/workspace.xml
+/.vagrant/
+*.iml
+changelog.html
