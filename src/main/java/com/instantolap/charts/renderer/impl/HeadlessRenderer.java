@@ -183,8 +183,7 @@ public class HeadlessRenderer extends BasicRenderer {
 
   @Override
   public void fillDonut(int x, int y, int r1, int r2, double a1, double a2,
-    boolean round)
-  {
+                        boolean round) {
     prepareFillDonut(x, y, r2, a1, a2);
     final GeneralPath path = getDonutPath(x, y, r1, r2, a1, a2, round);
     path.closePath();
@@ -193,8 +192,7 @@ public class HeadlessRenderer extends BasicRenderer {
 
   @Override
   public void drawDonut(int x, int y, int r1, int r2, double a1, double a2,
-    boolean round)
-  {
+                        boolean round) {
     final GeneralPath path = getDonutPath(x, y, r1, r2, a1, a2, round);
     graphics.draw(path);
   }
@@ -225,8 +223,7 @@ public class HeadlessRenderer extends BasicRenderer {
 
   @Override
   public void animate(final HasAnimation animated, final long duration)
-    throws ChartException
-  {
+    throws ChartException {
     animated.render(1);
   }
 
@@ -243,8 +240,7 @@ public class HeadlessRenderer extends BasicRenderer {
 
   @Override
   public boolean isInDonut(int xx, int yy, int x, int y, int r1, int r2,
-    double a1, double a2, boolean round)
-  {
+                           double a1, double a2, boolean round) {
     final GeneralPath p = getDonutPath(x, y, r1, r2, a1, a2, round);
     p.closePath();
     return p.contains(xx, yy);
@@ -266,11 +262,8 @@ public class HeadlessRenderer extends BasicRenderer {
       try {
         final SwingRenderer swingRenderer = new SwingRenderer();
         swingRenderer.setSize(600, 400);
-        chart.setRenderer(swingRenderer);
-        chart.setPopup(false);
-        chart.render();
-      }
-      catch (Exception e) {
+        swingRenderer.setChart(chart);
+      } catch (Exception e) {
         LOGGER.error("Unable to open popup", e);
       }
     }).start();
@@ -295,8 +288,7 @@ public class HeadlessRenderer extends BasicRenderer {
   }
 
   private GeneralPath createBubblePath(int x, int y, int w, int h, int ax,
-    int ay, int rr)
-  {
+                                       int ay, int rr) {
     final GeneralPath path = new GeneralPath();
 
     final double r = rr / 2.0;
@@ -361,8 +353,7 @@ public class HeadlessRenderer extends BasicRenderer {
   }
 
   private GeneralPath getDonutPath(double x, double y, double r1, double r2,
-    double a1, double a2, boolean round)
-  {
+                                   double a1, double a2, boolean round) {
     a1 = Math.toDegrees(-a1 + (Math.PI / 2.0));
     a2 = Math.toDegrees(-a2 + (Math.PI / 2.0));
 
@@ -402,8 +393,7 @@ public class HeadlessRenderer extends BasicRenderer {
     } else {
       try {
         path.lineTo(x, y);
-      }
-      catch (Exception e) {
+      } catch (Exception e) {
         path.moveTo(x, y);
       }
     }

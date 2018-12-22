@@ -73,10 +73,6 @@ import java.util.List;
 
 public class JSONChartFactory {
 
-  public static Chart create(JSONObject json) throws JSONException {
-    return create(json, null);
-  }
-
   public static Chart create(JSONObject json, Data data) throws JSONException {
 
     // data
@@ -610,12 +606,12 @@ public class JSONChartFactory {
         final String background = target.optString("background");
 
         ChartColor targetColor = null;
-        if (color != null) {
+        if (color != null && !color.isEmpty()) {
           targetColor = new ChartColor(color);
         }
 
         ChartColor backgroundColor = null;
-        if (background != null) {
+        if (background != null && !background.isEmpty()) {
           backgroundColor = new ChartColor(background);
         }
 
@@ -634,7 +630,7 @@ public class JSONChartFactory {
         final String color = area.optString("color");
 
         ChartColor targetColor = null;
-        if (color != null) {
+        if (color != null && !color.isEmpty()) {
           targetColor = new ChartColor(color);
         }
 
