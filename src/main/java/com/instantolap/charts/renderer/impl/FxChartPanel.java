@@ -43,6 +43,46 @@ public class FxChartPanel extends Canvas {
       }
     */
     };
+
+    setOnMouseMoved(event -> {
+      try {
+        renderer.mouseListeners.fireMouseMove((int) event.getX(), (int) event.getY());
+        renderer.fireMouseMove((int) event.getX(), (int) event.getY());
+      } catch (Exception e) {
+        renderer.showError(e);
+      }
+    });
+
+    setOnMouseDragged(event -> {
+      renderer.mouseListeners.fireMouseMove((int) event.getX(), (int) event.getY());
+    });
+
+    setOnMouseClicked(event -> {
+      renderer.fireMouseClick((int) event.getX(), (int) event.getY());
+    });
+
+    setOnMousePressed(event -> {
+      renderer.mouseListeners.fireMouseDown((int) event.getX(), (int) event.getY());
+    });
+
+    setOnMouseReleased(event -> {
+      renderer.mouseListeners.fireMouseUp((int) event.getX(), (int) event.getY());
+    });
+
+    setOnMouseExited(event -> {
+      try {
+        renderer.fireMouseOut((int) event.getX(), (int) event.getY());
+      } catch (Exception e) {
+        renderer.showError(e);
+      }
+    });
+
+    setOnScroll(event -> {
+        renderer.mouseListeners.fireMouseWheel(
+          (int) event.getX(), (int) event.getY(), (int) event.getDeltaY()
+        );
+      }
+    );
   }
 
   public void setChart(Chart chart) {

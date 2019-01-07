@@ -1,22 +1,12 @@
 package com.instantolap.charts.renderer.impl;
 
-import com.instantolap.charts.renderer.ChartColor;
-import com.instantolap.charts.renderer.ChartException;
-import com.instantolap.charts.renderer.ChartFont;
-import com.instantolap.charts.renderer.ChartStroke;
-import com.instantolap.charts.renderer.HasAnimation;
-import com.instantolap.charts.renderer.RendererContent;
+import com.instantolap.charts.renderer.*;
 import com.instantolap.charts.renderer.util.StringHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Arc2D;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.RoundRectangle2D;
+import java.awt.geom.*;
 import java.awt.image.BufferedImage;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;

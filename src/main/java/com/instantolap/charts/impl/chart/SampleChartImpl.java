@@ -1,11 +1,6 @@
 package com.instantolap.charts.impl.chart;
 
-import com.instantolap.charts.Axis;
-import com.instantolap.charts.Content;
-import com.instantolap.charts.Data;
-import com.instantolap.charts.SampleAxis;
-import com.instantolap.charts.SampleChart;
-import com.instantolap.charts.ValueAxis;
+import com.instantolap.charts.*;
 import com.instantolap.charts.impl.axis.SampleAxisImpl;
 import com.instantolap.charts.impl.axis.ValueAxisImpl;
 import com.instantolap.charts.impl.content.SampleValueRenderer;

@@ -1,10 +1,6 @@
 package com.instantolap.charts.impl.content;
 
-import com.instantolap.charts.Data;
-import com.instantolap.charts.PositionAxis;
-import com.instantolap.charts.SampleAxis;
-import com.instantolap.charts.ScaleAxis;
-import com.instantolap.charts.ValueAxis;
+import com.instantolap.charts.*;
 import com.instantolap.charts.renderer.ChartColor;
 import com.instantolap.charts.renderer.ChartException;
 import com.instantolap.charts.renderer.ChartFont;

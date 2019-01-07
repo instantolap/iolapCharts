@@ -1,6 +1,5 @@
 package com.instantolap.charts.renderer.impl;
 
-import com.instantolap.charts.renderer.HasAnimation;
 import com.instantolap.charts.renderer.RendererContent;
 
 import javax.swing.*;

@@ -1,12 +1,6 @@
 package com.instantolap.charts;
 
-import com.instantolap.charts.renderer.ChartColor;
-import com.instantolap.charts.renderer.ChartException;
-import com.instantolap.charts.renderer.ChartFont;
-import com.instantolap.charts.renderer.HasAnimation;
-import com.instantolap.charts.renderer.LinkOpener;
-import com.instantolap.charts.renderer.Renderer;
-import com.instantolap.charts.renderer.RendererContent;
+import com.instantolap.charts.renderer.*;
 
 import java.util.List;
 

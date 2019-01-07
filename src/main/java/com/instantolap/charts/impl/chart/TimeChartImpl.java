@@ -1,19 +1,10 @@
 package com.instantolap.charts.impl.chart;
 
-import com.instantolap.charts.Axis;
-import com.instantolap.charts.Content;
-import com.instantolap.charts.Data;
-import com.instantolap.charts.TimeAxis;
-import com.instantolap.charts.TimeChart;
-import com.instantolap.charts.ValueAxis;
+import com.instantolap.charts.*;
 import com.instantolap.charts.impl.axis.TimeAxisImpl;
 import com.instantolap.charts.impl.axis.ValueAxisImpl;
 import com.instantolap.charts.impl.content.SampleValueRenderer;
-import com.instantolap.charts.renderer.ChartException;
-import com.instantolap.charts.renderer.ChartFont;
-import com.instantolap.charts.renderer.ChartMouseDragListener;
-import com.instantolap.charts.renderer.ChartMouseWheelListener;
-import com.instantolap.charts.renderer.Renderer;
+import com.instantolap.charts.renderer.*;
 
 
 public class TimeChartImpl extends BasicMultiAxisChartImpl implements TimeChart {

@@ -1,12 +1,6 @@
 package com.instantolap.charts.impl.chart;
 
-import com.instantolap.charts.Axis;
-import com.instantolap.charts.Content;
-import com.instantolap.charts.Cube;
-import com.instantolap.charts.Data;
-import com.instantolap.charts.HasValueAxis;
-import com.instantolap.charts.SampleContent;
-import com.instantolap.charts.XYCanvas;
+import com.instantolap.charts.*;
 import com.instantolap.charts.impl.axis.BasicAxisImpl;
 import com.instantolap.charts.impl.canvas.XYCanvasImpl;
 import com.instantolap.charts.impl.content.RendererWithSamples;

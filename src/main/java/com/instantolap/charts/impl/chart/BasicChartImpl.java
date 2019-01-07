@@ -1,20 +1,10 @@
 package com.instantolap.charts.impl.chart;
 
-import com.instantolap.charts.Chart;
-import com.instantolap.charts.Content;
-import com.instantolap.charts.Cube;
-import com.instantolap.charts.Data;
-import com.instantolap.charts.Legend;
+import com.instantolap.charts.*;
 import com.instantolap.charts.impl.data.PartialCube;
 import com.instantolap.charts.impl.legend.BasicLegendImpl;
 import com.instantolap.charts.impl.legend.LegendImpl;
-import com.instantolap.charts.renderer.ChartColor;
-import com.instantolap.charts.renderer.ChartException;
-import com.instantolap.charts.renderer.ChartFont;
-import com.instantolap.charts.renderer.HasAnimation;
-import com.instantolap.charts.renderer.LinkOpener;
-import com.instantolap.charts.renderer.Renderer;
-import com.instantolap.charts.renderer.RendererListener;
+import com.instantolap.charts.renderer.*;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -11,11 +11,7 @@ import com.instantolap.charts.impl.math.SimpleRegression;
 import com.instantolap.charts.impl.math.SplineInterpolator;
 import com.instantolap.charts.impl.util.LabelDrawer;
 import com.instantolap.charts.impl.util.SymbolDrawer;
-import com.instantolap.charts.renderer.ChartColor;
-import com.instantolap.charts.renderer.ChartException;
-import com.instantolap.charts.renderer.ChartFont;
-import com.instantolap.charts.renderer.ChartStroke;
-import com.instantolap.charts.renderer.Renderer;
+import com.instantolap.charts.renderer.*;
 
 import java.util.ArrayList;
 import java.util.List;

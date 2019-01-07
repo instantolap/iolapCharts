@@ -1,10 +1,6 @@
 package com.instantolap.charts.impl.content;
 
-import com.instantolap.charts.Cube;
-import com.instantolap.charts.Data;
-import com.instantolap.charts.PositionAxis;
-import com.instantolap.charts.RoundAxis;
-import com.instantolap.charts.ValueAxis;
+import com.instantolap.charts.*;
 import com.instantolap.charts.impl.animation.ContentAnimation;
 import com.instantolap.charts.impl.animation.FlyInContentAnim;
 import com.instantolap.charts.impl.util.RoundLabelDrawer;

@@ -1,62 +1,11 @@
 package com.instantolap.charts.factories;
 
-import com.instantolap.charts.Axis;
-import com.instantolap.charts.BarContent;
-import com.instantolap.charts.Canvas;
-import com.instantolap.charts.Chart;
-import com.instantolap.charts.Content;
-import com.instantolap.charts.Data;
-import com.instantolap.charts.HasAnnotations;
-import com.instantolap.charts.HasBackground;
-import com.instantolap.charts.HasBorder;
-import com.instantolap.charts.HasMeasure;
-import com.instantolap.charts.HasRegression;
-import com.instantolap.charts.HasSamples;
-import com.instantolap.charts.HasShadow;
-import com.instantolap.charts.HasTitle;
-import com.instantolap.charts.HasValueAxis;
-import com.instantolap.charts.HasValueLabels;
-import com.instantolap.charts.HeatMapContent;
+import com.instantolap.charts.*;
 import com.instantolap.charts.HeatMapContent.HeatColor;
-import com.instantolap.charts.Legend;
-import com.instantolap.charts.LineContent;
-import com.instantolap.charts.MeterContent;
-import com.instantolap.charts.PieContent;
-import com.instantolap.charts.RoundAxis;
-import com.instantolap.charts.RoundCanvas;
-import com.instantolap.charts.SampleAxis;
-import com.instantolap.charts.SampleChart;
-import com.instantolap.charts.SampleContent;
-import com.instantolap.charts.SampleSampleChart;
-import com.instantolap.charts.ScaleAxis;
-import com.instantolap.charts.ScatterContent;
-import com.instantolap.charts.TimeAxis;
-import com.instantolap.charts.TimeChart;
-import com.instantolap.charts.Transformation;
-import com.instantolap.charts.ValueAxis;
-import com.instantolap.charts.XYCanvas;
-import com.instantolap.charts.XYChart;
 import com.instantolap.charts.control.RoundChart;
-import com.instantolap.charts.impl.animation.CombinedContentAnim;
-import com.instantolap.charts.impl.animation.FadeInContentAnim;
-import com.instantolap.charts.impl.animation.FlyInContentAnim;
-import com.instantolap.charts.impl.animation.GrowContentAnim;
-import com.instantolap.charts.impl.animation.LeftToRightContentAnim;
-import com.instantolap.charts.impl.animation.RightToLeftContentAnim;
-import com.instantolap.charts.impl.animation.ShrinkContentAnim;
-import com.instantolap.charts.impl.chart.RoundChartImpl;
-import com.instantolap.charts.impl.chart.SampleChartImpl;
-import com.instantolap.charts.impl.chart.SampleSampleChartImpl;
-import com.instantolap.charts.impl.chart.TimeChartImpl;
-import com.instantolap.charts.impl.chart.XYChartImpl;
-import com.instantolap.charts.impl.content.BarContentImpl;
-import com.instantolap.charts.impl.content.HeatMapContentImpl;
-import com.instantolap.charts.impl.content.LineContentImpl;
-import com.instantolap.charts.impl.content.MeterContentImpl;
-import com.instantolap.charts.impl.content.PieContentImpl;
-import com.instantolap.charts.impl.content.RoundBarContentImpl;
-import com.instantolap.charts.impl.content.RoundLineContentImpl;
-import com.instantolap.charts.impl.content.ScatterContentImpl;
+import com.instantolap.charts.impl.animation.*;
+import com.instantolap.charts.impl.chart.*;
+import com.instantolap.charts.impl.content.*;
 import com.instantolap.charts.impl.data.transform.StackedTransform;
 import com.instantolap.charts.impl.util.SymbolDrawer;
 import com.instantolap.charts.json.JSONArray;
@@ -897,7 +846,7 @@ public class JSONChartFactory {
     final JSONArray strokes = json.optJSONArray("strokes");
     if (strokes != null) {
       for (int n = 0; n < strokes.length(); n++) {
-        data.setStroke(n, new ChartStroke(symbols.getString(n)));
+        data.setStroke(n, new ChartStroke(strokes.getString(n)));
       }
     }
 

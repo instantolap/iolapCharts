@@ -1,11 +1,6 @@
 package com.instantolap.charts.impl.canvas;
 
-import com.instantolap.charts.Axis;
-import com.instantolap.charts.CriticalArea;
-import com.instantolap.charts.Data;
-import com.instantolap.charts.RoundAxis;
-import com.instantolap.charts.TargetLine;
-import com.instantolap.charts.ValueAxis;
+import com.instantolap.charts.*;
 import com.instantolap.charts.impl.animation.CanvasAnimation;
 import com.instantolap.charts.impl.animation.FadeInCanvasAnim;
 import com.instantolap.charts.renderer.ChartColor;

@@ -80,7 +80,7 @@ public class ChartPanel extends JPanel {
 
   public ChartPanel() {
     super(new BorderLayout());
-/*
+
     addMouseMotionListener(new MouseMotionListener() {
       @Override
       public void mouseDragged(MouseEvent event) {
@@ -132,7 +132,6 @@ public class ChartPanel extends JPanel {
     addMouseWheelListener(e -> renderer.mouseListeners.fireMouseWheel(
       e.getX(), e.getY(), e.getWheelRotation()
     ));
-    */
   }
 
   public void setChart(RendererContent chart) {

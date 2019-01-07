@@ -1,11 +1,6 @@
 package com.instantolap.charts.renderer.impl;
 
-import com.instantolap.charts.renderer.ChartColor;
-import com.instantolap.charts.renderer.ChartException;
-import com.instantolap.charts.renderer.ChartFont;
-import com.instantolap.charts.renderer.ChartMouseListener;
-import com.instantolap.charts.renderer.Renderer;
-import com.instantolap.charts.renderer.RendererListener;
+import com.instantolap.charts.renderer.*;
 import com.instantolap.charts.renderer.popup.DonutPopup;
 import com.instantolap.charts.renderer.popup.Popup;
 import com.instantolap.charts.renderer.popup.RectPopup;

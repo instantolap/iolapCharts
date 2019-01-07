@@ -1,11 +1,6 @@
 package com.instantolap.charts.renderer.impl;
 
-import com.instantolap.charts.renderer.ChartMouseDownListener;
-import com.instantolap.charts.renderer.ChartMouseDragListener;
-import com.instantolap.charts.renderer.ChartMouseListener;
-import com.instantolap.charts.renderer.ChartMouseMoveListener;
-import com.instantolap.charts.renderer.ChartMouseUpListener;
-import com.instantolap.charts.renderer.ChartMouseWheelListener;
+import com.instantolap.charts.renderer.*;
 import com.instantolap.charts.renderer.popup.AreaListener;
 import com.instantolap.charts.renderer.popup.RectAreaListener;
 

@@ -12,12 +12,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.instantolap.charts.renderer.ChartColor;
-import com.instantolap.charts.renderer.ChartException;
-import com.instantolap.charts.renderer.ChartFont;
-import com.instantolap.charts.renderer.ChartStroke;
-import com.instantolap.charts.renderer.HasAnimation;
-import com.instantolap.charts.renderer.RendererContent;
+import com.instantolap.charts.renderer.*;
 import com.instantolap.charts.renderer.util.StringHelper;
 
 import java.util.Date;

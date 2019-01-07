@@ -1,12 +1,6 @@
 package com.instantolap.charts.impl.content;
 
-import com.instantolap.charts.Cube;
-import com.instantolap.charts.Data;
-import com.instantolap.charts.HasValueAxis;
-import com.instantolap.charts.HasValueLabels;
-import com.instantolap.charts.PositionAxis;
-import com.instantolap.charts.SampleContent;
-import com.instantolap.charts.ValueAxis;
+import com.instantolap.charts.*;
 import com.instantolap.charts.impl.animation.ContentAnimation;
 import com.instantolap.charts.impl.math.SimpleRegression;
 import com.instantolap.charts.renderer.ChartColor;

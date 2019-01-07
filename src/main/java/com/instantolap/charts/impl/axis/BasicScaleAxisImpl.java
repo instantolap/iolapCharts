@@ -3,11 +3,7 @@ package com.instantolap.charts.impl.axis;
 import com.instantolap.charts.ScaleAxis;
 import com.instantolap.charts.ScaleAxisListener;
 import com.instantolap.charts.impl.util.ArrayHelper;
-import com.instantolap.charts.renderer.ChartException;
-import com.instantolap.charts.renderer.ChartFont;
-import com.instantolap.charts.renderer.ChartMouseDragListener;
-import com.instantolap.charts.renderer.ChartMouseWheelListener;
-import com.instantolap.charts.renderer.Renderer;
+import com.instantolap.charts.renderer.*;
 
 import java.util.ArrayList;
 import java.util.List;
