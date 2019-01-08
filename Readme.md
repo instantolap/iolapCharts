@@ -50,7 +50,7 @@ You can also change the appearance of the titles with the **titlefont**, **title
       subtitle: with subtitle, subtitlefont: "Arial, 8", subtitlecolor: green
     }--></chart>
 
-###Legends
+### Legends
 
 To add a legend to your chart, simply add a **legend** object to you JSON data. Inside the legend object, you can add additional properties to change the position and appearance of the legend.
 
@@ -102,13 +102,13 @@ Finally, the **labels** attribute enables you to replace the texts in the legend
       legend: { labels: [DE,DK], reverse: true }
     }--></chart>
     
-##Axis control
+## Axis control
 
 Basically, there are two types of axes in iolapCharts: The SampleAxis and the ScaleAxis. A ScaleAxis is scalar and used for numerical values, typically the Y-Axis in a non rotated chart. The sample axis display the samples of a chart (usually text) and is not scalar. Both types share a lot of attributes but have own attributes, too.
 
 To change the axis settings, add an object attribute with the name **scale**, **scale2**, **samples** or **samples2** to you json definition.
 
-###Shared attributes
+### Shared attributes
 
 First of all, each axis can have a title. The title of an axis is controlled by the **title** property, the properties **color**, **titlefont** and **titleangle** (in degrees) control its appearence.
 
@@ -163,7 +163,7 @@ Additional texts can be added with **prefix** and **postfix** . This is useful e
      scale: { postfix: "€" }
     }--></chart>
     
-###Scale axis attributes
+### Scale axis attributes
 
 With **min** and **max** you can change the upper and lower bound of a scale axis. Without setting these bounds they are calculated automatically on base of the used data.
 
@@ -206,7 +206,7 @@ Or define critical areas in the **areas** attribute. Each area has a **min**, **
       scale: { areas: [{ min: 10, max: 90, text: Standard, color: "green,25" }] }
     }--></chart>
     
-###Sample axis attributes
+### Sample axis attributes
 
 In sample axes, you can replace the original labels from the data with your own texts using the **labels** attribute:
 
@@ -217,7 +217,7 @@ In sample axes, you can replace the original labels from the data with your own 
       samples: { labels: [1st,2nd,3rd,4th,5th,6th,7th,8th,9th,10th] }
     }--></chart>
     
-##Canvas control
+## Canvas control
 
 The canvas is the inner area of a chart where the bars, lines etc. are displayed. In the **canvas** area of your json definition, the appearance of the canvas can be changed and controlled.
 
@@ -253,11 +253,11 @@ The **baseline** attribute lets the chart the basline of the grid in the defined
       canvas: { baseline: black }
     }--></chart>
     
-##Contents
+## Contents
 
 The content of a chart is the the lines, bars, pie slices - or whatever the chart intentionally displays. To control the content, add a content object to your JSON config. The following attributes are available for all kinds of content:
 
-###Shared attributes
+### Shared attributes
 
 The attributes **color** and **colors** change the color of your content. If the attribute color is used, it changes the color for all series to the same value. The attribute colors accepts an array with different colors for each series:
 
@@ -352,7 +352,7 @@ By default, Bar Charts with a single series use the same color for all bars. If 
       content: { multicolor: true }
     }--></chart>
     
-###Line, Spline & Area attributes
+### Line, Spline & Area attributes
 
 Missing data points are connected in Line Charts by default. With the boolean **connected** attribute it's possible to disable this feature:
 
@@ -370,7 +370,7 @@ In area charts, the same color is used for the area as for the line itself, but 
       content: { areaopacity: 1 }
     }--></chart>
     
-###Pie & Doughnut attributes
+### Pie & Doughnut attributes
 
 Pie & Doughnut Charts are able to detach their slices in order to attrack the viewers' attention. The attribute **detached** controls the ordinals of the deteached slices and the attribute **distance** controls the distance as a value between 0 and 1. By default, no slices are detached and the standard distance is 0.2:
 
