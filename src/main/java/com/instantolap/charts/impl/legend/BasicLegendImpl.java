@@ -19,7 +19,7 @@ public abstract class BasicLegendImpl implements Legend {
   private int spacing = 10, padding = 5;
   private boolean isVertical;
   private int roundedCorner = 10;
-  private ChartColor shadow = ChartColor.SHADOW;
+  private ChartColor shadow;
   private int shadowXOffset = 3;
   private int shadowYOffset = 3;
   private int dimension = 1;

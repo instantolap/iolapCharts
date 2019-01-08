@@ -29,7 +29,7 @@ public abstract class BasicSampleContentImpl extends BasicContentImpl
   private String percentLabelFormat;
   private int valueLabelType = AUTO;
   private ChartColor labelColor = ChartColor.BLACK;
-  private ChartColor shadow = ChartColor.SHADOW;
+  private ChartColor shadow;
   private int shadowXOffset = 3;
   private int shadowYOffset = 3;
   private ChartColor outlineColor;
