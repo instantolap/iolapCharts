@@ -54,7 +54,7 @@ You can also change the appearance of the titles with the **titlefont**, **title
 
 To add a legend to your chart, simply add a **legend** object to you JSON data. Inside the legend object, you can add additional properties to change the position and appearance of the legend.
 
-The **position** and **aligment** attributes allow set the position of the legend. Both can be set to "top", "bottom", "left" or "right" and aligment additionally to "middle". E.g. position: right together with alignment: top displays the legend in the upper right corner.
+The **position** and **alignment** attributes allow set the position of the legend. Both can be set to "top", "bottom", "left" or "right" and alignment additionally to "middle". E.g. position: right together with alignment: top displays the legend in the upper right corner.
 
 The **inside** attribute places the legend inside your chart (then it may hide the data of the chart though). This example displays the legend in the lower right corner inside the chart:
 
@@ -75,7 +75,7 @@ The attributes **border**, **background**, **shadow**, **shadowoffsetx** and **
       legend: { background: null, border: null }
     }--></chart>
     
-The attributes **font**,** colors**, and **color** change the used font and color(s) for the texts inside the legend:
+The attributes **font**, **colors**, and **color** change the used font and color(s) for the texts inside the legend:
 
     <chart><!--{
       data: { dimensions: [[Mon, Tue, Wed, Thu, Fri, Sat, Sun], [Germany, Denmark]], 
@@ -372,7 +372,7 @@ In area charts, the same color is used for the area as for the line itself, but 
     
 ### Pie & Doughnut attributes
 
-Pie & Doughnut Charts are able to detach their slices in order to attrack the viewers' attention. The attribute **detached** controls the ordinals of the deteached slices and the attribute **distance** controls the distance as a value between 0 and 1. By default, no slices are detached and the standard distance is 0.2:
+Pie & Doughnut Charts are able to detach their slices in order to attract the viewers' attention. The attribute **detached** controls the ordinals of the deteached slices and the attribute **distance** controls the distance as a value between 0 and 1. By default, no slices are detached and the standard distance is 0.2:
 
     <chart><!--{
       data: { dimensions: [[Mon, Tue, Wed, Thu, Fri, Sat, Sun]], values: [10,150,20,80,20,40,35] },
@@ -388,7 +388,7 @@ With the **startangle** attribute it is possible to set the position of the 1st 
       content: { startangle: 90 }
     }--></chart>
     
-Doughnut Charts are just Pie Charts with a space before the 1st series and between two serieses. Use the attribute **seriesspace** to change it, it accepts value between 0 (no space) and 1 (maximum space):
+Doughnut Charts are just Pie Charts with a space before the 1st series and between two series. Use the attribute **seriesspace** to change it, it accepts value between 0 (no space) and 1 (maximum space):
 
     <chart><!--{
       data: { dimensions: [[Mon, Tue, Wed, Thu, Fri, Sat, Sun]], values: [10,150,20,80,20,40,35] },

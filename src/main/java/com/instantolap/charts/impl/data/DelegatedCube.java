@@ -4,14 +4,14 @@ import com.instantolap.charts.Cube;
 
 
 @SuppressWarnings("serial")
-public class DeligatedCube extends BasicCube {
+public class DelegatedCube extends BasicCube {
 
   protected Cube cube;
 
-  public DeligatedCube() {
+  public DelegatedCube() {
   }
 
-  public DeligatedCube(Cube cube) {
+  public DelegatedCube(Cube cube) {
     this.cube = cube;
   }
 

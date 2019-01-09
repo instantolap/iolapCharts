@@ -4,7 +4,7 @@ import com.instantolap.charts.Cube;
 
 
 @SuppressWarnings("serial")
-public class PartialCube extends DeligatedCube {
+public class PartialCube extends DelegatedCube {
 
   private boolean[][] visibilities;
 
