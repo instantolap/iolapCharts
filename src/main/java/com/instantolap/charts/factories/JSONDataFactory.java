@@ -82,12 +82,6 @@ public class JSONDataFactory {
             cube.set(m, obj.getDouble(m), pos);
           }
         }
-      } else if (o instanceof Number) {
-        if (axis != 0) {
-          throw new JSONException("Value depth does not match dimension count");
-        }
-        final Number number = (Number) o;
-        cube.set(Cube.MEASURE_VALUE, number.doubleValue(), pos);
       }
     }
   }
