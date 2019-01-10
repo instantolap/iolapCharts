@@ -36,6 +36,11 @@ public class ChartColor implements Serializable {
     try {
       this.gradient = gradient;
 
+      if ("none".equalsIgnoreCase(rgb)) {
+        r = g = b = a = 0;
+        return;
+      }
+
       if (rgb != null) {
         if (rgb.startsWith("gradient ")) {
           this.gradient = true;
