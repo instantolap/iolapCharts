@@ -471,7 +471,7 @@ public abstract class BasicChartImpl implements Chart, HasAnimation, RendererLis
       }
 
       r.setColor(color);
-      r.drawText(x + width / 2, y, title, 0, Renderer.NORTH);
+      r.drawText(x + width / 2, y, subTitle, 0, Renderer.NORTH);
 
       final int titlePadding = getTitlePadding() + textHeight;
       y += titlePadding;
