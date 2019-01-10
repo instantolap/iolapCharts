@@ -4,6 +4,7 @@ import com.instantolap.charts.Cube;
 import com.instantolap.charts.Data;
 import com.instantolap.charts.LineContent;
 import com.instantolap.charts.impl.animation.ContentAnimation;
+import com.instantolap.charts.impl.data.Palette;
 import com.instantolap.charts.impl.util.ArrayHelper;
 import com.instantolap.charts.renderer.ChartColor;
 
@@ -19,7 +20,9 @@ public abstract class BasicLineContentImpl extends BasicSampleContentImpl implem
   private Integer[] fillStarts = new Integer[0];
   private String measure = Cube.MEASURE_VALUE;
 
-  public BasicLineContentImpl() {
+  public BasicLineContentImpl(Palette palette) {
+    super(palette);
+
     setOutline(ChartColor.WHITE);
   }
 

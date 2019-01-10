@@ -3,6 +3,7 @@ package com.instantolap.charts.impl.chart;
 import com.instantolap.charts.Content;
 import com.instantolap.charts.control.RoundChart;
 import com.instantolap.charts.impl.content.SampleValueRenderer;
+import com.instantolap.charts.impl.data.Palette;
 import com.instantolap.charts.renderer.ChartColor;
 import com.instantolap.charts.renderer.ChartStroke;
 
@@ -14,6 +15,10 @@ public abstract class BasicRoundChartImpl extends BasicChartImpl implements Roun
   private ChartStroke innerBorderStroke;
   private int innerPadding = 0;
   private boolean enableRotation = true;
+
+  public BasicRoundChartImpl(Palette palette) {
+    super(palette);
+  }
 
   @Override
   public boolean isStacked() {

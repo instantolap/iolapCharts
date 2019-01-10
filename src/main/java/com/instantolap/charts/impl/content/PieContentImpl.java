@@ -3,6 +3,7 @@ package com.instantolap.charts.impl.content;
 import com.instantolap.charts.*;
 import com.instantolap.charts.impl.animation.ContentAnimation;
 import com.instantolap.charts.impl.animation.FlyInContentAnim;
+import com.instantolap.charts.impl.data.Palette;
 import com.instantolap.charts.impl.util.RoundLabelDrawer;
 import com.instantolap.charts.renderer.ChartColor;
 import com.instantolap.charts.renderer.ChartException;
@@ -14,7 +15,9 @@ import java.util.List;
 
 public class PieContentImpl extends BasicPieContentImpl implements SampleValueRenderer {
 
-  public PieContentImpl() {
+  public PieContentImpl(Palette palette) {
+    super(palette);
+
     setOutline(new ChartColor("666"));
     setShine(5);
     setAnimation(new FlyInContentAnim());

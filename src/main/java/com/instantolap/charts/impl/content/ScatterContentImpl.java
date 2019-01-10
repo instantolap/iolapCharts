@@ -6,6 +6,7 @@ import com.instantolap.charts.ScaleAxis;
 import com.instantolap.charts.ValueAxis;
 import com.instantolap.charts.impl.animation.ContentAnimation;
 import com.instantolap.charts.impl.animation.FadeInContentAnim;
+import com.instantolap.charts.impl.data.Palette;
 import com.instantolap.charts.impl.math.SimpleRegression;
 import com.instantolap.charts.impl.util.SymbolDrawer;
 import com.instantolap.charts.renderer.ChartColor;
@@ -16,7 +17,9 @@ import com.instantolap.charts.renderer.Renderer;
 
 public class ScatterContentImpl extends BasicScatterContentImpl implements ValueValueRenderer {
 
-  public ScatterContentImpl() {
+  public ScatterContentImpl(Palette palette) {
+    super(palette);
+
     setAnimation(new FadeInContentAnim());
     setShadow(null);
   }

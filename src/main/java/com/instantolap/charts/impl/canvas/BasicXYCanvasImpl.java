@@ -1,6 +1,7 @@
 package com.instantolap.charts.impl.canvas;
 
 import com.instantolap.charts.XYCanvas;
+import com.instantolap.charts.impl.data.Palette;
 import com.instantolap.charts.renderer.ChartColor;
 import com.instantolap.charts.renderer.ChartStroke;
 
@@ -9,11 +10,15 @@ public abstract class BasicXYCanvasImpl extends BasicCanvasImpl implements XYCan
 
   private ChartColor horizontalBackground2;
   private ChartColor verticalBackground2;
-  private ChartColor[] horizontalGrid = {ChartColor.LIGHT_GRAY};
+  private ChartColor[] horizontalGrid;
   private ChartStroke horizontalGridStroke;
-  private ChartColor[] verticalGrid = null;
+  private ChartColor[] verticalGrid;
   private ChartStroke verticalGridStroke;
-  private ChartColor baseLine = null;
+  private ChartColor baseLine;
+
+  public BasicXYCanvasImpl(Palette palette) {
+    super(palette);
+  }
 
   @Override
   public void setHorizontalBackground2(ChartColor color) {
@@ -42,7 +47,7 @@ public abstract class BasicXYCanvasImpl extends BasicCanvasImpl implements XYCan
 
   @Override
   public ChartColor getBaseLine() {
-    return baseLine;
+    return baseLine != null ? baseLine : getPalette().getBaseLine();
   }
 
   @Override
@@ -52,7 +57,7 @@ public abstract class BasicXYCanvasImpl extends BasicCanvasImpl implements XYCan
 
   @Override
   public ChartColor[] getVerticalGrid() {
-    return verticalGrid;
+    return verticalGrid != null ? verticalGrid : getPalette().getVerticalGrid();
   }
 
   @Override
@@ -67,7 +72,7 @@ public abstract class BasicXYCanvasImpl extends BasicCanvasImpl implements XYCan
 
   @Override
   public ChartColor[] getHorizontalGrid() {
-    return horizontalGrid;
+    return horizontalGrid != null ? horizontalGrid : getPalette().getHorizontalGrid();
   }
 
   @Override

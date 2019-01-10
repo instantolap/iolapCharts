@@ -4,6 +4,7 @@ import com.instantolap.charts.*;
 import com.instantolap.charts.impl.axis.*;
 import com.instantolap.charts.impl.canvas.RoundCanvasImpl;
 import com.instantolap.charts.impl.content.SampleValueRenderer;
+import com.instantolap.charts.impl.data.Palette;
 import com.instantolap.charts.renderer.*;
 
 
@@ -14,7 +15,9 @@ public class RoundChartImpl extends BasicRoundChartImpl {
   private final RoundCanvasImpl canvas;
   private final boolean scaleOutside;
 
-  public RoundChartImpl(boolean scaleOutside) {
+  public RoundChartImpl(Palette palette, boolean scaleOutside) {
+    super(palette);
+
     this.scaleOutside = scaleOutside;
     if (scaleOutside) {
       this.scaleAxis = new RoundValueAxisImpl();
@@ -24,7 +27,7 @@ public class RoundChartImpl extends BasicRoundChartImpl {
       this.sampleAxis = new RoundSampleAxisImpl(0);
     }
     scaleAxis.enableZoom(false);
-    this.canvas = new RoundCanvasImpl();
+    this.canvas = new RoundCanvasImpl(palette);
   }
 
   @Override

@@ -1,5 +1,6 @@
 package com.instantolap.charts;
 
+import com.instantolap.charts.impl.data.Palette;
 import com.instantolap.charts.renderer.ChartColor;
 import com.instantolap.charts.renderer.ChartStroke;
 
@@ -7,6 +8,8 @@ import java.io.Serializable;
 
 
 public interface Data extends Serializable {
+
+  Palette getPalette();
 
   // axes
 

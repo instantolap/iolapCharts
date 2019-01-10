@@ -5,15 +5,6 @@ import com.instantolap.charts.renderer.util.StringHelper;
 
 public class ChartFont {
 
-  private static final int DEFAULT_SIZE = 11;
-  private static final String DEFAULT_NAME = "Arial";
-
-  public static final ChartFont DEFAULT_FONT = new ChartFont(DEFAULT_NAME, DEFAULT_SIZE, false);
-  public static final ChartFont CHART_TITLE_FONT = new ChartFont(DEFAULT_NAME, 14, true);
-  public static final ChartFont CHART_SUBTITLE_FONT = new ChartFont(DEFAULT_NAME, 12, false);
-  public static final ChartFont AXIS_TITLE_FONT = new ChartFont(DEFAULT_NAME, DEFAULT_SIZE, true);
-  public static final ChartFont WATERMARK_FONT = new ChartFont(DEFAULT_NAME, 50, true);
-
   private String name;
   private int size = 11;
   private boolean bold;

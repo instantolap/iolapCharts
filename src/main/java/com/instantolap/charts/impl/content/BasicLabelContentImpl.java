@@ -1,16 +1,26 @@
 package com.instantolap.charts.impl.content;
 
 import com.instantolap.charts.LabelContent;
+import com.instantolap.charts.impl.data.Palette;
 import com.instantolap.charts.renderer.ChartColor;
 import com.instantolap.charts.renderer.ChartFont;
 
 
 public abstract class BasicLabelContentImpl extends BasicContentImpl implements LabelContent {
 
+  private final Palette palette;
   private String text;
   private int x, y;
   private ChartFont font;
   private ChartColor color;
+
+  public BasicLabelContentImpl(Palette palette) {
+    this.palette = palette;
+  }
+
+  public Palette getPalette() {
+    return palette;
+  }
 
   @Override
   public String getText() {
@@ -44,7 +54,7 @@ public abstract class BasicLabelContentImpl extends BasicContentImpl implements 
 
   @Override
   public ChartFont getFont() {
-    return font;
+    return font != null ? font : getPalette().getDefaultFont();
   }
 
   @Override
@@ -54,7 +64,7 @@ public abstract class BasicLabelContentImpl extends BasicContentImpl implements 
 
   @Override
   public ChartColor getColor() {
-    return color;
+    return color != null ? color : getPalette().getTextColor();
   }
 
   @Override

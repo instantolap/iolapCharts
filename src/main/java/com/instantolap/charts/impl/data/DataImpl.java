@@ -17,6 +17,7 @@ import java.util.Map;
 public class DataImpl implements Data {
 
   private final transient Map<Integer, Integer> selectedSamples = new HashMap<>();
+  private final Palette palette;
   private WriteableCube cube;
   private Cube currentCube;
   private ChartColor[][] sampleColors = new ChartColor[0][];
@@ -27,10 +28,15 @@ public class DataImpl implements Data {
   private int defaultSymbolSize = 0;
   private int[] symbolSizes = new int[0];
 
-  public DataImpl() {
+  public DataImpl(Palette palette) {
+    this.palette = palette;
     cube = new CubeImpl();
     currentCube = cube;
-    setColors(0, Palette.getColors());
+  }
+
+  @Override
+  public Palette getPalette() {
+    return palette;
   }
 
   @Override
@@ -56,14 +62,18 @@ public class DataImpl implements Data {
 
   @Override
   public ChartColor[] getColors(int range) {
+    if (sampleColors.length == 0) {
+      return palette.getColors();
+    }
+
     range = Math.min(sampleColors.length, range);
     return sampleColors[range];
   }
 
   @Override
   public ChartColor getColor(int range, int series) {
-    range = Math.min(sampleColors.length, range);
-    return sampleColors[range][series % sampleColors[range].length];
+    ChartColor[] colors = getColors(range);
+    return colors[series % colors.length];
   }
 
   @Override
@@ -77,15 +87,11 @@ public class DataImpl implements Data {
 
   @Override
   public ChartStroke getStroke(int series) {
-    if (strokes.length <= series) {
+    if (strokes.length <= series || strokes[series] == null) {
       return defaultStroke;
     }
 
-    final ChartStroke stroke = strokes[series];
-    if (stroke == null) {
-      return defaultStroke;
-    }
-    return stroke;
+    return strokes[series];
   }
 
   @Override
@@ -99,14 +105,10 @@ public class DataImpl implements Data {
 
   @Override
   public int getSymbol(int series) {
-    if (symbols.length <= series) {
+    if (symbols.length <= series || symbols[series] == 0) {
       return defaultSymbol;
     }
-    final int symbol = symbols[series];
-    if (symbol == 0) {
-      return defaultSymbol;
-    }
-    return symbol;
+    return symbols[series];
   }
 
   @Override
@@ -157,15 +159,12 @@ public class DataImpl implements Data {
 
   @Override
   public Data getCopy() {
-    final DataImpl copy = new DataImpl();
+    final DataImpl copy = new DataImpl(palette);
     copy.cube = cube;
     copy.currentCube = currentCube;
     copy.sampleColors = sampleColors;
-    copy.defaultStroke = defaultStroke;
     copy.strokes = strokes;
-    copy.defaultSymbol = defaultSymbol;
     copy.symbols = symbols;
-    copy.defaultSymbolSize = defaultSymbolSize;
     copy.symbolSizes = symbolSizes;
     copy.selectedSamples.putAll(selectedSamples);
     return copy;

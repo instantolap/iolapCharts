@@ -6,6 +6,7 @@ import com.instantolap.charts.control.RoundChart;
 import com.instantolap.charts.impl.animation.*;
 import com.instantolap.charts.impl.chart.*;
 import com.instantolap.charts.impl.content.*;
+import com.instantolap.charts.impl.data.Palette;
 import com.instantolap.charts.impl.data.transform.StackedTransform;
 import com.instantolap.charts.impl.util.SymbolDrawer;
 import com.instantolap.charts.json.JSONArray;
@@ -22,13 +23,13 @@ import java.util.List;
 
 public class JSONChartFactory {
 
-  public static Chart create(JSONObject json, Data data) throws JSONException {
+  public static Chart create(JSONObject json, Data data, Palette palette) throws JSONException {
 
     // data
     final JSONObject dataObject = json.optJSONObject("data");
     if (dataObject != null) {
       if (data == null) {
-        data = JSONDataFactory.parseData(dataObject);
+        data = JSONDataFactory.parseData(dataObject, palette);
       }
     }
 
@@ -53,58 +54,57 @@ public class JSONChartFactory {
       chart = createTimeChart(json, data);
     } else if ("bar".equalsIgnoreCase(type)) {
       chart = createSampleChart(json, data);
-      defaultContent = new BarContentImpl();
+      defaultContent = new BarContentImpl(data.getPalette());
     } else if ("column".equalsIgnoreCase(type)) {
       final SampleChart sampleChart = createSampleChart(json, data);
       sampleChart.setRotated(true);
       chart = sampleChart;
-      defaultContent = new BarContentImpl();
+      defaultContent = new BarContentImpl(data.getPalette());
     } else if ("line".equalsIgnoreCase(type)) {
       chart = createSampleChart(json, data);
-      defaultContent = new LineContentImpl();
+      defaultContent = new LineContentImpl(data.getPalette());
     } else if ("spline".equalsIgnoreCase(type)) {
       chart = createSampleChart(json, data);
-      final LineContent lineContent = new LineContentImpl();
+      final LineContent lineContent = new LineContentImpl(data.getPalette());
       lineContent.setInterpolated(true);
       defaultContent = lineContent;
     } else if ("area".equalsIgnoreCase(type)) {
       chart = createSampleChart(json, data);
-      final LineContent line = new LineContentImpl();
+      final LineContent line = new LineContentImpl(data.getPalette());
       line.setAreaChart(true);
       defaultContent = line;
     } else if ("pie".equalsIgnoreCase(type)) {
       transformStacked(data);
-      final RoundChart roundChart = createRoundChart(json, data, true, false, false, false);
-      chart = roundChart;
-      defaultContent = new PieContentImpl();
+      chart = createRoundChart(json, data, true, false, false, false);
+      defaultContent = new PieContentImpl(data.getPalette());
     } else if ("doughnut".equalsIgnoreCase(type)) {
       chart = createRoundChart(json, data, true, false, false, false);
-      final PieContent pieContent = new PieContentImpl();
+      final PieContent pieContent = new PieContentImpl(data.getPalette());
       pieContent.setSeriesSpace(0.5);
       defaultContent = pieContent;
     } else if ("radar".equalsIgnoreCase(type)) {
       chart = createRoundChart(json, data, false, true, true, true);
-      defaultContent = new RoundLineContentImpl();
+      defaultContent = new RoundLineContentImpl(data.getPalette());
     } else if ("rose".equalsIgnoreCase(type)) {
       chart = createRoundChart(json, data, false, true, true, true);
-      defaultContent = new RoundBarContentImpl();
+      defaultContent = new RoundBarContentImpl(data.getPalette());
     } else if ("scatter".equalsIgnoreCase(type)) {
       chart = createXYChart(json, data);
-      defaultContent = new ScatterContentImpl();
+      defaultContent = new ScatterContentImpl(data.getPalette());
     } else if ("bubble".equalsIgnoreCase(type)) {
       chart = createXYChart(json, data);
-      final ScatterContent scatterContent = new ScatterContentImpl();
+      final ScatterContent scatterContent = new ScatterContentImpl(data.getPalette());
       scatterContent.setBubble(true);
       defaultContent = scatterContent;
     } else if ("heatmap".equalsIgnoreCase(type)) {
       chart = createSampleSampleChart(json, data);
-      defaultContent = new HeatMapContentImpl();
+      defaultContent = new HeatMapContentImpl(data.getPalette());
     } else if ("timeline".equalsIgnoreCase(type)) {
       chart = createTimeChart(json, data);
-      defaultContent = new LineContentImpl();
+      defaultContent = new LineContentImpl(data.getPalette());
     } else if ("candle".equalsIgnoreCase(type)) {
       chart = createTimeChart(json, data);
-      final BarContent barContent = new BarContentImpl();
+      final BarContent barContent = new BarContentImpl(data.getPalette());
       barContent.setLowerMeasure("entry");
       barContent.setMeasure("exit");
       barContent.setMinMeasure("min");
@@ -113,7 +113,7 @@ public class JSONChartFactory {
       defaultContent = barContent;
     } else if ("meter".equalsIgnoreCase(type)) {
       chart = createRoundChart(json, data, true, false, true, false);
-      defaultContent = new MeterContentImpl();
+      defaultContent = new MeterContentImpl(data.getPalette());
     } else {
       throw new JSONException("Unknown chart type '" + type + "'");
     }
@@ -254,7 +254,7 @@ public class JSONChartFactory {
   }
 
   private static SampleChart createSampleChart(JSONObject json, Data data) throws JSONException {
-    final SampleChart chart = new SampleChartImpl();
+    final SampleChart chart = new SampleChartImpl(data.getPalette());
     initChart(json, chart);
 
     final JSONObject canvasData = json.optJSONObject("canvas");
@@ -305,7 +305,7 @@ public class JSONChartFactory {
     boolean showGrid)
     throws JSONException
   {
-    final RoundChart chart = new RoundChartImpl(scaleOutside);
+    final RoundChart chart = new RoundChartImpl(data.getPalette(), scaleOutside);
     initChart(json, chart);
 
     if (!showGrid) {
@@ -353,7 +353,7 @@ public class JSONChartFactory {
   }
 
   private static Chart createXYChart(JSONObject json, Data data) throws JSONException {
-    final XYChart chart = new XYChartImpl();
+    final XYChart chart = new XYChartImpl(data.getPalette());
     initChart(json, chart);
 
     final JSONObject canvasData = json.optJSONObject("canvas");
@@ -377,7 +377,7 @@ public class JSONChartFactory {
   private static SampleSampleChart createSampleSampleChart(JSONObject json, Data data)
     throws JSONException
   {
-    final SampleSampleChart chart = new SampleSampleChartImpl();
+    final SampleSampleChart chart = new SampleSampleChartImpl(data.getPalette());
     initChart(json, chart);
 
     final JSONObject canvasData = json.optJSONObject("canvas");
@@ -399,7 +399,7 @@ public class JSONChartFactory {
   }
 
   private static TimeChart createTimeChart(JSONObject json, Data data) throws JSONException {
-    final TimeChart chart = new TimeChartImpl();
+    final TimeChart chart = new TimeChartImpl(data.getPalette());
     initChart(json, chart);
 
     final JSONObject canvasData = json.optJSONObject("canvas");
@@ -702,31 +702,31 @@ public class JSONChartFactory {
       }
       return null;
     } else if ("bar".equalsIgnoreCase(type)) {
-      final BarContent content = round ? new RoundBarContentImpl() : new BarContentImpl();
+      final BarContent content = round ? new RoundBarContentImpl(data.getPalette()) : new BarContentImpl(data.getPalette());
       initBarContent(content, json, data, index);
       return content;
     } else if ("line".equalsIgnoreCase(type)) {
-      final LineContent content = round ? new RoundLineContentImpl() : new LineContentImpl();
+      final LineContent content = round ? new RoundLineContentImpl(data.getPalette()) : new LineContentImpl(data.getPalette());
       initLineContent(content, json, data, index);
       return content;
     } else if ("pie".equalsIgnoreCase(type)) {
-      final PieContent content = new PieContentImpl();
+      final PieContent content = new PieContentImpl(data.getPalette());
       initPieContent(content, json, data, index);
       return content;
     } else if ("scatter".equalsIgnoreCase(type)) {
-      final ScatterContent content = new ScatterContentImpl();
+      final ScatterContent content = new ScatterContentImpl(data.getPalette());
       initScatterContent(content, json, data, index);
       return content;
     } else if ("heatmap".equalsIgnoreCase(type)) {
-      final HeatMapContent content = new HeatMapContentImpl();
+      final HeatMapContent content = new HeatMapContentImpl(data.getPalette());
       initHeatMapContent(content, json, data, index);
       return content;
     } else if ("candle".equalsIgnoreCase(type)) {
-      final BarContent content = new BarContentImpl();
+      final BarContent content = new BarContentImpl(data.getPalette());
       initBarContent(content, json, data, index);
       return content;
     } else if ("meter".equalsIgnoreCase(type)) {
-      final MeterContent content = new MeterContentImpl();
+      final MeterContent content = new MeterContentImpl(data.getPalette());
       initMeterContent(content, json, data, index);
       return content;
     } else {

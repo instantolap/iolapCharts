@@ -3,6 +3,7 @@ package com.instantolap.charts.impl.canvas;
 import com.instantolap.charts.Data;
 import com.instantolap.charts.impl.animation.CanvasAnimation;
 import com.instantolap.charts.impl.animation.FadeInCanvasAnim;
+import com.instantolap.charts.impl.data.Palette;
 import com.instantolap.charts.renderer.Renderer;
 
 
@@ -10,7 +11,9 @@ public class PlainCanvasImpl extends BasicPlainCanvasImpl {
 
   private final CanvasAnimation anim;
 
-  public PlainCanvasImpl() {
+  public PlainCanvasImpl(Palette palette) {
+    super(palette);
+
     anim = new FadeInCanvasAnim();
   }
 

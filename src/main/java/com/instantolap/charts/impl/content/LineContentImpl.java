@@ -6,6 +6,7 @@ import com.instantolap.charts.PositionAxis;
 import com.instantolap.charts.ValueAxis;
 import com.instantolap.charts.impl.animation.ContentAnimation;
 import com.instantolap.charts.impl.animation.LeftToRightContentAnim;
+import com.instantolap.charts.impl.data.Palette;
 import com.instantolap.charts.impl.math.PolynomialSplineFunction;
 import com.instantolap.charts.impl.math.SimpleRegression;
 import com.instantolap.charts.impl.math.SplineInterpolator;
@@ -19,7 +20,9 @@ import java.util.List;
 
 public class LineContentImpl extends BasicLineContentImpl implements SampleValueRenderer {
 
-  public LineContentImpl() {
+  public LineContentImpl(Palette palette) {
+    super(palette);
+
     setAnimation(new LeftToRightContentAnim());
   }
 

@@ -2,12 +2,17 @@ package com.instantolap.charts.impl.chart;
 
 import com.instantolap.charts.Content;
 import com.instantolap.charts.SampleContent;
+import com.instantolap.charts.impl.data.Palette;
 
 
 public abstract class BasicSampleChartImpl extends BasicChartImpl {
 
   private boolean isStacked;
   private boolean isRotated;
+
+  public BasicSampleChartImpl(Palette palette) {
+    super(palette);
+  }
 
   public boolean isStacked() {
     return isStacked;

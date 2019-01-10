@@ -2,6 +2,7 @@ package com.instantolap.charts.impl.canvas;
 
 import com.instantolap.charts.Canvas;
 import com.instantolap.charts.impl.animation.CanvasAnimation;
+import com.instantolap.charts.impl.data.Palette;
 import com.instantolap.charts.renderer.ChartColor;
 import com.instantolap.charts.renderer.ChartStroke;
 import com.instantolap.charts.renderer.Renderer;
@@ -9,6 +10,7 @@ import com.instantolap.charts.renderer.Renderer;
 
 public abstract class BasicCanvasImpl implements Canvas {
 
+  private final Palette palette;
   private ChartColor border;
   private ChartStroke borderStroke;
   private ChartColor background;
@@ -16,6 +18,14 @@ public abstract class BasicCanvasImpl implements Canvas {
   private ChartColor shadow;
   private int shadowXOffset = 3;
   private int shadowYOffset = 3;
+
+  public BasicCanvasImpl(Palette palette) {
+    this.palette = palette;
+  }
+
+  public Palette getPalette() {
+    return palette;
+  }
 
   public void render(
     CanvasAnimation anim, double progress, Renderer r, int x, int y, int width, int height)
