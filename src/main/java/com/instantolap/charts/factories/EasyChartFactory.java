@@ -5,6 +5,7 @@ import com.instantolap.charts.control.RoundChart;
 import com.instantolap.charts.impl.chart.RoundChartImpl;
 import com.instantolap.charts.impl.chart.SampleChartImpl;
 import com.instantolap.charts.impl.content.*;
+import com.instantolap.charts.impl.data.Theme;
 import com.instantolap.charts.impl.data.transform.StackedTransform;
 import com.instantolap.charts.impl.util.SymbolDrawer;
 import com.instantolap.charts.renderer.ChartColor;
@@ -17,53 +18,59 @@ import java.util.Map;
 
 public class EasyChartFactory {
 
-  public static Chart create(Map<String, String> a, Data data, int overlaySeries) throws Exception {
+  public static Chart create(Map<String, String> a, Data data, int overlaySeries)
+    throws Exception {
+    return create(a, data, Theme.DEFAULT_THEME, overlaySeries);
+  }
+
+  public static Chart create(Map<String, String> a, Data data, Theme theme, int overlaySeries)
+    throws Exception {
 
     final String type = a.get("format");
     final Chart chart;
     if (type == null) {
       chart = null;
     } else if (type.equalsIgnoreCase("bar")) {
-      chart = createBarChart(a, data);
+      chart = createBarChart(a, data, theme);
     } else if (type.equalsIgnoreCase("roundbar")) {
-      chart = createRoundBarChart(a, data);
+      chart = createRoundBarChart(a, data, theme);
     } else if (type.equalsIgnoreCase("rose")) {
-      chart = createRoundBarChart(a, data);
+      chart = createRoundBarChart(a, data, theme);
     } else if (type.equalsIgnoreCase("line")) {
-      chart = createLineChart(a, data, false, false);
+      chart = createLineChart(a, data, theme, false, false);
     } else if (type.equalsIgnoreCase("spline")) {
-      chart = createLineChart(a, data, true, false);
+      chart = createLineChart(a, data, theme, true, false);
     } else if (type.equalsIgnoreCase("stepline")) {
-      chart = createLineChart(a, data, false, true);
+      chart = createLineChart(a, data, theme, false, true);
     } else if (type.equalsIgnoreCase("area")) {
-      chart = createLineChart(a, data, false, false);
+      chart = createLineChart(a, data, theme, false, false);
       final LineContent content = (LineContent) chart.getContents().get(0);
       content.setAreaChart(true);
     } else if (type.equalsIgnoreCase("pie")) {
-      chart = createPieChart(a, data);
+      chart = createPieChart(a, data, theme);
     } else if (type.equalsIgnoreCase("doughnut")) {
-      chart = createDoughnutChart(a, data);
+      chart = createDoughnutChart(a, data, theme);
     } else if (type.equalsIgnoreCase("radar")) {
-      chart = createRoundLineChart(a, data, true);
+      chart = createRoundLineChart(a, data, theme, true);
     } else if (type.equalsIgnoreCase("spider")) {
-      chart = createRoundLineChart(a, data, false);
+      chart = createRoundLineChart(a, data, theme, false);
     } else if (type.equalsIgnoreCase("meter")) {
-      chart = createMeterChart(a, data);
+      chart = createMeterChart(a, data, theme);
     } else if (type.equalsIgnoreCase("heatmap")) {
-      chart = createHeatmapChart(a, data);
+      chart = createHeatmapChart(a, data, theme);
       // } else if (type.equalsIgnoreCase("scatter")) {
       // chart = createScatterChart(a, data);
       // } else if (type.equalsIgnoreCase("bubble")) {
       // chart = createBubbleChart(a, data);
     } else if (type.equalsIgnoreCase("bar_line")) {
-      chart = createBarChart(a, data);
-      addLineOverlay(chart.getContents().get(0), a, data, chart, false, false, overlaySeries);
+      chart = createBarChart(a, data, theme);
+      addLineOverlay(chart.getContents().get(0), a, data, theme, chart, false, false, overlaySeries);
     } else if (type.equalsIgnoreCase("bar_spline")) {
-      chart = createBarChart(a, data);
-      addLineOverlay(chart.getContents().get(0), a, data, chart, true, false, overlaySeries);
+      chart = createBarChart(a, data, theme);
+      addLineOverlay(chart.getContents().get(0), a, data, theme, chart, true, false, overlaySeries);
     } else if (type.equalsIgnoreCase("bar_stepline")) {
-      chart = createBarChart(a, data);
-      addLineOverlay(chart.getContents().get(0), a, data, chart, false, true, overlaySeries);
+      chart = createBarChart(a, data, theme);
+      addLineOverlay(chart.getContents().get(0), a, data, theme, chart, false, true, overlaySeries);
     } else {
       throw new Exception("Unknown chart format '" + type + "'");
     }
@@ -76,13 +83,13 @@ public class EasyChartFactory {
     HasSamples oldContent,
     Map<String, String> a,
     Data data,
+    Theme theme,
     Chart chart,
     boolean interpolated,
     boolean stepline,
-    int overlaySeries)
-  {
+    int overlaySeries) {
 
-    final LineContent content = new LineContentImpl(data.getTheme());
+    final LineContent content = new LineContentImpl(theme);
     chart.addContent(content);
     content.setInterpolated(interpolated);
     content.setStepLine(stepline);
@@ -98,12 +105,11 @@ public class EasyChartFactory {
     }
 
     addOverlayColors(data, content, a);
-    initLineContent(a, "overlay_", content, data);
+    initLineContent(a, "overlay_", content, data, theme);
   }
 
   private static void addOverlayColors(
-    Data data, HasSampleColors hasColors, Map<String, String> a)
-  {
+    Data data, HasSampleColors hasColors, Map<String, String> a) {
     // add overlay colors
     final ChartColor[] overlaySampleColors = parseColors(a, "overlay_samplecolors");
     if (overlaySampleColors != null) {
@@ -112,19 +118,19 @@ public class EasyChartFactory {
     }
   }
 
-  private static Chart createBarChart(Map<String, String> a, Data data) {
-    final SampleChart chart = createSampleChart(a, data);
-    initBarChart(a, chart, data);
+  private static Chart createBarChart(Map<String, String> a, Data data, Theme theme) {
+    final SampleChart chart = createSampleChart(a, data, theme);
+    initBarChart(a, chart, data, theme);
 
-    final BarContent content = new BarContentImpl(data.getTheme());
+    final BarContent content = new BarContentImpl(theme);
     chart.addContent(content);
     initBarContent(content, a);
 
     return chart;
   }
 
-  private static Chart createPieChart(Map<String, String> a, Data data) {
-    final RoundChart chart = createRoundChart(a, data, true);
+  private static Chart createPieChart(Map<String, String> a, Data data, Theme theme) {
+    final RoundChart chart = createRoundChart(a, data, theme, true);
 
     chart.getCanvas().setGrid(null);
     chart.getCanvas().setScaleBackground(null);
@@ -133,22 +139,22 @@ public class EasyChartFactory {
     chart.getScaleAxis().setVisible(false);
 
     // content
-    final PieContent content = new PieContentImpl(data.getTheme());
+    final PieContent content = new PieContentImpl(theme);
     chart.addContent(content);
     initPieContent(content, a);
 
     return chart;
   }
 
-  private static Chart createDoughnutChart(Map<String, String> a, Data data) {
-    final Chart chart = createPieChart(a, data);
+  private static Chart createDoughnutChart(Map<String, String> a, Data data, Theme theme) {
+    final Chart chart = createPieChart(a, data, theme);
     final PieContent content = (PieContent) chart.getContents().get(0);
     content.setSeriesSpace(0.5);
     return chart;
   }
 
-  private static Chart createMeterChart(Map<String, String> a, Data data) {
-    final RoundChart chart = createRoundChart(a, data, true);
+  private static Chart createMeterChart(Map<String, String> a, Data data, Theme theme) {
+    final RoundChart chart = createRoundChart(a, data, theme, true);
 
     chart.getCanvas().setGrid(null);
     chart.getCanvas().setScaleBackground(null);
@@ -159,38 +165,38 @@ public class EasyChartFactory {
     chart.getSampleAxis().setVisible(false);
 
     // content
-    final MeterContent content = new MeterContentImpl(data.getTheme());
+    final MeterContent content = new MeterContentImpl(theme);
     chart.addContent(content);
     initMeterContent(chart, content, a);
 
     return chart;
   }
 
-  private static Chart createHeatmapChart(Map<String, String> a, Data data) {
-    final RoundChart chart = createRoundChart(a, data, true);
+  private static Chart createHeatmapChart(Map<String, String> a, Data data, Theme theme) {
+    final RoundChart chart = createRoundChart(a, data, theme, true);
 
     // content
-    final HeatMapContent content = new HeatMapContentImpl(data.getTheme());
+    final HeatMapContent content = new HeatMapContentImpl(theme);
     chart.addContent(content);
 
     return chart;
   }
 
-  private static Chart createRoundBarChart(Map<String, String> a, Data data) {
-    final RoundChart chart = createRoundChart(a, data, false);
+  private static Chart createRoundBarChart(Map<String, String> a, Data data, Theme theme) {
+    final RoundChart chart = createRoundChart(a, data, theme, false);
 
     chart.getScaleAxis().setLabelRotation(0);
 
     final String type = a.get("bartype");
     if ("stacked".equalsIgnoreCase(type)) {
-      transformStacked(data);
+      transformStacked(data, theme);
       chart.setStacked(true);
     } else if ("behind".equalsIgnoreCase(type)) {
       chart.setStacked(true);
     }
 
     // content
-    final BarContent content = new RoundBarContentImpl(data.getTheme());
+    final BarContent content = new RoundBarContentImpl(theme);
     chart.addContent(content);
 
     initBarContent(content, a);
@@ -198,39 +204,38 @@ public class EasyChartFactory {
     return chart;
   }
 
-  private static void transformStacked(Data data) {
+  private static void transformStacked(Data data, Theme theme) {
     final Transformation transformation = new StackedTransform();
     data.setCurrentCube(transformation.transform(data.getCurrentCube()));
   }
 
   private static Chart createLineChart(
-    Map<String, String> a, Data data, boolean interpolated, boolean steps)
-  {
-    final SampleChart chart = createSampleChart(a, data);
+    Map<String, String> a, Data data, Theme theme, boolean interpolated, boolean steps) {
+    final SampleChart chart = createSampleChart(a, data, theme);
 
     // in easycharts, areacharts are always stacked
     final String type = a.get("stackedon");
     if ("true".equalsIgnoreCase(type)) {
-      transformStacked(data);
+      transformStacked(data, theme);
       chart.setStacked(true);
     }
 
-    final LineContent content = new LineContentImpl(data.getTheme());
+    final LineContent content = new LineContentImpl(theme);
     chart.addContent(content);
     content.setInterpolated(interpolated);
     content.setStepLine(steps);
-    initLineContent(a, "", content, data);
+    initLineContent(a, "", content, data, theme);
 
     return chart;
   }
 
-  private static Chart createRoundLineChart(Map<String, String> a, Data data, boolean round) {
-    final RoundChart chart = createRoundChart(a, data, false);
+  private static Chart createRoundLineChart(Map<String, String> a, Data data, Theme theme, boolean round) {
+    final RoundChart chart = createRoundChart(a, data, theme, false);
 
     // in easycharts, areacharts are always stacked
     final String type = a.get("stackedon");
     if ("true".equalsIgnoreCase(type)) {
-      transformStacked(data);
+      transformStacked(data, theme);
       chart.setStacked(true);
     }
 
@@ -238,26 +243,25 @@ public class EasyChartFactory {
     chart.getCanvas().setRound(round);
 
     // add content
-    final LineContent content = new RoundLineContentImpl(data.getTheme());
+    final LineContent content = new RoundLineContentImpl(theme);
     chart.addContent(content);
-    initLineContent(a, "", content, data);
+    initLineContent(a, "", content, data, theme);
 
     return chart;
   }
 
-  private static SampleChart createSampleChart(Map<String, String> a, Data data) {
-    final SampleChart chart = new SampleChartImpl(data.getTheme());
-    initChart(chart, a, data);
+  private static SampleChart createSampleChart(Map<String, String> a, Data data, Theme theme) {
+    final SampleChart chart = new SampleChartImpl(theme);
+    initChart(chart, a, data, theme);
     initSampleChart(chart, a, data);
 
     return chart;
   }
 
   private static RoundChart createRoundChart(
-    Map<String, String> a, Data data, boolean scaleOutside)
-  {
-    final RoundChart chart = new RoundChartImpl(data.getTheme(), scaleOutside);
-    initChart(chart, a, data);
+    Map<String, String> a, Data data, Theme theme, boolean scaleOutside) {
+    final RoundChart chart = new RoundChartImpl(theme, scaleOutside);
+    initChart(chart, a, data, theme);
 
     // colors
     final String background = a.get("chartbackground");
@@ -277,7 +281,7 @@ public class EasyChartFactory {
     return chart;
   }
 
-  private static void initChart(Chart chart, Map<String, String> a, Data data) {
+  private static void initChart(Chart chart, Map<String, String> a, Data data, Theme theme) {
     // title
     final String title = a.get("charttitle");
     if (title != null) {
@@ -319,7 +323,7 @@ public class EasyChartFactory {
 
     final String gradientSampleColor = a.get("gradientsampleson");
     if ("true".equalsIgnoreCase(gradientSampleColor)) {
-      final ChartColor[] colors = data.getColors(0);
+      final ChartColor[] colors = data.getColors(theme, 0);
       for (int n = 0; n < colors.length; n++) {
         colors[n] = colors[n].setGradient(true);
       }
@@ -606,8 +610,7 @@ public class EasyChartFactory {
       final String sampleLabelStyle = a.get(p + "labelstyle");
       if ((sampleLabelStyle == null)
         || ("below".equalsIgnoreCase(sampleLabelStyle))
-        || ("below_and_floating".equalsIgnoreCase(sampleLabelStyle)))
-      {
+        || ("below_and_floating".equalsIgnoreCase(sampleLabelStyle))) {
         axis.setShowLabels(true);
 
         final String sampleLabelAngle = a.get(p + "labelangle");
@@ -636,15 +639,14 @@ public class EasyChartFactory {
   }
 
   private static void initLineContent(
-    Map<String, String> a, String p, LineContent content, Data data)
-  {
+    Map<String, String> a, String p, LineContent content, Data data, Theme theme) {
     initHasValueLabels(content, a);
     initHasAnnotations(content, a);
 
     // in easycharts, areacharts are always stacked
     final String type = a.get(p + "stackedon");
     if ("true".equalsIgnoreCase(type)) {
-      transformStacked(data);
+      transformStacked(data, theme);
       content.setAreaChart(true);
     }
 
@@ -740,8 +742,7 @@ public class EasyChartFactory {
         final int end = Integer.parseInt(areaData[1]);
         final ChartColor color = new ChartColor(areaData[2]);
         content.setFillColor(start, end, color);
-      }
-      catch (Exception ignore) {
+      } catch (Exception ignore) {
       }
     }
 
@@ -762,11 +763,11 @@ public class EasyChartFactory {
     }
   }
 
-  private static void initBarChart(Map<String, String> a, SampleChart chart, Data data) {
+  private static void initBarChart(Map<String, String> a, SampleChart chart, Data data, Theme theme) {
     // bars
     final String type = a.get("bartype");
     if ("stacked".equalsIgnoreCase(type)) {
-      transformStacked(data);
+      transformStacked(data, theme);
       chart.setStacked(true);
     } else if ("behind".equalsIgnoreCase(type)) {
       chart.setStacked(true);
@@ -843,8 +844,7 @@ public class EasyChartFactory {
 
   }
 
-  private static void initHasValueLabels(HasValueLabels content, Map<String, String> a)
-  {
+  private static void initHasValueLabels(HasValueLabels content, Map<String, String> a) {
 
     // value labels
     final String valueLabelsOn = a.get("valuelabelson");
@@ -859,8 +859,7 @@ public class EasyChartFactory {
       // inside
       if ((valueLabelStyle == null)
         || ("outside".equalsIgnoreCase(valueLabelStyle))
-        || ("inside".equalsIgnoreCase(valueLabelStyle)))
-      {
+        || ("inside".equalsIgnoreCase(valueLabelStyle))) {
 
         content.setShowValueLabels(true);
 
@@ -887,15 +886,13 @@ public class EasyChartFactory {
 
       // floating
       if ("floating".equalsIgnoreCase(sampleLabelStyle)
-        || "below_and_floating".equalsIgnoreCase(sampleLabelStyle))
-      {
+        || "below_and_floating".equalsIgnoreCase(sampleLabelStyle)) {
         content.setShowSamplePopup(true);
       }
 
       // inside
       if (("outside".equalsIgnoreCase(sampleLabelStyle))
-        || ("inside".equalsIgnoreCase(sampleLabelStyle)))
-      {
+        || ("inside".equalsIgnoreCase(sampleLabelStyle))) {
 
         content.setShowSampleLabels(true);
 
@@ -922,8 +919,7 @@ public class EasyChartFactory {
 
       // inside
       if (("outside".equalsIgnoreCase(seriesLabelStyle))
-        || ("inside".equalsIgnoreCase(seriesLabelStyle)))
-      {
+        || ("inside".equalsIgnoreCase(seriesLabelStyle))) {
 
         content.setShowSeriesLabels(true);
 
@@ -962,8 +958,7 @@ public class EasyChartFactory {
       // inside
       if ((valueLabelStyle == null)
         || ("outside".equalsIgnoreCase(valueLabelStyle))
-        || ("inside".equalsIgnoreCase(valueLabelStyle)))
-      {
+        || ("inside".equalsIgnoreCase(valueLabelStyle))) {
 
         content.setShowPercentLabels(true);
 
@@ -977,8 +972,7 @@ public class EasyChartFactory {
             for (int n = 0; n < count; n++) {
               format.append("0");
             }
-          }
-          catch (Exception ignored) {
+          } catch (Exception ignored) {
           }
         }
         format.append("%");
@@ -1026,8 +1020,7 @@ public class EasyChartFactory {
   }
 
   private static void initMeterContent(
-    RoundChart chart, MeterContent content, Map<String, String> a)
-  {
+    RoundChart chart, MeterContent content, Map<String, String> a) {
     initHasValueLabels(content, a);
 
     final RoundAxis round = (RoundAxis) chart.getScaleAxis();
@@ -1059,8 +1052,7 @@ public class EasyChartFactory {
   }
 
   private static void addGaugeArea(
-    RoundChart chart, Map<String, String> a, String prefix, ChartColor color)
-  {
+    RoundChart chart, Map<String, String> a, String prefix, ChartColor color) {
     final String redFrom = a.get(prefix + "from");
     final String redTo = a.get(prefix + "to");
     if ((redFrom != null) && (redTo != null)) {

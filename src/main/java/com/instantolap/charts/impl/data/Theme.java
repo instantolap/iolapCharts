@@ -32,8 +32,10 @@ public class Theme {
     28, 33, 1, 6, 11, 16, 21, 26, 31
   };
 
+  public static final Theme DEFAULT_THEME = new Theme();
+
   // Canvas.
-  private ChartColor background;
+  private ChartColor background = ChartColor.WHITE;
   // Chart contents.
   private ChartColor[] colors;
   // Grid.

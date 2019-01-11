@@ -17,7 +17,6 @@ import java.util.Map;
 public class DataImpl implements Data {
 
   private final transient Map<Integer, Integer> selectedSamples = new HashMap<>();
-  private final Theme theme;
   private WriteableCube cube;
   private Cube currentCube;
   private ChartColor[][] sampleColors = new ChartColor[0][];
@@ -28,15 +27,9 @@ public class DataImpl implements Data {
   private int defaultSymbolSize = 0;
   private int[] symbolSizes = new int[0];
 
-  public DataImpl(Theme theme) {
-    this.theme = theme;
+  public DataImpl() {
     cube = new CubeImpl();
     currentCube = cube;
-  }
-
-  @Override
-  public Theme getTheme() {
-    return theme;
   }
 
   @Override
@@ -61,7 +54,7 @@ public class DataImpl implements Data {
   }
 
   @Override
-  public ChartColor[] getColors(int range) {
+  public ChartColor[] getColors(Theme theme, int range) {
     if (sampleColors.length == 0) {
       return theme.getColors();
     }
@@ -71,8 +64,8 @@ public class DataImpl implements Data {
   }
 
   @Override
-  public ChartColor getColor(int range, int series) {
-    ChartColor[] colors = getColors(range);
+  public ChartColor getColor(Theme theme, int range, int series) {
+    ChartColor[] colors = getColors(theme, range);
     return colors[series % colors.length];
   }
 
@@ -159,7 +152,7 @@ public class DataImpl implements Data {
 
   @Override
   public Data getCopy() {
-    final DataImpl copy = new DataImpl(theme);
+    final DataImpl copy = new DataImpl();
     copy.cube = cube;
     copy.currentCube = currentCube;
     copy.sampleColors = sampleColors;

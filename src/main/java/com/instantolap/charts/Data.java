@@ -9,8 +9,6 @@ import java.io.Serializable;
 
 public interface Data extends Serializable {
 
-  Theme getTheme();
-
   // axes
 
   WriteableCube getMainCube();
@@ -23,9 +21,9 @@ public interface Data extends Serializable {
 
   void setColors(int range, ChartColor[] sampleColors);
 
-  ChartColor[] getColors(int range);
+  ChartColor[] getColors(Theme theme, int range);
 
-  ChartColor getColor(int range, int series);
+  ChartColor getColor(Theme theme, int range, int series);
 
   // strokes
 

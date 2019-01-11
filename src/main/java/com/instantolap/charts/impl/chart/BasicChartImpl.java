@@ -19,7 +19,7 @@ public abstract class BasicChartImpl implements Chart, HasAnimation, RendererLis
   private boolean isPopup = false;
   private boolean isInteractive = true;
   private ChartColor background;
-  private ChartColor foreground = ChartColor.BLACK;
+  private ChartColor foreground;
   private ChartFont font;
   private String title, subTitle;
   private ChartFont titleFont;
@@ -46,7 +46,7 @@ public abstract class BasicChartImpl implements Chart, HasAnimation, RendererLis
 
   public BasicChartImpl(Theme theme) {
     this.theme = theme;
-    this.legend = new LegendImpl();
+    this.legend = new LegendImpl(theme);
   }
 
   public Theme getTheme() {
@@ -138,7 +138,7 @@ public abstract class BasicChartImpl implements Chart, HasAnimation, RendererLis
   }
 
   protected abstract void render(double progress, int x, int y, int width,
-    int height) throws ChartException;
+                                 int height) throws ChartException;
 
   @Override
   public long getAnimationTime() {
@@ -192,7 +192,7 @@ public abstract class BasicChartImpl implements Chart, HasAnimation, RendererLis
 
   @Override
   public ChartColor getForeground() {
-    return foreground;
+    return foreground == null ? theme.getTextColor() : foreground;
   }
 
   protected Integer coalesce(Integer... a) {
@@ -615,8 +615,7 @@ public abstract class BasicChartImpl implements Chart, HasAnimation, RendererLis
       final Runnable onClick = () -> {
         try {
           r.openPopup(BasicChartImpl.this);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
           r.showError(e);
         }
       };

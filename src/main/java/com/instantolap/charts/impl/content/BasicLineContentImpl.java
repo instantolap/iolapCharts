@@ -68,7 +68,7 @@ public abstract class BasicLineContentImpl extends BasicSampleContentImpl implem
       if (!isAreaChart) {
         return null;
       }
-      areaColor = data.getColor(colorRange, series);
+      areaColor = data.getColor(getTheme(), colorRange, series);
     }
     areaColor = anim.getSampleColor(progress, bar, areaColor);
     areaColor = changeSelectedColor(areaColor, data, 1, series);

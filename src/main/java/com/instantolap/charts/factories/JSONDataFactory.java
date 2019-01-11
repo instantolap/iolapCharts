@@ -5,7 +5,6 @@ import com.instantolap.charts.Data;
 import com.instantolap.charts.Transformation;
 import com.instantolap.charts.WriteableCube;
 import com.instantolap.charts.impl.data.DataImpl;
-import com.instantolap.charts.impl.data.Theme;
 import com.instantolap.charts.impl.data.transform.*;
 import com.instantolap.charts.json.JSONArray;
 import com.instantolap.charts.json.JSONException;
@@ -16,8 +15,8 @@ import java.util.Iterator;
 
 public class JSONDataFactory {
 
-  public static Data parseData(JSONObject json, Theme theme) throws JSONException {
-    final Data data = new DataImpl(theme);
+  public static Data parseData(JSONObject json) throws JSONException {
+    final Data data = new DataImpl();
     final WriteableCube cube = data.getMainCube();
 
     // read dimensions

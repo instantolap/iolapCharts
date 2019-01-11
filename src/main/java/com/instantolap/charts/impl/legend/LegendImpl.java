@@ -2,6 +2,7 @@ package com.instantolap.charts.impl.legend;
 
 import com.instantolap.charts.Cube;
 import com.instantolap.charts.Data;
+import com.instantolap.charts.impl.data.Theme;
 import com.instantolap.charts.impl.util.SymbolDrawer;
 import com.instantolap.charts.renderer.ChartColor;
 import com.instantolap.charts.renderer.ChartFont;
@@ -11,8 +12,14 @@ import com.instantolap.charts.renderer.Renderer;
 public class LegendImpl extends BasicLegendImpl {
 
   private static final int SYMBOL_SPACE = 4;
+
+  private Theme theme;
   private Data data;
   private Cube cube;
+
+  public LegendImpl(Theme theme) {
+    this.theme = theme;
+  }
 
   @Override
   public void setData(Data data) {
@@ -27,8 +34,7 @@ public class LegendImpl extends BasicLegendImpl {
     int x, int y,
     int totalWidth, int totalHeight,
     ChartColor foreground, ChartColor background,
-    ChartFont font)
-  {
+    ChartFont font) {
     // calc size
     final int padding = getPadding();
     final int spacing = getSpacing();
@@ -113,7 +119,7 @@ public class LegendImpl extends BasicLegendImpl {
       if ((colors != null) && (n < colors.length)) {
         seriesColor = colors[n];
       } else {
-        seriesColor = data.getColor(0, n);
+        seriesColor = data.getColor(theme, 0, n);
       }
 
       final int dimension = getDimension();
@@ -156,8 +162,7 @@ public class LegendImpl extends BasicLegendImpl {
               r.fireRepaint(false);
             }
           }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
           r.showError(e);
         }
       };
@@ -170,8 +175,7 @@ public class LegendImpl extends BasicLegendImpl {
             r.showNormalPointer();
             r.fireRepaint(false);
           }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
           r.showError(e);
         }
       };
@@ -180,8 +184,7 @@ public class LegendImpl extends BasicLegendImpl {
         try {
           cube.setVisible(dimension, sample, !cube.isVisible(dimension, sample));
           r.fireRepaint(false);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
           r.showError(e);
         }
       };

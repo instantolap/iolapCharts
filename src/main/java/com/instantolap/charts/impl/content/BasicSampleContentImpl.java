@@ -498,7 +498,7 @@ public abstract class BasicSampleContentImpl extends BasicContentImpl
     boolean multiColor)
   {
     final int index = (multiColor ? c0 : c1);
-    ChartColor sampleColor = data.getColor(getColorRange(), index);
+    ChartColor sampleColor = data.getColor(theme, getColorRange(), index);
     sampleColor = anim.getSampleColor(progress, bar, sampleColor);
     if (multiColor) {
       sampleColor = changeSelectedColor(sampleColor, data, 0, c0);
