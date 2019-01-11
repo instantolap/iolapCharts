@@ -3,6 +3,7 @@ package com.instantolap.charts.impl.content;
 import com.instantolap.charts.*;
 import com.instantolap.charts.impl.animation.ContentAnimation;
 import com.instantolap.charts.impl.animation.PendulumContentAnim;
+import com.instantolap.charts.impl.data.Theme;
 import com.instantolap.charts.renderer.ChartColor;
 import com.instantolap.charts.renderer.ChartException;
 import com.instantolap.charts.renderer.ChartFont;
@@ -11,9 +12,11 @@ import com.instantolap.charts.renderer.Renderer;
 
 public class MeterContentImpl extends BasicMeterContentImpl implements SampleValueRenderer {
 
-  public MeterContentImpl() {
+  public MeterContentImpl(Theme theme) {
+    super(theme);
+
     setAnimation(new PendulumContentAnim());
-    setLabelFont(ChartFont.CHART_TITLE_FONT);
+    setLabelFont(getTheme().getTitleFont());
   }
 
   @Override

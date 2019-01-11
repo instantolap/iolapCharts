@@ -30,7 +30,6 @@ public class DataImpl implements Data {
   public DataImpl() {
     cube = new CubeImpl();
     currentCube = cube;
-    setColors(0, Palette.getColors());
   }
 
   @Override
@@ -55,15 +54,19 @@ public class DataImpl implements Data {
   }
 
   @Override
-  public ChartColor[] getColors(int range) {
+  public ChartColor[] getColors(Theme theme, int range) {
+    if (sampleColors.length == 0) {
+      return theme.getColors();
+    }
+
     range = Math.min(sampleColors.length, range);
     return sampleColors[range];
   }
 
   @Override
-  public ChartColor getColor(int range, int series) {
-    range = Math.min(sampleColors.length, range);
-    return sampleColors[range][series % sampleColors[range].length];
+  public ChartColor getColor(Theme theme, int range, int series) {
+    ChartColor[] colors = getColors(theme, range);
+    return colors[series % colors.length];
   }
 
   @Override
@@ -77,15 +80,11 @@ public class DataImpl implements Data {
 
   @Override
   public ChartStroke getStroke(int series) {
-    if (strokes.length <= series) {
+    if (strokes.length <= series || strokes[series] == null) {
       return defaultStroke;
     }
 
-    final ChartStroke stroke = strokes[series];
-    if (stroke == null) {
-      return defaultStroke;
-    }
-    return stroke;
+    return strokes[series];
   }
 
   @Override
@@ -99,14 +98,10 @@ public class DataImpl implements Data {
 
   @Override
   public int getSymbol(int series) {
-    if (symbols.length <= series) {
+    if (symbols.length <= series || symbols[series] == 0) {
       return defaultSymbol;
     }
-    final int symbol = symbols[series];
-    if (symbol == 0) {
-      return defaultSymbol;
-    }
-    return symbol;
+    return symbols[series];
   }
 
   @Override
@@ -161,11 +156,8 @@ public class DataImpl implements Data {
     copy.cube = cube;
     copy.currentCube = currentCube;
     copy.sampleColors = sampleColors;
-    copy.defaultStroke = defaultStroke;
     copy.strokes = strokes;
-    copy.defaultSymbol = defaultSymbol;
     copy.symbols = symbols;
-    copy.defaultSymbolSize = defaultSymbolSize;
     copy.symbolSizes = symbolSizes;
     copy.selectedSamples.putAll(selectedSamples);
     return copy;

@@ -1,6 +1,7 @@
 package com.instantolap.charts.impl.chart;
 
 import com.instantolap.charts.*;
+import com.instantolap.charts.impl.data.Theme;
 import com.instantolap.charts.impl.data.PartialCube;
 import com.instantolap.charts.impl.legend.BasicLegendImpl;
 import com.instantolap.charts.impl.legend.LegendImpl;
@@ -12,16 +13,17 @@ import java.util.List;
 
 public abstract class BasicChartImpl implements Chart, HasAnimation, RendererListener {
 
+  private final Theme theme;
   private final BasicLegendImpl legend;
   private final List<Content> contents = new ArrayList<>();
   private boolean isPopup = false;
   private boolean isInteractive = true;
-  private ChartColor background = ChartColor.WHITE;
-  private ChartColor foreground = ChartColor.BLACK;
-  private ChartFont font = ChartFont.DEFAULT_FONT;
+  private ChartColor background;
+  private ChartColor foreground;
+  private ChartFont font;
   private String title, subTitle;
-  private ChartFont titleFont = ChartFont.CHART_TITLE_FONT;
-  private ChartFont subTitleFont = ChartFont.CHART_SUBTITLE_FONT;
+  private ChartFont titleFont;
+  private ChartFont subTitleFont;
   private Data data;
   private int insetTop = 10;
   private int insetBottom = 10;
@@ -42,8 +44,13 @@ public abstract class BasicChartImpl implements Chart, HasAnimation, RendererLis
   private LinkOpener linkOpener;
   private int canvasX, canvasY, canvasWidth, canvasHeight;
 
-  public BasicChartImpl() {
-    this.legend = new LegendImpl();
+  public BasicChartImpl(Theme theme) {
+    this.theme = theme;
+    this.legend = new LegendImpl(theme);
+  }
+
+  public Theme getTheme() {
+    return theme;
   }
 
   @Override
@@ -112,7 +119,7 @@ public abstract class BasicChartImpl implements Chart, HasAnimation, RendererLis
 
   @Override
   public ChartColor getBackground() {
-    return background;
+    return background != null ? background : getTheme().getBackground();
   }
 
   @Override
@@ -131,7 +138,7 @@ public abstract class BasicChartImpl implements Chart, HasAnimation, RendererLis
   }
 
   protected abstract void render(double progress, int x, int y, int width,
-    int height) throws ChartException;
+                                 int height) throws ChartException;
 
   @Override
   public long getAnimationTime() {
@@ -185,7 +192,7 @@ public abstract class BasicChartImpl implements Chart, HasAnimation, RendererLis
 
   @Override
   public ChartColor getForeground() {
-    return foreground;
+    return foreground == null ? theme.getTextColor() : foreground;
   }
 
   protected Integer coalesce(Integer... a) {
@@ -211,7 +218,7 @@ public abstract class BasicChartImpl implements Chart, HasAnimation, RendererLis
 
   @Override
   public ChartFont getFont() {
-    return font;
+    return font != null ? font : getTheme().getDefaultFont();
   }
 
   @Override
@@ -231,7 +238,7 @@ public abstract class BasicChartImpl implements Chart, HasAnimation, RendererLis
 
   @Override
   public ChartFont getTitleFont() {
-    return titleFont;
+    return titleFont != null ? titleFont : getTheme().getTitleFont();
   }
 
   @Override
@@ -261,7 +268,7 @@ public abstract class BasicChartImpl implements Chart, HasAnimation, RendererLis
 
   @Override
   public ChartFont getSubTitleFont() {
-    return subTitleFont;
+    return subTitleFont != null ? subTitleFont : getTheme().getSubTitleFont();
   }
 
   @Override
@@ -471,7 +478,7 @@ public abstract class BasicChartImpl implements Chart, HasAnimation, RendererLis
       }
 
       r.setColor(color);
-      r.drawText(x + width / 2, y, title, 0, Renderer.NORTH);
+      r.drawText(x + width / 2, y, subTitle, 0, Renderer.NORTH);
 
       final int titlePadding = getTitlePadding() + textHeight;
       y += titlePadding;
@@ -608,8 +615,7 @@ public abstract class BasicChartImpl implements Chart, HasAnimation, RendererLis
       final Runnable onClick = () -> {
         try {
           r.openPopup(BasicChartImpl.this);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
           r.showError(e);
         }
       };

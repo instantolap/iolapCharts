@@ -1,5 +1,6 @@
 package com.instantolap.charts;
 
+import com.instantolap.charts.impl.data.Theme;
 import com.instantolap.charts.renderer.ChartColor;
 import com.instantolap.charts.renderer.ChartStroke;
 
@@ -20,9 +21,9 @@ public interface Data extends Serializable {
 
   void setColors(int range, ChartColor[] sampleColors);
 
-  ChartColor[] getColors(int range);
+  ChartColor[] getColors(Theme theme, int range);
 
-  ChartColor getColor(int range, int series);
+  ChartColor getColor(Theme theme, int range, int series);
 
   // strokes
 

@@ -2,6 +2,7 @@ package com.instantolap.charts.impl.content;
 
 import com.instantolap.charts.BarContent;
 import com.instantolap.charts.Cube;
+import com.instantolap.charts.impl.data.Theme;
 import com.instantolap.charts.renderer.ChartColor;
 
 
@@ -16,7 +17,9 @@ public abstract class BasicBarContentImpl extends BasicSampleContentImpl impleme
   private String maxMeasure;
   private ChartColor colorUp, colorDown;
 
-  public BasicBarContentImpl() {
+  public BasicBarContentImpl(Theme theme) {
+    super(theme);
+
     setOutline(ChartColor.BLACK);
   }
 

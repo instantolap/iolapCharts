@@ -1,6 +1,7 @@
 package com.instantolap.charts.impl.content;
 
 import com.instantolap.charts.HeatMapContent;
+import com.instantolap.charts.impl.data.Theme;
 import com.instantolap.charts.renderer.ChartColor;
 
 
@@ -17,7 +18,8 @@ public abstract class BasicHeatMapContentImpl extends BasicSampleContentImpl
   private int fillPadding = 0;
   private String format;
 
-  public BasicHeatMapContentImpl() {
+  public BasicHeatMapContentImpl(Theme theme) {
+    super(theme);
   }
 
   @Override

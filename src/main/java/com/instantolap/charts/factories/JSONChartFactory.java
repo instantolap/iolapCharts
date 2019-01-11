@@ -6,6 +6,7 @@ import com.instantolap.charts.control.RoundChart;
 import com.instantolap.charts.impl.animation.*;
 import com.instantolap.charts.impl.chart.*;
 import com.instantolap.charts.impl.content.*;
+import com.instantolap.charts.impl.data.Theme;
 import com.instantolap.charts.impl.data.transform.StackedTransform;
 import com.instantolap.charts.impl.util.SymbolDrawer;
 import com.instantolap.charts.json.JSONArray;
@@ -23,6 +24,10 @@ import java.util.List;
 public class JSONChartFactory {
 
   public static Chart create(JSONObject json, Data data) throws JSONException {
+    return create(json, data, Theme.DEFAULT_THEME);
+  }
+
+  public static Chart create(JSONObject json, Data data, Theme theme) throws JSONException {
 
     // data
     final JSONObject dataObject = json.optJSONObject("data");
@@ -41,70 +46,69 @@ public class JSONChartFactory {
     boolean round = false;
     final String type = json.getString("type");
     if ("sample".equalsIgnoreCase(type)) {
-      chart = createSampleChart(json, data);
+      chart = createSampleChart(json, data, theme);
     } else if ("round".equalsIgnoreCase(type)) {
-      chart = createRoundChart(json, data, false, true, false, false);
+      chart = createRoundChart(json, data, theme, false, true, false, false);
       round = true;
     } else if ("xy".equalsIgnoreCase(type)) {
-      chart = createXYChart(json, data);
+      chart = createXYChart(json, data, theme);
     } else if ("samplesample".equalsIgnoreCase(type)) {
-      chart = createSampleSampleChart(json, data);
+      chart = createSampleSampleChart(json, data, theme);
     } else if ("time".equalsIgnoreCase(type)) {
-      chart = createTimeChart(json, data);
+      chart = createTimeChart(json, data, theme);
     } else if ("bar".equalsIgnoreCase(type)) {
-      chart = createSampleChart(json, data);
-      defaultContent = new BarContentImpl();
+      chart = createSampleChart(json, data, theme);
+      defaultContent = new BarContentImpl(theme);
     } else if ("column".equalsIgnoreCase(type)) {
-      final SampleChart sampleChart = createSampleChart(json, data);
+      final SampleChart sampleChart = createSampleChart(json, data, theme);
       sampleChart.setRotated(true);
       chart = sampleChart;
-      defaultContent = new BarContentImpl();
+      defaultContent = new BarContentImpl(theme);
     } else if ("line".equalsIgnoreCase(type)) {
-      chart = createSampleChart(json, data);
-      defaultContent = new LineContentImpl();
+      chart = createSampleChart(json, data, theme);
+      defaultContent = new LineContentImpl(theme);
     } else if ("spline".equalsIgnoreCase(type)) {
-      chart = createSampleChart(json, data);
-      final LineContent lineContent = new LineContentImpl();
+      chart = createSampleChart(json, data, theme);
+      final LineContent lineContent = new LineContentImpl(theme);
       lineContent.setInterpolated(true);
       defaultContent = lineContent;
     } else if ("area".equalsIgnoreCase(type)) {
-      chart = createSampleChart(json, data);
-      final LineContent line = new LineContentImpl();
+      chart = createSampleChart(json, data, theme);
+      final LineContent line = new LineContentImpl(theme);
       line.setAreaChart(true);
       defaultContent = line;
     } else if ("pie".equalsIgnoreCase(type)) {
       transformStacked(data);
-      final RoundChart roundChart = createRoundChart(json, data, true, false, false, false);
-      chart = roundChart;
-      defaultContent = new PieContentImpl();
+      chart = createRoundChart(json, data, theme, true, false, false, false);
+      defaultContent = new PieContentImpl(theme);
     } else if ("doughnut".equalsIgnoreCase(type)) {
-      chart = createRoundChart(json, data, true, false, false, false);
-      final PieContent pieContent = new PieContentImpl();
+      chart = createRoundChart(json, data, theme, true, false, false, false);
+      final PieContent pieContent = new PieContentImpl(theme);
       pieContent.setSeriesSpace(0.5);
       defaultContent = pieContent;
     } else if ("radar".equalsIgnoreCase(type)) {
-      chart = createRoundChart(json, data, false, true, true, true);
-      defaultContent = new RoundLineContentImpl();
+      chart = createRoundChart(json, data, theme, false, true, true, true);
+      defaultContent = new RoundLineContentImpl(theme);
     } else if ("rose".equalsIgnoreCase(type)) {
-      chart = createRoundChart(json, data, false, true, true, true);
-      defaultContent = new RoundBarContentImpl();
+      chart = createRoundChart(json, data, theme, false, true, true, true);
+      defaultContent = new RoundBarContentImpl(theme);
     } else if ("scatter".equalsIgnoreCase(type)) {
-      chart = createXYChart(json, data);
-      defaultContent = new ScatterContentImpl();
+      chart = createXYChart(json, data, theme);
+      defaultContent = new ScatterContentImpl(theme);
     } else if ("bubble".equalsIgnoreCase(type)) {
-      chart = createXYChart(json, data);
-      final ScatterContent scatterContent = new ScatterContentImpl();
+      chart = createXYChart(json, data, theme);
+      final ScatterContent scatterContent = new ScatterContentImpl(theme);
       scatterContent.setBubble(true);
       defaultContent = scatterContent;
     } else if ("heatmap".equalsIgnoreCase(type)) {
-      chart = createSampleSampleChart(json, data);
-      defaultContent = new HeatMapContentImpl();
+      chart = createSampleSampleChart(json, data, theme);
+      defaultContent = new HeatMapContentImpl(theme);
     } else if ("timeline".equalsIgnoreCase(type)) {
-      chart = createTimeChart(json, data);
-      defaultContent = new LineContentImpl();
+      chart = createTimeChart(json, data, theme);
+      defaultContent = new LineContentImpl(theme);
     } else if ("candle".equalsIgnoreCase(type)) {
-      chart = createTimeChart(json, data);
-      final BarContent barContent = new BarContentImpl();
+      chart = createTimeChart(json, data, theme);
+      final BarContent barContent = new BarContentImpl(theme);
       barContent.setLowerMeasure("entry");
       barContent.setMeasure("exit");
       barContent.setMinMeasure("min");
@@ -112,8 +116,8 @@ public class JSONChartFactory {
       barContent.setBarSpacing(0);
       defaultContent = barContent;
     } else if ("meter".equalsIgnoreCase(type)) {
-      chart = createRoundChart(json, data, true, false, true, false);
-      defaultContent = new MeterContentImpl();
+      chart = createRoundChart(json, data, theme, true, false, true, false);
+      defaultContent = new MeterContentImpl(theme);
     } else {
       throw new JSONException("Unknown chart type '" + type + "'");
     }
@@ -129,7 +133,7 @@ public class JSONChartFactory {
     if (contents != null) {
       for (int n = 0; n < contents.length(); n++) {
         final JSONObject contentData = (JSONObject) contents.get(n);
-        final Content content = createContent(contentData, defaultContent, round, data, n);
+        final Content content = createContent(contentData, defaultContent, round, data, theme, n);
         if (content != null) {
           chart.addContent(content);
         }
@@ -138,7 +142,7 @@ public class JSONChartFactory {
 
     final JSONObject contentData = json.optJSONObject("content");
     if (contentData != null) {
-      final Content content = createContent(contentData, defaultContent, round, data, 0);
+      final Content content = createContent(contentData, defaultContent, round, data, theme, 0);
       if (content != null) {
         chart.addContent(content);
       }
@@ -253,8 +257,9 @@ public class JSONChartFactory {
     chart.setAnimationTime(json.optLong("animationtime", chart.getAnimationTime()));
   }
 
-  private static SampleChart createSampleChart(JSONObject json, Data data) throws JSONException {
-    final SampleChart chart = new SampleChartImpl();
+  private static SampleChart createSampleChart(JSONObject json, Data data, Theme theme)
+    throws JSONException {
+    final SampleChart chart = new SampleChartImpl(theme);
     initChart(json, chart);
 
     final JSONObject canvasData = json.optJSONObject("canvas");
@@ -299,13 +304,13 @@ public class JSONChartFactory {
   private static RoundChart createRoundChart(
     JSONObject json,
     Data data,
+    Theme theme,
     boolean scaleOutside,
     boolean showSampleAxis,
     boolean showValueAxis,
     boolean showGrid)
-    throws JSONException
-  {
-    final RoundChart chart = new RoundChartImpl(scaleOutside);
+    throws JSONException {
+    final RoundChart chart = new RoundChartImpl(theme, scaleOutside);
     initChart(json, chart);
 
     if (!showGrid) {
@@ -352,8 +357,8 @@ public class JSONChartFactory {
     return chart;
   }
 
-  private static Chart createXYChart(JSONObject json, Data data) throws JSONException {
-    final XYChart chart = new XYChartImpl();
+  private static Chart createXYChart(JSONObject json, Data data, Theme theme) throws JSONException {
+    final XYChart chart = new XYChartImpl(theme);
     initChart(json, chart);
 
     final JSONObject canvasData = json.optJSONObject("canvas");
@@ -374,10 +379,9 @@ public class JSONChartFactory {
     return chart;
   }
 
-  private static SampleSampleChart createSampleSampleChart(JSONObject json, Data data)
-    throws JSONException
-  {
-    final SampleSampleChart chart = new SampleSampleChartImpl();
+  private static SampleSampleChart createSampleSampleChart(JSONObject json, Data data, Theme theme)
+    throws JSONException {
+    final SampleSampleChart chart = new SampleSampleChartImpl(theme);
     initChart(json, chart);
 
     final JSONObject canvasData = json.optJSONObject("canvas");
@@ -398,8 +402,9 @@ public class JSONChartFactory {
     return chart;
   }
 
-  private static TimeChart createTimeChart(JSONObject json, Data data) throws JSONException {
-    final TimeChart chart = new TimeChartImpl();
+  private static TimeChart createTimeChart(JSONObject json, Data data, Theme theme)
+    throws JSONException {
+    final TimeChart chart = new TimeChartImpl(theme);
     initChart(json, chart);
 
     final JSONObject canvasData = json.optJSONObject("canvas");
@@ -468,8 +473,7 @@ public class JSONChartFactory {
     }
   }
 
-  private static void initRoundCanvas(RoundCanvas canvas, JSONObject json) throws JSONException
-  {
+  private static void initRoundCanvas(RoundCanvas canvas, JSONObject json) throws JSONException {
     initCanvas(canvas, json);
 
     final String baseLine = json.optString("baseline", null);
@@ -509,8 +513,7 @@ public class JSONChartFactory {
   }
 
   private static void initScaleAxis(ScaleAxis axis, JSONObject json, Data data)
-    throws JSONException
-  {
+    throws JSONException {
     initAxis(axis, json);
     initHasSamples(axis, json);
 
@@ -533,8 +536,7 @@ public class JSONChartFactory {
   }
 
   private static void initValueAxis(ValueAxis axis, JSONObject json, Data data)
-    throws JSONException
-  {
+    throws JSONException {
     initScaleAxis(axis, json, data);
 
     axis.setFormat(json.optString("format", axis.getFormat()));
@@ -682,9 +684,8 @@ public class JSONChartFactory {
   }
 
   private static Content createContent(
-    JSONObject json, Content defaultContent, boolean round, Data data, int index)
-    throws JSONException
-  {
+    JSONObject json, Content defaultContent, boolean round, Data data, Theme theme, int index)
+    throws JSONException {
     final String type = json.optString("type", null);
     if (type == null) {
       if (defaultContent instanceof BarContent) {
@@ -702,31 +703,31 @@ public class JSONChartFactory {
       }
       return null;
     } else if ("bar".equalsIgnoreCase(type)) {
-      final BarContent content = round ? new RoundBarContentImpl() : new BarContentImpl();
+      final BarContent content = round ? new RoundBarContentImpl(theme) : new BarContentImpl(theme);
       initBarContent(content, json, data, index);
       return content;
     } else if ("line".equalsIgnoreCase(type)) {
-      final LineContent content = round ? new RoundLineContentImpl() : new LineContentImpl();
+      final LineContent content = round ? new RoundLineContentImpl(theme) : new LineContentImpl(theme);
       initLineContent(content, json, data, index);
       return content;
     } else if ("pie".equalsIgnoreCase(type)) {
-      final PieContent content = new PieContentImpl();
+      final PieContent content = new PieContentImpl(theme);
       initPieContent(content, json, data, index);
       return content;
     } else if ("scatter".equalsIgnoreCase(type)) {
-      final ScatterContent content = new ScatterContentImpl();
+      final ScatterContent content = new ScatterContentImpl(theme);
       initScatterContent(content, json, data, index);
       return content;
     } else if ("heatmap".equalsIgnoreCase(type)) {
-      final HeatMapContent content = new HeatMapContentImpl();
+      final HeatMapContent content = new HeatMapContentImpl(theme);
       initHeatMapContent(content, json, data, index);
       return content;
     } else if ("candle".equalsIgnoreCase(type)) {
-      final BarContent content = new BarContentImpl();
+      final BarContent content = new BarContentImpl(theme);
       initBarContent(content, json, data, index);
       return content;
     } else if ("meter".equalsIgnoreCase(type)) {
-      final MeterContent content = new MeterContentImpl();
+      final MeterContent content = new MeterContentImpl(theme);
       initMeterContent(content, json, data, index);
       return content;
     } else {
@@ -735,8 +736,7 @@ public class JSONChartFactory {
   }
 
   private static void initMeterContent(MeterContent content, JSONObject json, Data data, int index)
-    throws JSONException
-  {
+    throws JSONException {
     initContent(content, json, data, index);
     initSampleContent(content, json);
     initHasValueLabels(content, json);
@@ -752,8 +752,7 @@ public class JSONChartFactory {
   }
 
   private static void initBarContent(BarContent content, JSONObject json, Data data, int index)
-    throws JSONException
-  {
+    throws JSONException {
     initContent(content, json, data, index);
     initSampleContent(content, json);
     initHasValueLabels(content, json);
@@ -787,8 +786,7 @@ public class JSONChartFactory {
   }
 
   private static void initLineContent(LineContent content, JSONObject json, Data data, int index)
-    throws JSONException
-  {
+    throws JSONException {
     initContent(content, json, data, index);
     initSampleContent(content, json);
     initHasValueLabels(content, json);
@@ -857,8 +855,7 @@ public class JSONChartFactory {
   }
 
   private static void initPieContent(PieContent content, JSONObject json, Data data, int index)
-    throws JSONException
-  {
+    throws JSONException {
     initContent(content, json, data, index);
     initSampleContent(content, json);
     initHasValueLabels(content, json);
@@ -889,8 +886,7 @@ public class JSONChartFactory {
 
   private static void initScatterContent(
     ScatterContent content, JSONObject json, Data data, int index)
-    throws JSONException
-  {
+    throws JSONException {
     initContent(content, json, data, index);
     initHasShadow(content, json);
     initHasValueLabels(content, json);
@@ -904,8 +900,7 @@ public class JSONChartFactory {
 
   private static void initHeatMapContent(
     HeatMapContent content, JSONObject json, Data data, int index)
-    throws JSONException
-  {
+    throws JSONException {
     initContent(content, json, data, index);
     initHasShadow(content, json);
     initHasValueLabels(content, json);
@@ -951,8 +946,7 @@ public class JSONChartFactory {
   }
 
   private static void initContent(Content content, JSONObject json, Data data, int index)
-    throws JSONException
-  {
+    throws JSONException {
     initHasSamples(content, json);
     initDataPresentation(json, data);
 
@@ -981,8 +975,7 @@ public class JSONChartFactory {
   }
 
   private static void initSampleContent(SampleContent content, JSONObject json)
-    throws JSONException
-  {
+    throws JSONException {
     initHasShadow(content, json);
     initHasAnnotations(content, json);
 
@@ -1017,8 +1010,7 @@ public class JSONChartFactory {
   }
 
   private static void initHasBackground(HasBackground content, JSONObject json)
-    throws JSONException
-  {
+    throws JSONException {
     if (json.has("background")) {
       if (json.isNull("background")) {
         content.setBackground(null);
@@ -1115,8 +1107,7 @@ public class JSONChartFactory {
   }
 
   private static void initHasAnnotations(HasAnnotations content, JSONObject json)
-    throws JSONException
-  {
+    throws JSONException {
     final JSONArray annotationsData = json.optJSONArray("annotations");
     if (annotationsData != null) {
       for (int n = 0; n < annotationsData.length(); n++) {

@@ -1,6 +1,7 @@
 package com.instantolap.charts.impl.canvas;
 
 import com.instantolap.charts.RoundCanvas;
+import com.instantolap.charts.impl.data.Theme;
 import com.instantolap.charts.renderer.ChartColor;
 import com.instantolap.charts.renderer.ChartStroke;
 
@@ -14,7 +15,9 @@ public abstract class BasicRoundCanvasImpl extends BasicCanvasImpl implements Ro
   private ChartColor baseLine = ChartColor.BLACK;
   private boolean round = true;
 
-  public BasicRoundCanvasImpl() {
+  public BasicRoundCanvasImpl(Theme theme) {
+    super(theme);
+
     setBorder(null);
     setShadow(null);
   }

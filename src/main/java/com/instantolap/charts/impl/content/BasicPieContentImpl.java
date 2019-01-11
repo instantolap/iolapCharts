@@ -2,6 +2,7 @@ package com.instantolap.charts.impl.content;
 
 import com.instantolap.charts.Cube;
 import com.instantolap.charts.PieContent;
+import com.instantolap.charts.impl.data.Theme;
 import com.instantolap.charts.renderer.ChartColor;
 
 import java.util.ArrayList;
@@ -17,7 +18,9 @@ public abstract class BasicPieContentImpl extends BasicSampleContentImpl impleme
   private boolean isRound = true;
   private String measure = Cube.MEASURE_VALUE;
 
-  public BasicPieContentImpl() {
+  public BasicPieContentImpl(Theme theme) {
+    super(theme);
+
     setOutline(ChartColor.BLACK);
   }
 

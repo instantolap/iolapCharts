@@ -4,7 +4,7 @@ import com.instantolap.charts.Cube;
 
 
 @SuppressWarnings("serial")
-public class SlicedCube extends DeligatedCube {
+public class SlicedCube extends DelegatedCube {
 
   private int[] starts;
   private int[] ends;

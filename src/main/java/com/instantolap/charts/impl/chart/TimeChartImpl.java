@@ -4,6 +4,7 @@ import com.instantolap.charts.*;
 import com.instantolap.charts.impl.axis.TimeAxisImpl;
 import com.instantolap.charts.impl.axis.ValueAxisImpl;
 import com.instantolap.charts.impl.content.SampleValueRenderer;
+import com.instantolap.charts.impl.data.Theme;
 import com.instantolap.charts.renderer.*;
 
 
@@ -13,7 +14,9 @@ public class TimeChartImpl extends BasicMultiAxisChartImpl implements TimeChart 
   private final ValueAxisImpl valueAxis2;
   private final TimeAxisImpl timeAxis;
 
-  public TimeChartImpl() {
+  public TimeChartImpl(Theme theme) {
+    super(theme);
+
     timeAxis = new TimeAxisImpl();
     timeAxis.setLabelRotation(270);
 

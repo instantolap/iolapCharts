@@ -1,5 +1,6 @@
 package com.instantolap.charts.renderer.impl;
 
+import com.instantolap.charts.impl.data.Theme;
 import com.instantolap.charts.renderer.*;
 import com.instantolap.charts.renderer.util.StringHelper;
 import javafx.scene.canvas.Canvas;
@@ -32,7 +33,7 @@ public class FxRenderer extends BasicRenderer {
   public FxRenderer(Canvas image) {
     this.image = image;
     graphics = image.getGraphicsContext2D();
-    setFont(ChartFont.DEFAULT_FONT);
+    setFont(new Theme().getDefaultFont());
   }
 
   @Override
@@ -115,7 +116,7 @@ public class FxRenderer extends BasicRenderer {
   @Override
   public void setFont(ChartFont font) {
     if (font == null) {
-      font = ChartFont.DEFAULT_FONT;
+      font = new Theme().getDefaultFont();
     }
     FontWeight style = FontWeight.NORMAL;
     if (font.isBold()) {

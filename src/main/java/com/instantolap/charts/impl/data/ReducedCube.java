@@ -4,7 +4,7 @@ import com.instantolap.charts.Cube;
 
 
 @SuppressWarnings("serial")
-public class ReducedCube extends DeligatedCube {
+public class ReducedCube extends DelegatedCube {
 
   private Cube cube;
   private boolean[][] indices;

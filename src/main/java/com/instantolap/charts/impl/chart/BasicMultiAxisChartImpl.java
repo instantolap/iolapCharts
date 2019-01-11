@@ -4,6 +4,7 @@ import com.instantolap.charts.*;
 import com.instantolap.charts.impl.axis.BasicAxisImpl;
 import com.instantolap.charts.impl.canvas.XYCanvasImpl;
 import com.instantolap.charts.impl.content.RendererWithSamples;
+import com.instantolap.charts.impl.data.Theme;
 import com.instantolap.charts.impl.data.PartialCube;
 import com.instantolap.charts.impl.util.ArrayHelper;
 import com.instantolap.charts.renderer.ChartException;
@@ -16,8 +17,10 @@ public abstract class BasicMultiAxisChartImpl extends BasicSampleChartImpl {
   private final XYCanvasImpl canvas;
   private BasicAxisImpl xAxis, yAxis1, yAxis2;
 
-  public BasicMultiAxisChartImpl() {
-    this.canvas = new XYCanvasImpl();
+  public BasicMultiAxisChartImpl(Theme theme) {
+    super(theme);
+
+    this.canvas = new XYCanvasImpl(theme);
   }
 
   protected void setAxes(BasicAxisImpl xAxis, BasicAxisImpl yAxis1,

@@ -3,6 +3,7 @@ package com.instantolap.charts.impl.content;
 import com.instantolap.charts.*;
 import com.instantolap.charts.impl.animation.ContentAnimation;
 import com.instantolap.charts.impl.animation.FadeInContentAnim;
+import com.instantolap.charts.impl.data.Theme;
 import com.instantolap.charts.impl.util.RoundLabelDrawer;
 import com.instantolap.charts.impl.util.SymbolDrawer;
 import com.instantolap.charts.renderer.*;
@@ -10,7 +11,9 @@ import com.instantolap.charts.renderer.*;
 
 public class RoundLineContentImpl extends BasicLineContentImpl implements SampleValueRenderer {
 
-  public RoundLineContentImpl() {
+  public RoundLineContentImpl(Theme theme) {
+    super(theme);
+
     setAnimation(new FadeInContentAnim());
   }
 
