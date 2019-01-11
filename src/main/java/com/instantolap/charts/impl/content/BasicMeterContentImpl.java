@@ -2,7 +2,7 @@ package com.instantolap.charts.impl.content;
 
 import com.instantolap.charts.Cube;
 import com.instantolap.charts.MeterContent;
-import com.instantolap.charts.impl.data.Palette;
+import com.instantolap.charts.impl.data.Theme;
 import com.instantolap.charts.renderer.ChartColor;
 
 
@@ -12,8 +12,8 @@ public abstract class BasicMeterContentImpl extends BasicSampleContentImpl imple
   private double pinSize = 0.1;
   private ChartColor pinColor = null;
 
-  public BasicMeterContentImpl(Palette palette) {
-    super(palette);
+  public BasicMeterContentImpl(Theme theme) {
+    super(theme);
 
     setOutline(ChartColor.BLACK);
   }

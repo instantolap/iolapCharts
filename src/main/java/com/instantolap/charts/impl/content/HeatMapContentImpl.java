@@ -5,7 +5,7 @@ import com.instantolap.charts.Data;
 import com.instantolap.charts.SampleAxis;
 import com.instantolap.charts.impl.animation.ContentAnimation;
 import com.instantolap.charts.impl.animation.LeftToRightContentAnim;
-import com.instantolap.charts.impl.data.Palette;
+import com.instantolap.charts.impl.data.Theme;
 import com.instantolap.charts.impl.util.LabelDrawer;
 import com.instantolap.charts.impl.util.SymbolDrawer;
 import com.instantolap.charts.renderer.ChartColor;
@@ -16,8 +16,8 @@ import com.instantolap.charts.renderer.Renderer;
 
 public class HeatMapContentImpl extends BasicHeatMapContentImpl implements SampleSampleRenderer {
 
-  public HeatMapContentImpl(Palette palette) {
-    super(palette);
+  public HeatMapContentImpl(Theme theme) {
+    super(theme);
 
     setAnimation(new LeftToRightContentAnim());
   }

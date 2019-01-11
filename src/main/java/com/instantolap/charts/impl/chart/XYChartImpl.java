@@ -6,7 +6,7 @@ import com.instantolap.charts.ValueAxis;
 import com.instantolap.charts.XYChart;
 import com.instantolap.charts.impl.axis.ValueAxisImpl;
 import com.instantolap.charts.impl.content.ValueValueRenderer;
-import com.instantolap.charts.impl.data.Palette;
+import com.instantolap.charts.impl.data.Theme;
 import com.instantolap.charts.renderer.ChartException;
 import com.instantolap.charts.renderer.ChartFont;
 import com.instantolap.charts.renderer.Renderer;
@@ -17,8 +17,8 @@ public class XYChartImpl extends BasicMultiAxisChartImpl implements XYChart {
   private final ValueAxisImpl xAxis = new ValueAxisImpl();
   private final ValueAxisImpl yAxis = new ValueAxisImpl();
 
-  public XYChartImpl(Palette palette) {
-    super(palette);
+  public XYChartImpl(Theme theme) {
+    super(theme);
 
     setAxes(xAxis, yAxis, null);
     xAxis.setTitleRotation(0);

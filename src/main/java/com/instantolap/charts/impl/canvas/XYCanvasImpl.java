@@ -6,7 +6,7 @@ import com.instantolap.charts.TargetLine;
 import com.instantolap.charts.ValueAxis;
 import com.instantolap.charts.impl.animation.CanvasAnimation;
 import com.instantolap.charts.impl.animation.FadeInCanvasAnim;
-import com.instantolap.charts.impl.data.Palette;
+import com.instantolap.charts.impl.data.Theme;
 import com.instantolap.charts.renderer.ChartColor;
 import com.instantolap.charts.renderer.ChartStroke;
 import com.instantolap.charts.renderer.Renderer;
@@ -16,8 +16,8 @@ public class XYCanvasImpl extends BasicXYCanvasImpl {
 
   private final CanvasAnimation anim;
 
-  public XYCanvasImpl(Palette palette) {
-    super(palette);
+  public XYCanvasImpl(Theme theme) {
+    super(theme);
     
     anim = new FadeInCanvasAnim();
   }

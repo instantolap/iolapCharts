@@ -2,7 +2,7 @@ package com.instantolap.charts.impl.content;
 
 import com.instantolap.charts.Cube;
 import com.instantolap.charts.ScatterContent;
-import com.instantolap.charts.impl.data.Palette;
+import com.instantolap.charts.impl.data.Theme;
 import com.instantolap.charts.renderer.ChartColor;
 
 
@@ -14,8 +14,8 @@ public abstract class BasicScatterContentImpl extends BasicSampleContentImpl
   private String xMeasure = Cube.MEASURE_X;
   private String yMeasure = Cube.MEASURE_Y;
 
-  public BasicScatterContentImpl(Palette palette) {
-    super(palette);
+  public BasicScatterContentImpl(Theme theme) {
+    super(theme);
 
     setOutline(ChartColor.BLACK);
   }

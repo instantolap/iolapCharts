@@ -17,7 +17,7 @@ import java.util.Map;
 public class DataImpl implements Data {
 
   private final transient Map<Integer, Integer> selectedSamples = new HashMap<>();
-  private final Palette palette;
+  private final Theme theme;
   private WriteableCube cube;
   private Cube currentCube;
   private ChartColor[][] sampleColors = new ChartColor[0][];
@@ -28,15 +28,15 @@ public class DataImpl implements Data {
   private int defaultSymbolSize = 0;
   private int[] symbolSizes = new int[0];
 
-  public DataImpl(Palette palette) {
-    this.palette = palette;
+  public DataImpl(Theme theme) {
+    this.theme = theme;
     cube = new CubeImpl();
     currentCube = cube;
   }
 
   @Override
-  public Palette getPalette() {
-    return palette;
+  public Theme getTheme() {
+    return theme;
   }
 
   @Override
@@ -63,7 +63,7 @@ public class DataImpl implements Data {
   @Override
   public ChartColor[] getColors(int range) {
     if (sampleColors.length == 0) {
-      return palette.getColors();
+      return theme.getColors();
     }
 
     range = Math.min(sampleColors.length, range);
@@ -159,7 +159,7 @@ public class DataImpl implements Data {
 
   @Override
   public Data getCopy() {
-    final DataImpl copy = new DataImpl(palette);
+    final DataImpl copy = new DataImpl(theme);
     copy.cube = cube;
     copy.currentCube = currentCube;
     copy.sampleColors = sampleColors;

@@ -3,7 +3,7 @@ package com.instantolap.charts.impl.content;
 import com.instantolap.charts.*;
 import com.instantolap.charts.impl.animation.ContentAnimation;
 import com.instantolap.charts.impl.animation.FadeInContentAnim;
-import com.instantolap.charts.impl.data.Palette;
+import com.instantolap.charts.impl.data.Theme;
 import com.instantolap.charts.impl.util.RoundLabelDrawer;
 import com.instantolap.charts.renderer.ChartColor;
 import com.instantolap.charts.renderer.ChartException;
@@ -16,8 +16,8 @@ public class RoundBarContentImpl extends BasicBarContentImpl
 {
   private boolean isRound = true;
 
-  public RoundBarContentImpl(Palette palette) {
-    super(palette);
+  public RoundBarContentImpl(Theme theme) {
+    super(theme);
 
     setBarSpacing(2);
     setAnimation(new FadeInContentAnim());

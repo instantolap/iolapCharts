@@ -4,7 +4,7 @@ import com.instantolap.charts.renderer.ChartColor;
 import com.instantolap.charts.renderer.ChartFont;
 
 
-public class Palette {
+public class Theme {
 
   public static final String[] DEFAULT_PALETTE = new String[]{
     "1874CD", "CD0000", "2E8B57", "ECCA06", "FF7F00", "838B83", "5D478B", "CD1076", "B22222",
@@ -49,7 +49,7 @@ public class Palette {
    * Constructs a new set of defaults that uses {@link #DEFAULT_PALETTE_2} and {@link #DEFAULT_SCHEME_2B} for the color
    * palette.
    */
-  public Palette() {
+  public Theme() {
     setColors(DEFAULT_PALETTE_2, DEFAULT_SCHEME_2B);
   }
 

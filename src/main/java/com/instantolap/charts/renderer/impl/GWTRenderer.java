@@ -12,7 +12,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.instantolap.charts.impl.data.Palette;
+import com.instantolap.charts.impl.data.Theme;
 import com.instantolap.charts.renderer.*;
 import com.instantolap.charts.renderer.util.StringHelper;
 
@@ -27,7 +27,7 @@ public class GWTRenderer extends BasicRenderer {
   private final Context2d context;
   private final Map<String, NumberFormat> formats = new HashMap<>();
   private IECanvas ieCanvas;
-  private ChartFont font = new Palette().getDefaultFont();
+  private ChartFont font = new Theme().getDefaultFont();
   private int dashLen1 = 1, dashLen2 = 0;
   private double shift = 0.0;
 
@@ -366,7 +366,7 @@ public class GWTRenderer extends BasicRenderer {
   @Override
   public void setFont(ChartFont font) {
     if (font == null) {
-      font = new Palette().getDefaultFont();
+      font = new Theme().getDefaultFont();
     }
     this.font = font;
     context.setFont(font.toString());

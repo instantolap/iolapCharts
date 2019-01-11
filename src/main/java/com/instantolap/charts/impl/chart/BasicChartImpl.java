@@ -1,7 +1,7 @@
 package com.instantolap.charts.impl.chart;
 
 import com.instantolap.charts.*;
-import com.instantolap.charts.impl.data.Palette;
+import com.instantolap.charts.impl.data.Theme;
 import com.instantolap.charts.impl.data.PartialCube;
 import com.instantolap.charts.impl.legend.BasicLegendImpl;
 import com.instantolap.charts.impl.legend.LegendImpl;
@@ -13,7 +13,7 @@ import java.util.List;
 
 public abstract class BasicChartImpl implements Chart, HasAnimation, RendererListener {
 
-  private final Palette palette;
+  private final Theme theme;
   private final BasicLegendImpl legend;
   private final List<Content> contents = new ArrayList<>();
   private boolean isPopup = false;
@@ -44,13 +44,13 @@ public abstract class BasicChartImpl implements Chart, HasAnimation, RendererLis
   private LinkOpener linkOpener;
   private int canvasX, canvasY, canvasWidth, canvasHeight;
 
-  public BasicChartImpl(Palette palette) {
-    this.palette = palette;
+  public BasicChartImpl(Theme theme) {
+    this.theme = theme;
     this.legend = new LegendImpl();
   }
 
-  public Palette getPalette() {
-    return palette;
+  public Theme getTheme() {
+    return theme;
   }
 
   @Override
@@ -119,7 +119,7 @@ public abstract class BasicChartImpl implements Chart, HasAnimation, RendererLis
 
   @Override
   public ChartColor getBackground() {
-    return background != null ? background : getPalette().getBackground();
+    return background != null ? background : getTheme().getBackground();
   }
 
   @Override
@@ -218,7 +218,7 @@ public abstract class BasicChartImpl implements Chart, HasAnimation, RendererLis
 
   @Override
   public ChartFont getFont() {
-    return font != null ? font : getPalette().getDefaultFont();
+    return font != null ? font : getTheme().getDefaultFont();
   }
 
   @Override
@@ -238,7 +238,7 @@ public abstract class BasicChartImpl implements Chart, HasAnimation, RendererLis
 
   @Override
   public ChartFont getTitleFont() {
-    return titleFont != null ? titleFont : getPalette().getTitleFont();
+    return titleFont != null ? titleFont : getTheme().getTitleFont();
   }
 
   @Override
@@ -268,7 +268,7 @@ public abstract class BasicChartImpl implements Chart, HasAnimation, RendererLis
 
   @Override
   public ChartFont getSubTitleFont() {
-    return subTitleFont != null ? subTitleFont : getPalette().getSubTitleFont();
+    return subTitleFont != null ? subTitleFont : getTheme().getSubTitleFont();
   }
 
   @Override

@@ -3,7 +3,7 @@ package com.instantolap.charts.impl.canvas;
 import com.instantolap.charts.*;
 import com.instantolap.charts.impl.animation.CanvasAnimation;
 import com.instantolap.charts.impl.animation.FadeInCanvasAnim;
-import com.instantolap.charts.impl.data.Palette;
+import com.instantolap.charts.impl.data.Theme;
 import com.instantolap.charts.renderer.ChartColor;
 import com.instantolap.charts.renderer.ChartStroke;
 import com.instantolap.charts.renderer.Renderer;
@@ -13,8 +13,8 @@ public class RoundCanvasImpl extends BasicRoundCanvasImpl {
 
   private final CanvasAnimation anim;
 
-  public RoundCanvasImpl(Palette palette) {
-    super(palette);
+  public RoundCanvasImpl(Theme theme) {
+    super(theme);
 
     anim = new FadeInCanvasAnim();
   }

@@ -6,7 +6,7 @@ import com.instantolap.charts.PositionAxis;
 import com.instantolap.charts.ValueAxis;
 import com.instantolap.charts.impl.animation.ContentAnimation;
 import com.instantolap.charts.impl.animation.FadeInContentAnim;
-import com.instantolap.charts.impl.data.Palette;
+import com.instantolap.charts.impl.data.Theme;
 import com.instantolap.charts.impl.math.SimpleRegression;
 import com.instantolap.charts.impl.util.LabelDrawer;
 import com.instantolap.charts.renderer.ChartColor;
@@ -17,8 +17,8 @@ import com.instantolap.charts.renderer.Renderer;
 
 public class BarContentImpl extends BasicBarContentImpl implements SampleValueRenderer {
 
-  public BarContentImpl(Palette palette) {
-    super(palette);
+  public BarContentImpl(Theme theme) {
+    super(theme);
 
     setAnimation(new FadeInContentAnim());
   }

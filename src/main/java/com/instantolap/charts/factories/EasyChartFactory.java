@@ -82,7 +82,7 @@ public class EasyChartFactory {
     int overlaySeries)
   {
 
-    final LineContent content = new LineContentImpl(data.getPalette());
+    final LineContent content = new LineContentImpl(data.getTheme());
     chart.addContent(content);
     content.setInterpolated(interpolated);
     content.setStepLine(stepline);
@@ -116,7 +116,7 @@ public class EasyChartFactory {
     final SampleChart chart = createSampleChart(a, data);
     initBarChart(a, chart, data);
 
-    final BarContent content = new BarContentImpl(data.getPalette());
+    final BarContent content = new BarContentImpl(data.getTheme());
     chart.addContent(content);
     initBarContent(content, a);
 
@@ -133,7 +133,7 @@ public class EasyChartFactory {
     chart.getScaleAxis().setVisible(false);
 
     // content
-    final PieContent content = new PieContentImpl(data.getPalette());
+    final PieContent content = new PieContentImpl(data.getTheme());
     chart.addContent(content);
     initPieContent(content, a);
 
@@ -159,7 +159,7 @@ public class EasyChartFactory {
     chart.getSampleAxis().setVisible(false);
 
     // content
-    final MeterContent content = new MeterContentImpl(data.getPalette());
+    final MeterContent content = new MeterContentImpl(data.getTheme());
     chart.addContent(content);
     initMeterContent(chart, content, a);
 
@@ -170,7 +170,7 @@ public class EasyChartFactory {
     final RoundChart chart = createRoundChart(a, data, true);
 
     // content
-    final HeatMapContent content = new HeatMapContentImpl(data.getPalette());
+    final HeatMapContent content = new HeatMapContentImpl(data.getTheme());
     chart.addContent(content);
 
     return chart;
@@ -190,7 +190,7 @@ public class EasyChartFactory {
     }
 
     // content
-    final BarContent content = new RoundBarContentImpl(data.getPalette());
+    final BarContent content = new RoundBarContentImpl(data.getTheme());
     chart.addContent(content);
 
     initBarContent(content, a);
@@ -215,7 +215,7 @@ public class EasyChartFactory {
       chart.setStacked(true);
     }
 
-    final LineContent content = new LineContentImpl(data.getPalette());
+    final LineContent content = new LineContentImpl(data.getTheme());
     chart.addContent(content);
     content.setInterpolated(interpolated);
     content.setStepLine(steps);
@@ -238,7 +238,7 @@ public class EasyChartFactory {
     chart.getCanvas().setRound(round);
 
     // add content
-    final LineContent content = new RoundLineContentImpl(data.getPalette());
+    final LineContent content = new RoundLineContentImpl(data.getTheme());
     chart.addContent(content);
     initLineContent(a, "", content, data);
 
@@ -246,7 +246,7 @@ public class EasyChartFactory {
   }
 
   private static SampleChart createSampleChart(Map<String, String> a, Data data) {
-    final SampleChart chart = new SampleChartImpl(data.getPalette());
+    final SampleChart chart = new SampleChartImpl(data.getTheme());
     initChart(chart, a, data);
     initSampleChart(chart, a, data);
 
@@ -256,7 +256,7 @@ public class EasyChartFactory {
   private static RoundChart createRoundChart(
     Map<String, String> a, Data data, boolean scaleOutside)
   {
-    final RoundChart chart = new RoundChartImpl(data.getPalette(), scaleOutside);
+    final RoundChart chart = new RoundChartImpl(data.getTheme(), scaleOutside);
     initChart(chart, a, data);
 
     // colors

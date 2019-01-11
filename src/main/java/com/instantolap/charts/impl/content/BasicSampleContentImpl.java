@@ -2,7 +2,7 @@ package com.instantolap.charts.impl.content;
 
 import com.instantolap.charts.*;
 import com.instantolap.charts.impl.animation.ContentAnimation;
-import com.instantolap.charts.impl.data.Palette;
+import com.instantolap.charts.impl.data.Theme;
 import com.instantolap.charts.impl.math.SimpleRegression;
 import com.instantolap.charts.renderer.ChartColor;
 import com.instantolap.charts.renderer.ChartFont;
@@ -19,7 +19,7 @@ public abstract class BasicSampleContentImpl extends BasicContentImpl
   implements SampleContent, HasValueLabels, HasValueAxis
 {
 
-  private final Palette palette;
+  private final Theme theme;
   private final static Runnable[] NO_LINK_RUNNABLES = new Runnable[3];
   private final List<Annotation> annotations = new ArrayList<>();
   private boolean showValueLabels, showSampleLabels, showSeriesLabels, showPercentLabels;
@@ -46,12 +46,12 @@ public abstract class BasicSampleContentImpl extends BasicContentImpl
   private ChartStroke regressionStroke;
   private int usedAxis = 0;
 
-  BasicSampleContentImpl(Palette palette) {
-    this.palette = palette;
+  BasicSampleContentImpl(Theme theme) {
+    this.theme = theme;
   }
 
-  public Palette getPalette() {
-    return palette;
+  public Theme getTheme() {
+    return theme;
   }
 
   @Override
@@ -316,7 +316,7 @@ public abstract class BasicSampleContentImpl extends BasicContentImpl
 
   @Override
   public ChartColor getLabelColor() {
-    return labelColor != null ? labelColor : getPalette().getTextColor();
+    return labelColor != null ? labelColor : getTheme().getTextColor();
   }
 
   @Override

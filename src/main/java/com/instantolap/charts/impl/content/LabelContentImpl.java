@@ -1,7 +1,7 @@
 package com.instantolap.charts.impl.content;
 
 import com.instantolap.charts.*;
-import com.instantolap.charts.impl.data.Palette;
+import com.instantolap.charts.impl.data.Theme;
 import com.instantolap.charts.renderer.ChartColor;
 import com.instantolap.charts.renderer.ChartException;
 import com.instantolap.charts.renderer.ChartFont;
@@ -12,8 +12,8 @@ public class LabelContentImpl extends BasicLabelContentImpl
   implements SampleValueRenderer, SampleSampleRenderer, ValueValueRenderer
 {
 
-  public LabelContentImpl(Palette palette) {
-    super(palette);
+  public LabelContentImpl(Theme theme) {
+    super(theme);
   }
 
   @Override

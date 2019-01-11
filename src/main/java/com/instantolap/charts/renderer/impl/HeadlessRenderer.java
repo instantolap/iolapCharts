@@ -1,6 +1,6 @@
 package com.instantolap.charts.renderer.impl;
 
-import com.instantolap.charts.impl.data.Palette;
+import com.instantolap.charts.impl.data.Theme;
 import com.instantolap.charts.renderer.*;
 import com.instantolap.charts.renderer.util.StringHelper;
 import org.slf4j.Logger;
@@ -31,7 +31,7 @@ public class HeadlessRenderer extends BasicRenderer {
       RenderingHints.VALUE_ANTIALIAS_ON
     );
 
-    setFont(new Palette().getDefaultFont());
+    setFont(new Theme().getDefaultFont());
   }
 
   @Override
@@ -110,7 +110,7 @@ public class HeadlessRenderer extends BasicRenderer {
   @Override
   public void setFont(ChartFont font) {
     if (font == null) {
-      font = new Palette().getDefaultFont();
+      font = new Theme().getDefaultFont();
     }
     int style = Font.PLAIN;
     if (font.isBold()) {

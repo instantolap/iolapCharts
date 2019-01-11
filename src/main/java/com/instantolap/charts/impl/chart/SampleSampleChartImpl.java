@@ -6,7 +6,7 @@ import com.instantolap.charts.SampleAxis;
 import com.instantolap.charts.SampleSampleChart;
 import com.instantolap.charts.impl.axis.SampleAxisImpl;
 import com.instantolap.charts.impl.content.SampleSampleRenderer;
-import com.instantolap.charts.impl.data.Palette;
+import com.instantolap.charts.impl.data.Theme;
 import com.instantolap.charts.renderer.ChartException;
 import com.instantolap.charts.renderer.ChartFont;
 import com.instantolap.charts.renderer.Renderer;
@@ -17,8 +17,8 @@ public class SampleSampleChartImpl extends BasicMultiAxisChartImpl implements Sa
   private final SampleAxisImpl sampleAxis1 = new SampleAxisImpl(0);
   private final SampleAxisImpl sampleAxis2 = new SampleAxisImpl(1);
 
-  public SampleSampleChartImpl(Palette palette) {
-    super(palette);
+  public SampleSampleChartImpl(Theme theme) {
+    super(theme);
 
     setAxes(sampleAxis1, sampleAxis2, null);
   }
