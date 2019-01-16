@@ -3,7 +3,10 @@ package com.instantolap.charts.renderer.impl;
 import com.instantolap.charts.Chart;
 import com.instantolap.charts.renderer.ChartException;
 import com.instantolap.charts.renderer.HasAnimation;
+import javafx.application.Platform;
 import javafx.scene.canvas.Canvas;
+
+import java.util.concurrent.CountDownLatch;
 
 public class FxChartPanel extends Canvas {
 
@@ -14,85 +17,104 @@ public class FxChartPanel extends Canvas {
   public FxChartPanel() {
     this.renderer = new FxRenderer(this) {
 
-      /*
       @Override
-      public void animate(final HasAnimation animated, final long duration)
-        throws ChartException {
+      public void animate(final HasAnimation animated, final long duration) {
         FxChartPanel.this.animated = animated;
         if (duration <= 0) {
-          animated.render(1);
+          Platform.runLater(() -> {
+            try {
+              animated.render(1);
+            } catch (ChartException e) {
+              e.printStackTrace();
+            }
+          });
           return;
         }
 
-        try {
-          final long start = System.currentTimeMillis();
-          while (true) {
+        new Thread() {
+          @Override
+          public void run() {
+            try {
+              final long start = System.currentTimeMillis();
+              while (true) {
 
-            final long d = System.currentTimeMillis() - start;
-            final double progress = Math.min(1, (double) d / duration);
+                final long d = System.currentTimeMillis() - start;
+                final double progress = Math.min(1, (double) d / duration);
+                final CountDownLatch countDownLatch = new CountDownLatch(1);
+                Platform.runLater(() -> {
+                  try {
+                    animated.render(progress);
+                  } catch (ChartException e) {
+                    e.printStackTrace();
+                  } finally {
+                    countDownLatch.countDown();
+                  }
+                });
+                countDownLatch.await();
 
-            animated.render(progress);
-
-            if (progress >= 1) {
-              break;
+                if (progress >= 1) {
+                  break;
+                }
+              }
+            } catch (Exception e) {
+              e.printStackTrace();
             }
           }
-        } catch (Exception e) {
-          e.printStackTrace();
-        }
-      }
-    */
-    };
+        }.start();
 
-    setOnMouseMoved(event -> {
-      try {
-        renderer.mouseListeners.fireMouseMove((int) event.getX(), (int) event.getY());
-        renderer.fireMouseMove((int) event.getX(), (int) event.getY());
-      } catch (Exception e) {
-        renderer.showError(e);
-      }
-    });
+        setOnMouseMoved(event -> {
+          try {
+            renderer.mouseListeners.fireMouseMove((int) event.getX(), (int) event.getY());
+            renderer.fireMouseMove((int) event.getX(), (int) event.getY());
+          } catch (Exception e) {
+            renderer.showError(e);
+          }
+        });
 
-    setOnMouseDragged(event -> {
-      renderer.mouseListeners.fireMouseMove((int) event.getX(), (int) event.getY());
-    });
+        setOnMouseDragged(event -> {
+          renderer.mouseListeners.fireMouseMove((int) event.getX(), (int) event.getY());
+        });
 
-    setOnMouseClicked(event -> {
-      renderer.fireMouseClick((int) event.getX(), (int) event.getY());
-    });
+        setOnMouseClicked(event -> {
+          renderer.fireMouseClick((int) event.getX(), (int) event.getY());
+        });
 
-    setOnMousePressed(event -> {
-      renderer.mouseListeners.fireMouseDown((int) event.getX(), (int) event.getY());
-    });
+        setOnMousePressed(event -> {
+          renderer.mouseListeners.fireMouseDown((int) event.getX(), (int) event.getY());
+        });
 
-    setOnMouseReleased(event -> {
-      renderer.mouseListeners.fireMouseUp((int) event.getX(), (int) event.getY());
-    });
+        setOnMouseReleased(event -> {
+          renderer.mouseListeners.fireMouseUp((int) event.getX(), (int) event.getY());
+        });
 
-    setOnMouseExited(event -> {
-      try {
-        renderer.fireMouseOut((int) event.getX(), (int) event.getY());
-      } catch (Exception e) {
-        renderer.showError(e);
-      }
-    });
+        setOnMouseExited(event -> {
+          try {
+            renderer.fireMouseOut((int) event.getX(), (int) event.getY());
+          } catch (Exception e) {
+            renderer.showError(e);
+          }
+        });
 
-    setOnScroll(event -> {
-        renderer.mouseListeners.fireMouseWheel(
-          (int) event.getX(), (int) event.getY(), (int) event.getDeltaY()
+        setOnScroll(event -> {
+            renderer.mouseListeners.fireMouseWheel(
+              (int) event.getX(), (int) event.getY(), (int) event.getDeltaY()
+            );
+          }
         );
       }
-    );
+    };
   }
 
   public void setChart(Chart chart) {
-    try {
-      this.chart = chart;
-      this.chart.setRenderer(renderer);
-      this.chart.render();
-    } catch (ChartException e) {
-      e.printStackTrace();
-    }
+    this.chart = chart;
+    this.chart.setRenderer(renderer);
+    Platform.runLater(() -> {
+      try {
+        this.chart.render();
+      } catch (ChartException e) {
+        e.printStackTrace();
+      }
+    });
   }
 
   @Override
@@ -129,12 +151,18 @@ public class FxChartPanel extends Canvas {
   public void resize(double width, double height) {
     super.setWidth(width);
     super.setHeight(height);
+    render(1);
+  }
+
+  private void render(double progress) {
     if (chart != null) {
-      try {
-        chart.render(1);
-      } catch (ChartException e) {
-        e.printStackTrace();
-      }
+      Platform.runLater(() -> {
+        try {
+          chart.render(progress);
+        } catch (ChartException e) {
+          e.printStackTrace();
+        }
+      });
     }
   }
 }
