@@ -22,19 +22,19 @@ public class RoundCanvasImpl extends BasicRoundCanvasImpl {
   public void render(
     double progress,
     Renderer r,
-    int x, int y,
-    int width, int height,
-    int cx, int cy,
-    int radius,
+    double x, double y,
+    double width, double height,
+    double cx, double cy,
+    double radius,
     Data data,
     Axis innerAxis,
     RoundAxis outerAxis, boolean isCentered)
   {
     super.render(anim, progress, r, x, y, width, height);
 
-    final int[] innerGrid = innerAxis.getGrid();
+    final double[] innerGrid = innerAxis.getGrid();
     final int innerLength = innerGrid.length;
-    final int[] outerGrid = outerAxis.getGrid();
+    final double[] outerGrid = outerAxis.getGrid();
     final int outerLength = outerGrid.length;
 
     final ChartColor bgColor = getScaleBackground();
@@ -50,8 +50,8 @@ public class RoundCanvasImpl extends BasicRoundCanvasImpl {
     final ChartColor border = getBorder();
     if (border != null) {
       final ChartStroke borderStroke = getBorderStroke();
-      final int bw = borderStroke.getWidth();
-      final int br = radius - bw / 2;
+      final double bw = borderStroke.getWidth();
+      final double br = radius - bw / 2;
       r.setStroke(borderStroke);
       r.setColor(border);
       r.drawCircle(cx - br, cy - br, br * 2);
@@ -90,8 +90,8 @@ public class RoundCanvasImpl extends BasicRoundCanvasImpl {
             continue;
           }
 
-          final int v0 = innerGrid[i - 1];
-          final int v1 = innerGrid[i];
+          final double v0 = innerGrid[i - 1];
+          final double v1 = innerGrid[i];
 
           r.setColor(bg);
           r.fillDonut(cx, cy, v0, v1, rad0, rad1, round);
@@ -104,16 +104,16 @@ public class RoundCanvasImpl extends BasicRoundCanvasImpl {
       r.setColor(gridColor);
       r.setStroke(gridStroke);
 
-      for (final int anOuterGrid : outerGrid) {
+      for (final double anOuterGrid : outerGrid) {
         final double rad =
           getRad(startAngle, stopAngle, anOuterGrid, outerAxis.getSize(), progress);
-        final int xx = (int) (Math.sin(rad) * radius);
-        final int yy = (int) (-Math.cos(rad) * radius);
+        final double xx = (Math.sin(rad) * radius);
+        final double yy = (-Math.cos(rad) * radius);
         r.drawLine(cx, cy, cx + xx, cy + yy);
       }
 
       if (round) {
-        for (final int v : innerGrid) {
+        for (final double v : innerGrid) {
           r.drawDonut(cx, cy, v, v, startAngle, stopAngle, true);
         }
       } else {
@@ -127,7 +127,7 @@ public class RoundCanvasImpl extends BasicRoundCanvasImpl {
           final double rad1 =
             getRad(startAngle, stopAngle, outerGrid[n], outerAxis.getSize(), progress);
 
-          for (final int v : innerGrid) {
+          for (final double v : innerGrid) {
             r.drawDonut(cx, cy, v, v, rad0, rad1, false);
           }
         }
@@ -161,7 +161,7 @@ public class RoundCanvasImpl extends BasicRoundCanvasImpl {
     if (baseLineColor != null) {
       if (innerAxis instanceof ValueAxis) {
         final ValueAxis scale = (ValueAxis) innerAxis;
-        int v = scale.getRadius(0);
+        double v = scale.getRadius(0);
         r.setColor(baseLineColor);
         if (round) {
           r.drawDonut(cx, cy, v, v, startAngle, stopAngle, true);
@@ -172,7 +172,7 @@ public class RoundCanvasImpl extends BasicRoundCanvasImpl {
             final double rad1 =
               getRad(startAngle, stopAngle, outerGrid[n], outerAxis.getSize(), progress);
 
-            for (final int anInnerGrid : innerGrid) {
+            for (final double anInnerGrid : innerGrid) {
               r.drawDonut(cx, cy, v, v, rad0, rad1, false);
             }
           }
@@ -197,7 +197,7 @@ public class RoundCanvasImpl extends BasicRoundCanvasImpl {
               final double rad1 =
                 getRad(startAngle, stopAngle, outerGrid[n], outerAxis.getSize(), progress);
 
-              for (final int anInnerGrid : innerGrid) {
+              for (final double anInnerGrid : innerGrid) {
                 r.drawDonut(cx, cy, v, v, rad0, rad1, false);
               }
             }
@@ -208,7 +208,7 @@ public class RoundCanvasImpl extends BasicRoundCanvasImpl {
     }
   }
 
-  private double getRad(double start, double end, double n, int count, double progress) {
+  private double getRad(double start, double end, double n, double count, double progress) {
     double rad = (n / count) * (end - start) + start;
     rad -= (1 - progress) * 0.1 * Math.PI;
     return rad;

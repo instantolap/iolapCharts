@@ -10,7 +10,7 @@ public abstract class BasicLabelContentImpl extends BasicContentImpl implements 
 
   private final Theme theme;
   private String text;
-  private int x, y;
+  private double x, y;
   private ChartFont font;
   private ChartColor color;
 
@@ -33,22 +33,22 @@ public abstract class BasicLabelContentImpl extends BasicContentImpl implements 
   }
 
   @Override
-  public int getX() {
+  public double getX() {
     return x;
   }
 
   @Override
-  public void setX(int x) {
+  public void setX(double x) {
     this.x = x;
   }
 
   @Override
-  public int getY() {
+  public double getY() {
     return y;
   }
 
   @Override
-  public void setY(int y) {
+  public void setY(double y) {
     this.y = y;
   }
 

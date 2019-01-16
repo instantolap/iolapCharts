@@ -74,7 +74,7 @@ public class RoundChartImpl extends BasicRoundChartImpl {
   }
 
   @Override
-  protected void render(double progress, int x, int y, int width, int height)
+  protected void render(double progress, double x, double y, double width, double height)
     throws ChartException {
     final Renderer r = getRenderer();
 
@@ -90,7 +90,7 @@ public class RoundChartImpl extends BasicRoundChartImpl {
     final ChartColor innerBorderColor = getInnerBorder();
     ChartStroke innerBorderStroke = getInnerBorderStroke();
 
-    int outerRadius = 0, innerRadius = 0;
+    double outerRadius = 0, innerRadius = 0;
     for (int n = 0; n < 2; n++) {
       outerRadius = outerAxis.getRadius(r, width, height);
 
@@ -103,12 +103,12 @@ public class RoundChartImpl extends BasicRoundChartImpl {
       }
       innerAxis.setData(innerRadius, r, 0, isStacked, isCentered, true, 0);
 
-      final int size = (int) (2 * Math.PI * innerRadius);
+      final double size =(2 * Math.PI * innerRadius);
       outerAxis.setData(size, r, 0, isStacked, isCentered, false, 0);
     }
 
-    final int cx = x + width / 2;
-    final int cy = y + height / 2;
+    final double cx = x + width / 2;
+    final double cy = y + height / 2;
 
     // paint inner (round) border
     if (innerBorderColor != null) {
@@ -116,7 +116,7 @@ public class RoundChartImpl extends BasicRoundChartImpl {
         innerBorderStroke = ChartStroke.DEFAULT;
       }
       r.setStroke(innerBorderStroke);
-      final int br = outerRadius - innerBorderStroke.getWidth() / 2;
+      final double br = outerRadius - innerBorderStroke.getWidth() / 2;
       r.setColor(innerBorderColor);
       r.drawDonut(cx, cy, br, br, 0, Math.PI * 2, true);
       r.resetStroke();
@@ -136,9 +136,9 @@ public class RoundChartImpl extends BasicRoundChartImpl {
       isCentered
     );
 
-    final int innerX = cx - innerRadius;
-    final int innerY = cy - innerRadius;
-    final int innerSize = 2 * innerRadius;
+    final double innerX = cx - innerRadius;
+    final double innerY = cy - innerRadius;
+    final double innerSize = 2 * innerRadius;
 
     // paint axes
     outerAxis.setRadius(innerRadius);
@@ -147,7 +147,7 @@ public class RoundChartImpl extends BasicRoundChartImpl {
     }
 
     if (innerAxis.isVisible()) {
-      final int axisWidth = innerAxis.getNeededSize();
+      final double axisWidth = innerAxis.getNeededSize();
       innerAxis.render(
         r, cx - axisWidth, cy - innerRadius, axisWidth, height, true, true, font
       );

@@ -36,12 +36,11 @@ public class LineContentImpl extends BasicLineContentImpl implements SampleValue
     double progress,
     Renderer r,
     Data data,
-    int x, int y,
-    int width, int height,
+    double x, double y,
+    double width, double height,
     PositionAxis xAxis, ValueAxis yAxis,
     boolean isStacked, boolean isCentered, boolean isRotated,
-    ChartFont font, ChartColor background) throws ChartException
-  {
+    ChartFont font, ChartColor background) throws ChartException {
     final Cube cube = getCube();
     if (cube == null) {
       return;
@@ -66,8 +65,8 @@ public class LineContentImpl extends BasicLineContentImpl implements SampleValue
     final int size0 = cube.getSampleCount(0);
     final int size1 = (dimensions >= 2) ? cube.getSampleCount(1) : 1;
 
-    final int xOffset = getShadowXOffset();
-    final int yOffset = getShadowYOffset();
+    final double xOffset = getShadowXOffset();
+    final double yOffset = getShadowYOffset();
 
     final PolynomialSplineFunction[][] cubics =
       buildInterpolations(spline, cube, anim, yAxis, progress, isStacked);
@@ -93,7 +92,7 @@ public class LineContentImpl extends BasicLineContentImpl implements SampleValue
         final double bar = (double) c0 / (double) (size0 - 1);
 
         // centered?
-        final int xx = xAxis.getSamplePosition(cube, c0);
+        final double xx = xAxis.getSamplePosition(cube, c0);
         double avgY = 0, avgCount = 0;
         for (int c1 = 0; c1 < size1; c1++) {
           if (!cube.isVisible(1, c1)) {
@@ -114,7 +113,7 @@ public class LineContentImpl extends BasicLineContentImpl implements SampleValue
           if (maxValue != null) {
 
             // find lower and higher y
-            final int yMax = yAxis.getPosition(anim.getValue(progress, bar, maxValue));
+            final double yMax = yAxis.getPosition(anim.getValue(progress, bar, maxValue));
 
             boolean isLastValue = true;
             if (isStacked) {
@@ -142,8 +141,8 @@ public class LineContentImpl extends BasicLineContentImpl implements SampleValue
               final Double prevMaxValue = cube.get(yMeasure, prevSample, c1);
               if (prevMaxValue != null) {
 
-                final int px = xAxis.getSamplePosition(cube, prevSample);
-                final int pyMax = yAxis.getPosition(anim.getValue(progress, bar, prevMaxValue));
+                final double px = xAxis.getSamplePosition(cube, prevSample);
+                final double pyMax = yAxis.getPosition(anim.getValue(progress, bar, prevMaxValue));
 
                 switch (pass) {
                   case 0:
@@ -180,18 +179,17 @@ public class LineContentImpl extends BasicLineContentImpl implements SampleValue
                           prevMinValue = 0.0;
                         }
 
-                        final int yMin = yAxis.getPosition(anim.getValue(progress, bar, minValue));
-                        final int pyMin =
-                          yAxis.getPosition(anim.getValue(progress, bar, prevMinValue));
+                        final double yMin = yAxis.getPosition(anim.getValue(progress, bar, minValue));
+                        final double pyMin = yAxis.getPosition(anim.getValue(progress, bar, prevMinValue));
 
-                        final int[] xp;
-                        final int[] yp;
+                        final double[] xp;
+                        final double[] yp;
                         if (stepLine) {
-                          xp = new int[]{px, xx, xx, px};
-                          yp = new int[]{yMax, yMax, yMin, yMin};
+                          xp = new double[]{px, xx, xx, px};
+                          yp = new double[]{yMax, yMax, yMin, yMin};
                         } else {
-                          xp = new int[]{px, xx, xx, px};
-                          yp = new int[]{pyMax, yMax, yMin, pyMin};
+                          xp = new double[]{px, xx, xx, px};
+                          yp = new double[]{pyMax, yMax, yMin, pyMin};
                         }
 
                         if (isRotated) {
@@ -256,8 +254,8 @@ public class LineContentImpl extends BasicLineContentImpl implements SampleValue
               case 3:
                 // draw symbol
                 if (symbolWidth > 0) {
-                  int sx = x + xx;
-                  int sy = y + yMax;
+                  double sx = x + xx;
+                  double sy = y + yMax;
                   if (isRotated) {
                     sx = x + yMax;
                     sy = y + xx;
@@ -289,12 +287,12 @@ public class LineContentImpl extends BasicLineContentImpl implements SampleValue
                 if (progress >= 1) {
                   final String text = r.format(format, maxValue);
 
-                  final int cx;
-                  final int cy;
-                  final int rectX;
-                  final int rectY;
-                  final int rectHeight = symbolWidth;
-                  final int rectWidth = symbolWidth;
+                  final double cx;
+                  final double cy;
+                  final double rectX;
+                  final double rectY;
+                  final double rectHeight = symbolWidth;
+                  final double rectWidth = symbolWidth;
                   if (isRotated) {
                     cx = x + yMax;
                     cy = y + xx;
@@ -327,8 +325,8 @@ public class LineContentImpl extends BasicLineContentImpl implements SampleValue
                   if (isShowPopup() || (linkCommands[0] != null)) {
                     final String popupText = buildPopupText(cube, c0, c1, text);
 
-                    final int wAdd = Math.max(rectWidth, 6);
-                    final int hAdd = Math.max(rectHeight, 6);
+                    final double wAdd = Math.max(rectWidth, 6);
+                    final double hAdd = Math.max(rectHeight, 6);
                     r.addPopup(cx - wAdd / 2, cy - hAdd / 2,
                       wAdd, hAdd, 0, anchor, popupText,
                       getPopupFont(), linkCommands[0],
@@ -347,7 +345,7 @@ public class LineContentImpl extends BasicLineContentImpl implements SampleValue
                       LabelDrawer.drawInsideOutside(r, rectX,
                         rectY, rectHeight, rectWidth,
                         getLabelSpacing(), anchor,
-                        getLabelAngle(), c, c, label
+                        getLabelAngle(), c, c, label, getValueLabelType()
                       );
                     }
                   }
@@ -368,9 +366,8 @@ public class LineContentImpl extends BasicLineContentImpl implements SampleValue
   }
 
   private PolynomialSplineFunction[][] buildInterpolations(boolean spline,
-    Cube cube, ContentAnimation anim, ValueAxis yAxis, double progress,
-    boolean isStacked)
-  {
+                                                           Cube cube, ContentAnimation anim, ValueAxis yAxis, double progress,
+                                                           boolean isStacked) {
     PolynomialSplineFunction[][] cubics = null;
     if (spline) {
       final int size0 = cube.getSampleCount(0);
@@ -386,7 +383,7 @@ public class LineContentImpl extends BasicLineContentImpl implements SampleValue
           final Double max = cube.get(getMeasure(), c0, c1);
           if (max != null) {
             maxX.add(c0);
-            int dy = yAxis.getPosition(anim.getValue(progress, progress0, max));
+            double dy = yAxis.getPosition(anim.getValue(progress, progress0, max));
             maxV.add(dy);
 
             Double min = null;
@@ -425,27 +422,26 @@ public class LineContentImpl extends BasicLineContentImpl implements SampleValue
     return prevSample;
   }
 
-  private void splineFill(Renderer r, double progress, double bar, int x,
-    int y, ContentAnimation anim, Cube cube,
-    PolynomialSplineFunction[][] cubics, int series,
-    Integer startSeries, int prevSample, int sample, ValueAxis yAxis,
-    PositionAxis sampleAxis)
-  {
-    final int startX = sampleAxis.getSamplePosition(cube, prevSample);
-    final int endX = sampleAxis.getSamplePosition(cube, sample);
-    final int[] xx = new int[(endX - startX + 1) * 2];
-    final int[] yy = new int[xx.length];
+  private void splineFill(Renderer r, double progress, double bar, double x,
+                          double y, ContentAnimation anim, Cube cube,
+                          PolynomialSplineFunction[][] cubics, int series,
+                          Integer startSeries, int prevSample, int sample, ValueAxis yAxis,
+                          PositionAxis sampleAxis) {
+    final double startX = sampleAxis.getSamplePosition(cube, prevSample);
+    final double endX = sampleAxis.getSamplePosition(cube, sample);
+    final double[] xx = new double[(int) ((endX - startX + 1) * 2)];
+    final double[] yy = new double[xx.length];
     int pos = 0;
-    for (int dx = startX; dx <= endX; dx++) {
+    for (double dx = startX; dx <= endX; dx++) {
       final double p = (double) (dx - startX) / (double) (endX - startX);
       final double vx = prevSample + p * (sample - prevSample);
-      final int yMin;
+      final double yMin;
       if (startSeries != null) {
-        yMin = (int) cubics[startSeries][1].value(vx);
+        yMin =  cubics[startSeries][1].value(vx);
       } else {
-        yMin = (int) cubics[series][0].value(vx);
+        yMin = cubics[series][0].value(vx);
       }
-      final int yMax = (int) cubics[series][1].value(vx);
+      final double yMax = cubics[series][1].value(vx);
       xx[pos] = x + dx;
       xx[xx.length - pos - 1] = x + dx;
       yy[pos] = y + yMax;
@@ -456,11 +452,10 @@ public class LineContentImpl extends BasicLineContentImpl implements SampleValue
   }
 
   private void drawLine(Renderer r, PositionAxis xAxis, ValueAxis yAxis,
-    int x, int y, boolean isRotated, boolean spline, boolean stepLine,
-    Cube cube, PolynomialSplineFunction[][] cubics, int xx, int yMax,
-    int prevSample, int px, int pyMax, int c0, int c1, double progress,
-    double bar)
-  {
+                        double x, double y, boolean isRotated, boolean spline, boolean stepLine,
+                        Cube cube, PolynomialSplineFunction[][] cubics, double xx, double yMax,
+                        int prevSample, double px, double pyMax, int c0, int c1, double progress,
+                        double bar) {
     final ContentAnimation anim = getAnimation();
 
     if (isRotated) {
@@ -493,20 +488,19 @@ public class LineContentImpl extends BasicLineContentImpl implements SampleValue
     return result;
   }
 
-  private void spline(Renderer r, double progress, double bar, int x, int y,
-    ContentAnimation anim, Cube cube,
-    PolynomialSplineFunction[][] cubics, int series, int prevSample,
-    int sample, PositionAxis sampleAxis)
-  {
-    final int startX = sampleAxis.getSamplePosition(cube, prevSample);
-    final int endX = sampleAxis.getSamplePosition(cube, sample);
-    final int[] xx = new int[endX - startX + 1];
-    final int[] yy = new int[xx.length];
-    int pos = 0;
-    for (int dx = startX; dx <= endX; dx++) {
+  private void spline(Renderer r, double progress, double bar, double x, double y,
+                      ContentAnimation anim, Cube cube,
+                      PolynomialSplineFunction[][] cubics, int series, int prevSample,
+                      int sample, PositionAxis sampleAxis) {
+    final double startX = sampleAxis.getSamplePosition(cube, prevSample);
+    final double endX = sampleAxis.getSamplePosition(cube, sample);
+    final double[] xx = new double[(int) (endX - startX + 1)];
+    final double[] yy = new double[xx.length];
+    int pos =  0;
+    for (double dx = startX; dx <= endX; dx++) {
       final double p = (double) (dx - startX) / (double) (endX - startX);
       final double vx = prevSample + p * (sample - prevSample);
-      final int dy = (int) cubics[series][1].value(vx);
+      final double dy = cubics[series][1].value(vx);
       xx[pos] = x + dx;
       yy[pos] = y + dy;
       pos++;

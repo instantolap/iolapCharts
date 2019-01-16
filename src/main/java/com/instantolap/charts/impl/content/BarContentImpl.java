@@ -33,8 +33,8 @@ public class BarContentImpl extends BasicBarContentImpl implements SampleValueRe
     double progress,
     Renderer r,
     Data data,
-    int x, int y,
-    int width, int height,
+    double x, double y,
+    double width, double height,
     PositionAxis xAxis, ValueAxis yAxis,
     boolean isStacked,
     boolean isCentered,
@@ -65,15 +65,15 @@ public class BarContentImpl extends BasicBarContentImpl implements SampleValueRe
     final ContentAnimation anim = getAnimation();
 
     final double barWidthPercent = getBarWidth();
-    final int barSpacing = getBarSpacing();
-    int barPadding = (int) ((xAxis.getSampleWidth() * (1 - barWidthPercent)) / 2);
+    final double barSpacing = getBarSpacing();
+    double barPadding = ((xAxis.getSampleWidth() * (1 - barWidthPercent)) / 2);
 
     final int size0 = cube.getSampleCount(0);
     final int size1 = Math.max(cube.getSampleCount(1), 1);
     final int visibleSize1 = Math.max(cube.getVisibleSampleCount(1), 1);
 
-    final int xShadowOffset = getShadowXOffset();
-    final int yShadowOffset = getShadowYOffset();
+    final double xShadowOffset = getShadowXOffset();
+    final double yShadowOffset = getShadowYOffset();
 
     x = anim.getX(progress, x, width, height);
     y = anim.getY(progress, y, width, height);
@@ -84,11 +84,10 @@ public class BarContentImpl extends BasicBarContentImpl implements SampleValueRe
     if (!isStacked) {
       barWidth -= (visibleSize1 - 1) * barSpacing;
       barWidth /= visibleSize1;
-      barPadding = (int) (
-        (xAxis.getSampleWidth() - (visibleSize1 * barWidth) - (visibleSize1 - 1) * barSpacing) / 2);
+      barPadding =  (xAxis.getSampleWidth() - (visibleSize1 * barWidth) - (visibleSize1 - 1) * barSpacing) / 2;
     }
 
-    int realBarWidth = (int) barWidth;
+    double realBarWidth = barWidth;
     realBarWidth -= realBarWidth % 2;
     realBarWidth = Math.max(realBarWidth, 1);
 
@@ -105,7 +104,7 @@ public class BarContentImpl extends BasicBarContentImpl implements SampleValueRe
           bar = 0;
         }
 
-        int xx = xAxis.getSamplePosition(cube, c0) + barPadding;
+        double xx = xAxis.getSamplePosition(cube, c0) + barPadding;
         if (!isCentered) {
           xx -= sampleWidth / 2;
         }
@@ -131,11 +130,11 @@ public class BarContentImpl extends BasicBarContentImpl implements SampleValueRe
             }
 
             // find lower and higher y
-            final int y0 = yAxis.getPosition(anim.getValue(progress, bar, lowerValue));
-            final int y1 = yAxis.getPosition(anim.getValue(progress, bar, upperValue));
+            final double y0 = yAxis.getPosition(anim.getValue(progress, bar, lowerValue));
+            final double y1 = yAxis.getPosition(anim.getValue(progress, bar, upperValue));
 
-            final int by = Math.min(y0, y1);
-            final int bh = Math.abs(y0 - y1);
+            final double by = Math.min(y0, y1);
+            final double bh = Math.abs(y0 - y1);
 
             // use specific color?
             boolean newColor = false;
@@ -157,7 +156,7 @@ public class BarContentImpl extends BasicBarContentImpl implements SampleValueRe
             }
 
             // get min / max
-            Integer yMin = null;
+            Double yMin = null;
             if (getMinMeasure() != null) {
               final Double minValue = cube.get(getMinMeasure(), c0, c1);
               if (minValue != null) {
@@ -165,7 +164,7 @@ public class BarContentImpl extends BasicBarContentImpl implements SampleValueRe
               }
             }
 
-            Integer yMax = null;
+            Double yMax = null;
             if (getMaxMeasure() != null) {
               final Double maxValue = cube.get(getMaxMeasure(), c0, c1);
               if (maxValue != null) {
@@ -191,7 +190,7 @@ public class BarContentImpl extends BasicBarContentImpl implements SampleValueRe
             }
 
             // bar position
-            final int rectX, rectY, rectWidth, rectHeight;
+            final double rectX, rectY, rectWidth, rectHeight;
             if (isRotated) {
               rectX = x + by;
               rectY = y + xx;
@@ -226,9 +225,9 @@ public class BarContentImpl extends BasicBarContentImpl implements SampleValueRe
 
                 // shine effect
                 double shine = getShine();
-                int shineSize = (int) shine;
+                double shineSize = shine;
                 if (shine <= 1) {
-                  shineSize = (int) ((realBarWidth / 2.0) * shine);
+                  shineSize = ((realBarWidth / 2.0) * shine);
                 }
                 shine = Math.min(shine, realBarWidth / 2.0);
 
@@ -257,7 +256,7 @@ public class BarContentImpl extends BasicBarContentImpl implements SampleValueRe
                   r.setColor(sampleColor);
                 }
 
-                final int xc = xx + realBarWidth / 2;
+                final double xc = xx + realBarWidth / 2;
 
                 if (yMax != null) {
                   if (isRotated) {
@@ -344,7 +343,7 @@ public class BarContentImpl extends BasicBarContentImpl implements SampleValueRe
                         anchor,
                         getLabelAngle(),
                         color1, color2,
-                        text
+                        text, getValueLabelType()
                       );
                     }
                   }

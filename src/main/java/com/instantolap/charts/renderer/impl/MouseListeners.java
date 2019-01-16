@@ -14,7 +14,7 @@ public class MouseListeners {
   private boolean isDragging;
   private int startX, startY;
 
-  public void addMouseListener(int x, int y, int width, int height, ChartMouseListener listener) {
+  public void addMouseListener(double x,double y, double width, double height, ChartMouseListener listener) {
     areas.add(new RectAreaListener(x, y, width, height, listener));
   }
 

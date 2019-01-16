@@ -21,46 +21,30 @@ public class FxChartPanel extends Canvas {
       public void animate(final HasAnimation animated, final long duration) {
         FxChartPanel.this.animated = animated;
         if (duration <= 0) {
-          Platform.runLater(() -> {
-            try {
-              animated.render(1);
-            } catch (ChartException e) {
-              e.printStackTrace();
-            }
-          });
+          render(1, null);
           return;
         }
 
-        new Thread() {
-          @Override
-          public void run() {
-            try {
-              final long start = System.currentTimeMillis();
-              while (true) {
+        new Thread(() -> {
+          try {
+            final long start = System.currentTimeMillis();
+            while (true) {
 
-                final long d = System.currentTimeMillis() - start;
-                final double progress = Math.min(1, (double) d / duration);
-                final CountDownLatch countDownLatch = new CountDownLatch(1);
-                Platform.runLater(() -> {
-                  try {
-                    animated.render(progress);
-                  } catch (ChartException e) {
-                    e.printStackTrace();
-                  } finally {
-                    countDownLatch.countDown();
-                  }
-                });
-                countDownLatch.await();
+              final long d = System.currentTimeMillis() - start;
+              final double progress = Math.min(1, (double) d / duration);
 
-                if (progress >= 1) {
-                  break;
-                }
+              final CountDownLatch countDownLatch = new CountDownLatch(1);
+              render(progress, countDownLatch);
+              countDownLatch.await();
+
+              if (progress >= 1) {
+                break;
               }
-            } catch (Exception e) {
-              e.printStackTrace();
             }
+          } catch (Exception e) {
+            e.printStackTrace();
           }
-        }.start();
+        }).start();
 
         setOnMouseMoved(event -> {
           try {
@@ -119,7 +103,7 @@ public class FxChartPanel extends Canvas {
 
   @Override
   public double minHeight(double width) {
-    return 64;
+    return 10;
   }
 
   @Override
@@ -134,7 +118,7 @@ public class FxChartPanel extends Canvas {
 
   @Override
   public double minWidth(double height) {
-    return 0;
+    return 10;
   }
 
   @Override
@@ -151,16 +135,20 @@ public class FxChartPanel extends Canvas {
   public void resize(double width, double height) {
     super.setWidth(width);
     super.setHeight(height);
-    render(1);
+    render(1, null);
   }
 
-  private void render(double progress) {
+  private void render(double progress, CountDownLatch latch) {
     if (chart != null) {
       Platform.runLater(() -> {
         try {
           chart.render(progress);
         } catch (ChartException e) {
           e.printStackTrace();
+        } finally {
+          if (latch != null) {
+            latch.countDown();
+          }
         }
       });
     }

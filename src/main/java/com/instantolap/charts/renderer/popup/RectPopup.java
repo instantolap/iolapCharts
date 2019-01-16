@@ -5,10 +5,10 @@ import com.instantolap.charts.renderer.impl.BasicRenderer;
 
 
 public class RectPopup extends Popup {
-  public int x, y, width, height;
+  public double x, y, width, height;
 
   @Override
-  public boolean isInside(Renderer r, int x, int y) {
+  public boolean isInside(Renderer r, double x, double y) {
     if ((x >= this.x) && (x <= this.x + this.width)) {
       if ((y >= this.y) && (y <= this.y + this.height)) {
         return true;
@@ -23,8 +23,8 @@ public class RectPopup extends Popup {
       return;
     }
 
-    final int x;
-    final int y;
+    final double x;
+    final double y;
     switch (anchor) {
       case Renderer.EAST:
         x = this.x + width;

@@ -25,9 +25,9 @@ public interface HeatMapContent extends SampleContent, HasValueLabels {
 
   void setSymbolAutoSize(boolean draw);
 
-  int getMinTickSize();
+  double getMinTickSize();
 
-  void setMinTickSize(int minSize);
+  void setMinTickSize(double minSize);
 
   boolean isSymbolAutoColor();
 
@@ -37,9 +37,9 @@ public interface HeatMapContent extends SampleContent, HasValueLabels {
 
   void setFill(boolean fill);
 
-  int getFillPadding();
+  double getFillPadding();
 
-  void setFillPadding(int padding);
+  void setFillPadding(double padding);
 
 
   class HeatColor {

@@ -30,8 +30,8 @@ public class MeterContentImpl extends BasicMeterContentImpl implements SampleVal
   }
 
   @Override
-  public void render(double progress, Renderer r, Data data, int x, int y,
-    int width, int height, PositionAxis xAxis, ValueAxis yAxis,
+  public void render(double progress, Renderer r, Data data, double x, double y,
+                     double width, double height, PositionAxis xAxis, ValueAxis yAxis,
     boolean isStacked, boolean isCentered, boolean isRotated,
     ChartFont font, ChartColor background) throws ChartException
   {
@@ -57,19 +57,19 @@ public class MeterContentImpl extends BasicMeterContentImpl implements SampleVal
       labelFont = font;
     }
 
-    final int xOffset = getShadowXOffset();
-    final int yOffset = getShadowYOffset();
+    final double xOffset = getShadowXOffset();
+    final double yOffset = getShadowYOffset();
 
-    final int cx = x + width / 2;
-    final int cy = y + height / 2;
-    final int radius = Math.min(width / 2, height / 2);
-    final int size = radius - Math.max(xOffset, yOffset);
+    final double cx = x + width / 2;
+    final double cy = y + height / 2;
+    final double radius = Math.min(width / 2, height / 2);
+    final double size = radius - Math.max(xOffset, yOffset);
 
     final int size0 = cube.getSampleCount(0);
     final int size1 = (dimensions >= 2) ? cube.getSampleCount(1) : 1;
 
-    final int pinSize = (int) (radius * getPinSize());
-    int labelY = cy + radius / 2;
+    final double pinSize = (radius * getPinSize());
+    double labelY = cy + radius / 2;
 
     // draw slices
     ChartColor latestColor = null;
@@ -117,22 +117,22 @@ public class MeterContentImpl extends BasicMeterContentImpl implements SampleVal
                   continue;
                 }
 
-                final int tx = (int) (cx + Math.sin(arc) * size);
-                final int ty = (int) (cy - Math.cos(arc) * size);
+                final double tx = (cx + Math.sin(arc) * size);
+                final double ty = (cy - Math.cos(arc) * size);
 
                 final double arc0 = arc - Math.PI / 2;
                 final double arc1 = arc + Math.PI / 2;
                 final double oppSize = -size * 0.15;
 
-                final int x0 = (int) (cx + Math.sin(arc0) * pinSize);
-                final int y0 = (int) (cy - Math.cos(arc0) * pinSize);
-                final int x1 = (int) (cx + Math.sin(arc1) * pinSize);
-                final int y1 = (int) (cy - Math.cos(arc1) * pinSize);
-                final int xOpp = (int) (cx + Math.sin(arc) * oppSize);
-                final int yOpp = (int) (cy - Math.cos(arc) * oppSize);
+                final double x0 =  (cx + Math.sin(arc0) * pinSize);
+                final double y0 = (cy - Math.cos(arc0) * pinSize);
+                final double x1 = (cx + Math.sin(arc1) * pinSize);
+                final double y1 = (cy - Math.cos(arc1) * pinSize);
+                final double xOpp = (cx + Math.sin(arc) * oppSize);
+                final double yOpp = (cy - Math.cos(arc) * oppSize);
 
-                final int[] xx = new int[]{xOpp, x0, tx, x1};
-                final int[] yy = new int[]{yOpp, y0, ty, y1};
+                final double[] xx = new double[]{xOpp, x0, tx, x1};
+                final double[] yy = new double[]{yOpp, y0, ty, y1};
 
                 // shadow
                 if (shadowColor != null) {

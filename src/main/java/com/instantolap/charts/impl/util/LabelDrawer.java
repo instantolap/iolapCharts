@@ -1,7 +1,10 @@
 package com.instantolap.charts.impl.util;
 
+import com.instantolap.charts.HasValueLabels.ValueLabelType;
 import com.instantolap.charts.renderer.ChartColor;
 import com.instantolap.charts.renderer.Renderer;
+
+import static com.instantolap.charts.HasValueLabels.ValueLabelType.OUTSIDE;
 
 
 public class LabelDrawer {
@@ -10,7 +13,9 @@ public class LabelDrawer {
   // round labels
   // =========================================================================
 
-  public static void roundOutsideLabel(Renderer r, int x, int y, int len, double a, String text) {
+  public static void roundOutsideLabel(
+    Renderer r, double x, double y, double len, double a, String text
+  ) {
 
     // calc anchor
     final int anchor = getAnchor(a);
@@ -40,7 +45,9 @@ public class LabelDrawer {
     return anchor;
   }
 
-  public static void roundInsideLabel(Renderer r, int x, int y, int len, double a, String text) {
+  public static void roundInsideLabel(
+    Renderer r, double x, double y, double len, double a, String text
+  ) {
 
     // calc anchor
     final int anchor = invertAnchor(getAnchor(a));
@@ -71,15 +78,18 @@ public class LabelDrawer {
   // rect labels
   // =========================================================================
 
-  public static void drawInsideOutside(Renderer r, int x, int y, int h, int w, int s, int anchor,
-    int rotation, ChartColor outsideColor, ChartColor insideColor, String text)
-  {
+  public static void drawInsideOutside(
+    Renderer r,
+    double x, double y, double h, double w, double s,
+    int anchor, double rotation, ChartColor outsideColor, ChartColor insideColor, String text,
+    ValueLabelType type
+  ) {
     final double[] size = r.getTextSize(text, rotation);
 
     switch (anchor) {
       case Renderer.EAST:
       case Renderer.WEST:
-        if ((size[0] + 2 * s > w) || (size[1] > h)) {
+        if (type == OUTSIDE || (size[0] + 2 * s > w) || (size[1] > h)) {
           r.setColor(outsideColor);
           drawOutside(r, x, y, h, w, s, anchor, rotation, text);
         } else {
@@ -89,7 +99,7 @@ public class LabelDrawer {
         break;
       case Renderer.NORTH:
       case Renderer.SOUTH:
-        if ((size[1] + 2 * s > h) || (size[0] > w)) {
+        if (type == OUTSIDE || (size[1] + 2 * s > h) || (size[0] > w)) {
           r.setColor(outsideColor);
           drawOutside(r, x, y, h, w, s, anchor, rotation, text);
         } else {
@@ -100,9 +110,11 @@ public class LabelDrawer {
     }
   }
 
-  public static void drawOutside(Renderer r, int x, int y, int h, int w, int s, int anchor,
-    int rotation, String text)
-  {
+  public static void drawOutside(
+    Renderer r,
+    double x, double y, double h, double w, double s,
+    int anchor, double rotation, String text
+  ) {
     switch (anchor) {
       case Renderer.EAST:
         r.drawText(x + w + s, y + h / 2, text, rotation, Renderer.WEST);
@@ -119,9 +131,11 @@ public class LabelDrawer {
     }
   }
 
-  public static void drawInside(Renderer r, int x, int y, int h, int w, int s, int anchor,
-    int rotation, String text)
-  {
+  public static void drawInside(
+    Renderer r,
+    double x, double y, double h, double w, double s,
+    int anchor, double rotation, String text
+  ) {
     switch (anchor) {
       case Renderer.EAST:
         r.drawText(x + w - s, y + h / 2, text, rotation, Renderer.EAST);

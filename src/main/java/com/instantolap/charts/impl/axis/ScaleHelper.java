@@ -41,15 +41,12 @@ public class ScaleHelper {
     return pattern.toString();
   }
 
-  public static double findBestScale(double min, double max, int height,
-    int minGridSize)
-  {
+  public static double findBestScale(double min, double max, double height, double minGridSize) {
     if (height <= 0
       || Double.isInfinite(max)
       || Double.isNaN(max)
       || Double.isInfinite(min)
-      || Double.isNaN(min))
-    {
+      || Double.isNaN(min)) {
       return 1;
     }
 
@@ -92,7 +89,7 @@ public class ScaleHelper {
     return step;
   }
 
-  public static double findBestTimeScale(long min, long max, int height, int minGridSize) {
+  public static double findBestTimeScale(long min, long max, double height, double minGridSize) {
     if (height <= 0) {
       return 1;
     }
@@ -103,7 +100,7 @@ public class ScaleHelper {
     }
 
     for (long scale : TIME_SCALES) {
-      final int size = (int) (height / (diff / scale));
+      final double size = height / (diff / scale);
       if (size >= minGridSize) {
         return scale;
       }

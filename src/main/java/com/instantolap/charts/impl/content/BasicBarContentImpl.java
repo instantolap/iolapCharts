@@ -9,7 +9,7 @@ import com.instantolap.charts.renderer.ChartColor;
 public abstract class BasicBarContentImpl extends BasicSampleContentImpl implements BarContent {
 
   private double barWidth = 0.5;
-  private int barSpacing = 1;
+  private double barSpacing = 1;
   private boolean isMultiColor = false;
   private String measure = Cube.MEASURE_VALUE;
   private String lowerMeasure = Cube.MEASURE_LOWER;
@@ -42,12 +42,12 @@ public abstract class BasicBarContentImpl extends BasicSampleContentImpl impleme
   }
 
   @Override
-  public void setBarSpacing(int spacing) {
+  public void setBarSpacing(double spacing) {
     this.barSpacing = spacing;
   }
 
   @Override
-  public int getBarSpacing() {
+  public double getBarSpacing() {
     return barSpacing;
   }
 

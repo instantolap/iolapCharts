@@ -1,9 +1,5 @@
-package com.instantolap.charts.control;
+package com.instantolap.charts;
 
-import com.instantolap.charts.Chart;
-import com.instantolap.charts.RoundCanvas;
-import com.instantolap.charts.SampleAxis;
-import com.instantolap.charts.ValueAxis;
 import com.instantolap.charts.renderer.ChartColor;
 import com.instantolap.charts.renderer.ChartStroke;
 

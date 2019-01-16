@@ -55,7 +55,7 @@ public class XYChartImpl extends BasicMultiAxisChartImpl implements XYChart {
 
   @Override
   protected void renderContent(double progress, Data data, Renderer r,
-    int canvasWidth, int canvasHeight, ChartFont font, int xx, int yy)
+                               double canvasWidth, double canvasHeight, ChartFont font, double xx, double yy)
     throws ChartException
   {
     for (Content content : getContents()) {

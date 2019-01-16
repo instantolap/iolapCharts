@@ -17,8 +17,8 @@ public interface ContentAnimation extends Animation {
 
   double getDistance(double progress, double bar, double distance);
 
-  int getX(double progress, int x, int width, int height);
+  double getX(double progress, double x, double width, double height);
 
-  int getY(double progress, int y, int width, int height);
+  double getY(double progress, double y, double width, double height);
 
 }

@@ -13,9 +13,9 @@ public abstract class BasicHeatMapContentImpl extends BasicSampleContentImpl
   private boolean symbolAutoColor = false;
   private boolean showSymbols = false;
   private boolean symbolAutoSize = true;
-  private int minTickSize;
+  private double minTickSize;
   private boolean fill;
-  private int fillPadding = 0;
+  private double fillPadding = 0;
   private String format;
 
   public BasicHeatMapContentImpl(Theme theme) {
@@ -73,12 +73,12 @@ public abstract class BasicHeatMapContentImpl extends BasicSampleContentImpl
   }
 
   @Override
-  public void setMinTickSize(int minTickSize) {
+  public void setMinTickSize(double minTickSize) {
     this.minTickSize = minTickSize;
   }
 
   @Override
-  public int getMinTickSize() {
+  public double getMinTickSize() {
     return minTickSize;
   }
 
@@ -93,12 +93,12 @@ public abstract class BasicHeatMapContentImpl extends BasicSampleContentImpl
   }
 
   @Override
-  public int getFillPadding() {
+  public double getFillPadding() {
     return fillPadding;
   }
 
   @Override
-  public void setFillPadding(int fillPadding) {
+  public void setFillPadding(double fillPadding) {
     this.fillPadding = fillPadding;
   }
 

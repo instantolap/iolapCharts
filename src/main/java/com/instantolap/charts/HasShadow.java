@@ -9,11 +9,11 @@ public interface HasShadow {
 
   void setShadow(ChartColor shadow);
 
-  int getShadowXOffset();
+  double getShadowXOffset();
 
-  void setShadowXOffset(int offset);
+  void setShadowXOffset(double offset);
 
-  int getShadowYOffset();
+  double getShadowYOffset();
 
-  void setShadowYOffset(int offset);
+  void setShadowYOffset(double offset);
 }

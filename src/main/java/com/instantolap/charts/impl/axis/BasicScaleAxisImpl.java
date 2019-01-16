@@ -17,14 +17,15 @@ public abstract class BasicScaleAxisImpl extends BasicAxisImpl implements ScaleA
   protected String[] measures = new String[0];
   protected Double min, max;
   protected Double tick, userTick;
-  protected int minTickSize = 25, maxLineCount = Integer.MAX_VALUE;
-  protected int size;
+  protected double minTickSize = 25;
+  protected int maxLineCount = Integer.MAX_VALUE;
+  protected double size;
   protected boolean vertical;
-  protected int[] grids;
+  protected double[] grids;
   protected double[] gridPositions;
-  protected int[] gridLines;
+  protected double[] gridLines;
   protected String[] texts;
-  protected int neededWidth;
+  protected double neededWidth;
   private boolean isZoomEnabled = true;
   private double zoomStep = 1.2;
 
@@ -68,12 +69,12 @@ public abstract class BasicScaleAxisImpl extends BasicAxisImpl implements ScaleA
   }
 
   @Override
-  public int getMinTickSize() {
+  public double getMinTickSize() {
     return minTickSize;
   }
 
   @Override
-  public void setMinTickSize(int minTickSize) {
+  public void setMinTickSize(double minTickSize) {
     this.minTickSize = minTickSize;
   }
 
@@ -108,8 +109,8 @@ public abstract class BasicScaleAxisImpl extends BasicAxisImpl implements ScaleA
   }
 
   @Override
-  public int getPosition(double v) {
-    int pos = getRadius(v);
+  public double getPosition(double v) {
+    double pos = getRadius(v);
     if (vertical) {
       pos = size - pos;
     }
@@ -117,11 +118,11 @@ public abstract class BasicScaleAxisImpl extends BasicAxisImpl implements ScaleA
   }
 
   @Override
-  public int getRadius(double v) {
+  public double getRadius(double v) {
     if (min == null || max == null) {
       return 0;
     } else {
-      return (int) ((v - min) / (max - min) * size);
+      return (v - min) / (max - min) * size;
     }
   }
 
@@ -182,17 +183,17 @@ public abstract class BasicScaleAxisImpl extends BasicAxisImpl implements ScaleA
   }
 
   @Override
-  public int[] getGrid() {
+  public double[] getGrid() {
     return grids;
   }
 
   @Override
-  public int[] getCenteredGrid() {
+  public double[] getCenteredGrid() {
     return grids;
   }
 
   @Override
-  public int[] getGridLines() {
+  public double[] getGridLines() {
     if (gridLines != null) {
       return gridLines;
     }
@@ -205,21 +206,21 @@ public abstract class BasicScaleAxisImpl extends BasicAxisImpl implements ScaleA
   }
 
   @Override
-  public int getNeededSize() {
+  public double getNeededSize() {
     return neededWidth;
   }
 
   @Override
-  public int getSize() {
+  public double getSize() {
     return size;
   }
 
-  protected void adjustTicksAndBorders(int size) {
+  protected void adjustTicksAndBorders(double size) {
     if (Double.isNaN(min) || Double.isNaN(max)) {
       return;
     }
 
-    int minTickSize = getMinTickSize();
+    double minTickSize = getMinTickSize();
     final int maxLineCount = getMaxLineCount();
     minTickSize = Math.max(minTickSize, size / maxLineCount);
 
@@ -264,11 +265,11 @@ public abstract class BasicScaleAxisImpl extends BasicAxisImpl implements ScaleA
     return newTick;
   }
 
-  protected abstract double findBestScale(Double min, Double max, int size, int minTickSize);
+  protected abstract double findBestScale(Double min, Double max, double size, double minTickSize);
 
   @Override
-  public void render(final Renderer r, final int x, final int y,
-                     final int width, final int height, boolean isCentered,
+  public void render(final Renderer r, final double x, final double y,
+                     final double width, final double height, boolean isCentered,
                      boolean flip, ChartFont font) {
     super.render(r, x, y, width, height, isCentered, flip, font);
 
@@ -295,7 +296,7 @@ public abstract class BasicScaleAxisImpl extends BasicAxisImpl implements ScaleA
     return vertical;
   }
 
-  public void doZoom(final Renderer r, int wheelMotion, int x, int startX, int width) {
+  public void doZoom(final Renderer r, int wheelMotion, double x, double startX, double width) {
     try {
       final double f = (double) (x - startX) / (width);
       if (wheelMotion < 0) {

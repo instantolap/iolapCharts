@@ -1,6 +1,6 @@
 package com.instantolap.charts.impl.util;
 
-import com.instantolap.charts.HasValueLabels;
+import com.instantolap.charts.HasValueLabels.ValueLabelType;
 import com.instantolap.charts.renderer.ChartColor;
 import com.instantolap.charts.renderer.Renderer;
 
@@ -14,22 +14,21 @@ import java.util.TreeSet;
 public class RoundLabelDrawer {
 
   private final static LabelComparator COMPARATOR = new LabelComparator(false);
-  private final static LabelComparator INVESRE_COMPARATOR = new LabelComparator(
-    true);
+  private final static LabelComparator INVESRE_COMPARATOR = new LabelComparator(true);
   private final List<Label> labels = new ArrayList<>();
   private final Renderer r;
-  private final int x;
-  private final int y;
-  private final int distance;
+  private final double x;
+  private final double y;
+  private final double distance;
 
-  public RoundLabelDrawer(Renderer r, int x, int y, int distance) {
+  public RoundLabelDrawer(Renderer r, double x, double y, double distance) {
     this.r = r;
     this.x = x;
     this.y = y;
     this.distance = distance;
   }
 
-  public void add(int len, double a, ChartColor c1, ChartColor c2, String text, int type) {
+  public void add(double len, double a, ChartColor c1, ChartColor c2, String text, ValueLabelType type) {
     a = correct(a);
     add(len, len, a, a, c1, c2, text, type);
   }
@@ -45,8 +44,7 @@ public class RoundLabelDrawer {
   }
 
   public void add(
-    int len1, int len2, double a1, double a2, ChartColor c1, ChartColor c2, String text, int type)
-  {
+    double len1, double len2, double a1, double a2, ChartColor c1, ChartColor c2, String text, ValueLabelType type) {
     while (a1 < 0) {
       a1 += Math.PI * 2;
       a2 += Math.PI * 2;
@@ -57,18 +55,18 @@ public class RoundLabelDrawer {
     }
 
     switch (type) {
-      case HasValueLabels.INSIDE:
+      case INSIDE:
         r.setColor(c2);
         insideLabel(len2, a1, a2, text);
         break;
-      case HasValueLabels.OUTSIDE:
+      case OUTSIDE:
         r.setColor(c1);
         outsideLabel(len2, a1, a2, text);
         break;
-      case HasValueLabels.POINTER:
+      case POINTER:
         pointerLabel(len2, a1, a2, c1, text);
         break;
-      case HasValueLabels.AUTO:
+      case AUTO:
         autoLabel(len1, len2, a1, a2, c1, c2, text);
         break;
     }
@@ -77,24 +75,23 @@ public class RoundLabelDrawer {
   private void insideLabel(double len, double a1, double a2, String text) {
     // calc position
     final double a = (a1 + a2) / 2.0;
-    final int x = (int) (this.x + Math.sin(a) * len);
-    final int y = (int) (this.y - Math.cos(a) * len);
+    final double x = this.x + Math.sin(a) * len;
+    final double y = this.y - Math.cos(a) * len;
 
     r.drawText(x, y, text, 0, Renderer.CENTER);
   }
 
-  private void outsideLabel(int len, double a1, double a2, String text) {
+  private void outsideLabel(double len, double a1, double a2, String text) {
 
     // calc anchor
     final double a = (a1 + a2) / 2.0;
     final int anchor = getAnchor(a);
 
     // calc position
-    final int x = (int) (this.x + Math.sin(a) * len);
-    final int y = (int) (this.y - Math.cos(a) * len);
+    final double x = this.x + Math.sin(a) * len;
+    final double y = this.y - Math.cos(a) * len;
 
     r.drawText(x, y, text, 0, anchor);
-
   }
 
   private void pointerLabel(double len, double a1, double a2, ChartColor c, String text) {
@@ -107,8 +104,7 @@ public class RoundLabelDrawer {
   }
 
   public void autoLabel(
-    int len1, int len2, double a1, double a2, ChartColor c1, ChartColor c2, String text)
-  {
+    double len1, double len2, double a1, double a2, ChartColor c1, ChartColor c2, String text) {
     while (a1 < 0) {
       a1 += Math.PI * 2;
       a2 += Math.PI * 2;
@@ -136,7 +132,7 @@ public class RoundLabelDrawer {
 
     r.setColor(ChartColor.BLACK);
 
-    final int textWidth = r.getTextWidth(text);
+    final double textWidth = r.getTextWidth(text);
     final double mLen = len2 - textWidth / 2 - distance;
     final double cx = Math.sin(mRad) * mLen;
     final double cy = -Math.cos(mRad) * mLen;
@@ -146,8 +142,7 @@ public class RoundLabelDrawer {
     final double cy2 = cy + size[1] / 2;
 
     if (r.inPath(cx1, cy1, path) && r.inPath(cx1, cy2, path)
-      && r.inPath(cx2, cy1, path) && r.inPath(cx2, cy2, path))
-    {
+      && r.inPath(cx2, cy1, path) && r.inPath(cx2, cy2, path)) {
       r.setColor(c2);
       insideLabel(mLen, a1, a2, text);
     } else {
@@ -191,7 +186,7 @@ public class RoundLabelDrawer {
   }
 
   private void renderPass(TreeSet<Label> labels, boolean dir) {
-    int lastY = dir ? Integer.MIN_VALUE : Integer.MAX_VALUE;
+    double lastY = dir ? Double.MIN_VALUE : Double.MAX_VALUE;
     for (Label label : labels) {
       final double a = label.a;
       final double len = label.len;
@@ -199,11 +194,11 @@ public class RoundLabelDrawer {
       final String text = label.text;
       r.setColor(label.color);
 
-      final int x1 = (int) (x + Math.sin(a) * len);
-      final int y1 = (int) (y - Math.cos(a) * len);
+      final double x1 = x + Math.sin(a) * len;
+      final double y1 = y - Math.cos(a) * len;
 
-      final int x2 = (int) (x + Math.sin(a) * len2);
-      int y2 = (int) (y - Math.cos(a) * len2);
+      final double x2 = x + Math.sin(a) * len2;
+      double y2 = y - Math.cos(a) * len2;
 
       if (dir) {
         if (y2 <= lastY) {
@@ -218,7 +213,7 @@ public class RoundLabelDrawer {
       }
 
       final int anchor = getAnchor(a);
-      final int ex = (int) (len - Math.abs(Math.sin(a)) * len) / 2;
+      final double ex = (len - Math.abs(Math.sin(a)) * len) / 2;
 
       switch (anchor) {
         case Renderer.SOUTH:

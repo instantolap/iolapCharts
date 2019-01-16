@@ -12,8 +12,7 @@ import com.instantolap.charts.renderer.Renderer;
 
 
 public class RoundBarContentImpl extends BasicBarContentImpl
-  implements RoundContent, SampleValueRenderer
-{
+  implements RoundContent, SampleValueRenderer {
   private boolean isRound = true;
 
   public RoundBarContentImpl(Theme theme) {
@@ -34,11 +33,10 @@ public class RoundBarContentImpl extends BasicBarContentImpl
   }
 
   @Override
-  public void render(double progress, Renderer r, Data data, int x, int y,
-    int width, int height, PositionAxis xAxis, ValueAxis yAxis,
-    boolean isStacked, boolean isCentered, boolean isRotated,
-    ChartFont font, ChartColor background) throws ChartException
-  {
+  public void render(double progress, Renderer r, Data data, double x, double y,
+                     double width, double height, PositionAxis xAxis, ValueAxis yAxis,
+                     boolean isStacked, boolean isCentered, boolean isRotated,
+                     ChartFont font, ChartColor background) throws ChartException {
     final Cube cube = getCube();
     if (cube == null) {
       return;
@@ -60,8 +58,8 @@ public class RoundBarContentImpl extends BasicBarContentImpl
       labelFont = font;
     }
 
-    final int cx = x + (width / 2);
-    final int cy = y + (height / 2);
+    final double cx = x + (width / 2);
+    final double cy = y + (height / 2);
 
     final double barWidth = getBarWidth();
     final boolean round = isRound();
@@ -72,8 +70,8 @@ public class RoundBarContentImpl extends BasicBarContentImpl
     final int size1 = (dimensions >= 2) ? cube.getSampleCount(1) : 1;
     final int visibleSize1 = (dimensions >= 2) ? cube.getVisibleSampleCount(1) : 1;
 
-    final int xOffset = getShadowXOffset();
-    final int yOffset = getShadowYOffset();
+    final double xOffset = getShadowXOffset();
+    final double yOffset = getShadowYOffset();
 
     final RoundLabelDrawer labelDrawer = new RoundLabelDrawer(r, cx, cy, 10);
 
@@ -114,8 +112,8 @@ public class RoundBarContentImpl extends BasicBarContentImpl
               minValue = 0.0;
             }
 
-            final int len0 = Math.max(yAxis.getRadius(minValue), 0);
-            final int len1 = yAxis.getRadius(maxValue);
+            final double len0 = Math.max(yAxis.getRadius(minValue), 0);
+            final double len1 = yAxis.getRadius(maxValue);
             rad2 = rad1 + barSize;
 
             switch (pass) {
@@ -207,8 +205,6 @@ public class RoundBarContentImpl extends BasicBarContentImpl
     axis.addMeasures(getMaxMeasure());
     axis.addMeasures(getMinMeasure());
   }
-
-
 
 
 }

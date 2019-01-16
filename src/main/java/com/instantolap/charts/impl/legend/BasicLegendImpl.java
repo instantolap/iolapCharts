@@ -16,12 +16,12 @@ public abstract class BasicLegendImpl implements Legend {
   private ChartStroke borderStroke = null;
   private ChartColor background = ChartColor.WHITE;
   private ChartColor[] colors = null;
-  private int spacing = 10, padding = 5;
+  private double spacing = 10, padding = 5;
   private boolean isVertical;
-  private int roundedCorner = 10;
+  private double roundedCorner = 10;
   private ChartColor shadow;
-  private int shadowXOffset = 3;
-  private int shadowYOffset = 3;
+  private double shadowXOffset = 3;
+  private double shadowYOffset = 3;
   private int dimension = 1;
   private boolean reverse = false;
   private String[] labels;
@@ -57,22 +57,22 @@ public abstract class BasicLegendImpl implements Legend {
   }
 
   @Override
-  public int getPadding() {
+  public double getPadding() {
     return padding;
   }
 
   @Override
-  public void setPadding(int padding) {
+  public void setPadding(double padding) {
     this.padding = padding;
   }
 
   @Override
-  public int getSpacing() {
+  public double getSpacing() {
     return spacing;
   }
 
   @Override
-  public void setSpacing(int spacing) {
+  public void setSpacing(double spacing) {
     this.spacing = spacing;
   }
 
@@ -97,7 +97,7 @@ public abstract class BasicLegendImpl implements Legend {
   }
 
   @Override
-  public void setShadowXOffset(int offset) {
+  public void setShadowXOffset(double offset) {
     this.shadowXOffset = offset;
   }
 
@@ -107,7 +107,7 @@ public abstract class BasicLegendImpl implements Legend {
   }
 
   @Override
-  public int getShadowXOffset() {
+  public double getShadowXOffset() {
     return shadowXOffset;
   }
 
@@ -117,7 +117,7 @@ public abstract class BasicLegendImpl implements Legend {
   }
 
   @Override
-  public void setShadowYOffset(int offset) {
+  public void setShadowYOffset(double offset) {
     this.shadowYOffset = offset;
   }
 
@@ -127,7 +127,7 @@ public abstract class BasicLegendImpl implements Legend {
   }
 
   @Override
-  public int getShadowYOffset() {
+  public double getShadowYOffset() {
     return shadowYOffset;
   }
 
@@ -177,12 +177,12 @@ public abstract class BasicLegendImpl implements Legend {
   }
 
   @Override
-  public int getRoundedCorner() {
+  public double getRoundedCorner() {
     return roundedCorner;
   }
 
   @Override
-  public void setRoundedCorner(int arc) {
+  public void setRoundedCorner(double arc) {
     this.roundedCorner = arc;
   }
 
@@ -191,12 +191,12 @@ public abstract class BasicLegendImpl implements Legend {
   public abstract void render(
     double progress,
     Renderer r,
-    int x, int y,
-    int width, int height,
+    double x, double y,
+    double width, double height,
     ChartColor foreground, ChartColor background,
     ChartFont font);
 
-  public abstract int[] getNeededSize(Renderer r, int max, ChartFont font);
+  public abstract double[] getNeededSize(Renderer r, double max, ChartFont font);
 
 
 }

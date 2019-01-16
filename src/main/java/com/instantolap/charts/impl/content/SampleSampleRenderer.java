@@ -9,7 +9,7 @@ import com.instantolap.charts.renderer.Renderer;
 
 
 public interface SampleSampleRenderer extends RendererWithSamples {
-  void render(double progress, Renderer r, Data data, int x, int y,
-    int width, int height, SampleAxis xAxis, SampleAxis yAxis,
-    ChartFont font, ChartColor background) throws ChartException;
+  void render(double progress, Renderer r, Data data, double x, double y,
+              double width, double height, SampleAxis xAxis, SampleAxis yAxis,
+              ChartFont font, ChartColor background) throws ChartException;
 }

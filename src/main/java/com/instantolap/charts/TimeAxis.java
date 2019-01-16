@@ -2,13 +2,13 @@ package com.instantolap.charts;
 
 public interface TimeAxis extends ScaleAxis, PositionAxis {
 
-  int getMinSampleWidth();
+  double getMinSampleWidth();
 
-  void setMinSampleWidth(int min);
+  void setMinSampleWidth(double min);
 
-  int getMaxSampleWidth();
+  double getMaxSampleWidth();
 
-  void setMaxSampleWidth(int max);
+  void setMaxSampleWidth(double max);
 
   long getSampleMilliseconds();
 

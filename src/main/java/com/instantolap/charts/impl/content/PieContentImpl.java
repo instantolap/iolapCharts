@@ -35,11 +35,10 @@ public class PieContentImpl extends BasicPieContentImpl implements SampleValueRe
   }
 
   @Override
-  public void render(double progress, Renderer r, Data data, int x, int y,
-    int width, int height, PositionAxis xAxis, ValueAxis yAxis,
-    boolean isStacked, boolean isCentered, boolean isRotated,
-    ChartFont font, ChartColor background) throws ChartException
-  {
+  public void render(double progress, Renderer r, Data data, double x, double y,
+                     double width, double height, PositionAxis xAxis, ValueAxis yAxis,
+                     boolean isStacked, boolean isCentered, boolean isRotated,
+                     ChartFont font, ChartColor background) throws ChartException {
     final Cube cube = getCube();
     if (cube == null) {
       return;
@@ -65,19 +64,18 @@ public class PieContentImpl extends BasicPieContentImpl implements SampleValueRe
       labelFont = font;
     }
 
-    final int xOffset = getShadowXOffset();
-    final int yOffset = getShadowYOffset();
+    final double xOffset = getShadowXOffset();
+    final double yOffset = getShadowYOffset();
 
-    final int cx = x + width / 2;
-    final int cy = y + height / 2;
-    final int radius = xAxis.getSize();
-    int size = radius - Math.max(xOffset, yOffset);
+    final double cx = x + width / 2;
+    final double cy = y + height / 2;
+    final double radius = xAxis.getSize();
+    double size = radius - Math.max(xOffset, yOffset);
 
     if (isShowSampleLabels()
       || isShowSeriesLabels()
       || isShowValueLabels()
-      || !detachedSamples.isEmpty())
-    {
+      || !detachedSamples.isEmpty()) {
       size -= 20;
     }
 
@@ -97,8 +95,8 @@ public class PieContentImpl extends BasicPieContentImpl implements SampleValueRe
         // inner/outer bounds
         final double seriesSize = (double) size / size1;
         final double base = seriesSize * c1;
-        final int len0 = (int) (base + seriesSpacing * seriesSize);
-        final int len1 = (int) (base + seriesSize);
+        final double len0 = (base + seriesSpacing * seriesSize);
+        final double len1 = (base + seriesSize);
 
         // calc total
         double total = 0;
@@ -143,8 +141,8 @@ public class PieContentImpl extends BasicPieContentImpl implements SampleValueRe
             if (Double.isNaN(distance)) {
               distance = 0;
             }
-            final int xx = (int) (cx + distance * Math.sin(c));
-            final int yy = (int) (cy - distance * Math.cos(c));
+            final double xx = (cx + distance * Math.sin(c));
+            final double yy = (cy - distance * Math.cos(c));
 
             // render
             switch (pass) {
@@ -163,9 +161,9 @@ public class PieContentImpl extends BasicPieContentImpl implements SampleValueRe
 
                 // shine effect
                 final double shine = getShine();
-                int shineSize = (int) shine;
+                double shineSize = shine;
                 if (shine <= 1) {
-                  shineSize = (int) (((len1 - len0) / 2.0) * shine);
+                  shineSize = ((len1 - len0) / 2.0) * shine;
                 }
 
                 ChartColor color1 = ChartColor.WHITE.setOpacity(0.2);
@@ -210,10 +208,11 @@ public class PieContentImpl extends BasicPieContentImpl implements SampleValueRe
                     }
 
                     r.setFont(labelFont);
-                    labelDrawer.add((int) (len0 + distance),
-                      (int) (len1 + distance), rad, rad2,
-                      color1, color2, label,
-                      getValueLabelType()
+                    labelDrawer.add(
+                      len0 + distance, len1 + distance,
+                      rad, rad2,
+                      color1, color2,
+                      label, getValueLabelType()
                     );
                   }
                 }

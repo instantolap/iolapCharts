@@ -28,7 +28,7 @@ public class GWTRenderer extends BasicRenderer {
   private final Map<String, NumberFormat> formats = new HashMap<>();
   private IECanvas ieCanvas;
   private ChartFont font = new Theme().getDefaultFont();
-  private int dashLen1 = 1, dashLen2 = 0;
+  private double dashLen1 = 1, dashLen2 = 0;
   private double shift = 0.0;
 
   public GWTRenderer() throws Exception {
@@ -52,8 +52,7 @@ public class GWTRenderer extends BasicRenderer {
     focus.addMouseOutHandler(event -> {
       try {
         fireMouseOut(event.getX(), event.getY());
-      }
-      catch (Exception e) {
+      } catch (Exception e) {
         showError(e);
       }
     });
@@ -61,8 +60,7 @@ public class GWTRenderer extends BasicRenderer {
     focus.addClickHandler(event -> {
       try {
         fireMouseClick(event.getX(), event.getY());
-      }
-      catch (Exception e) {
+      } catch (Exception e) {
         showError(e);
       }
     });
@@ -71,8 +69,7 @@ public class GWTRenderer extends BasicRenderer {
       try {
         mouseListeners.fireMouseMove(event.getX(), event.getY());
         fireMouseMove(event.getX(), event.getY());
-      }
-      catch (Exception e) {
+      } catch (Exception e) {
         showError(e);
       }
     });
@@ -82,8 +79,7 @@ public class GWTRenderer extends BasicRenderer {
         if (mouseListeners.fireMouseWheel(event.getX(), event.getY(), event.getDeltaY())) {
           event.preventDefault();
         }
-      }
-      catch (Exception e) {
+      } catch (Exception e) {
         showError(e);
       }
     });
@@ -91,8 +87,7 @@ public class GWTRenderer extends BasicRenderer {
     focus.addMouseDownHandler(event -> {
       try {
         mouseListeners.fireMouseDown(event.getX(), event.getY());
-      }
-      catch (Exception e) {
+      } catch (Exception e) {
         showError(e);
       }
     });
@@ -100,8 +95,7 @@ public class GWTRenderer extends BasicRenderer {
     focus.addMouseUpHandler(event -> {
       try {
         mouseListeners.fireMouseUp(event.getX(), event.getY());
-      }
-      catch (Exception e) {
+      } catch (Exception e) {
         showError(e);
       }
     });
@@ -111,8 +105,8 @@ public class GWTRenderer extends BasicRenderer {
   }
 
   @Override
-  protected int getTextLineWidth(String text) {
-    return (int) context.measureText(text).getWidth();
+  protected double getTextLineWidth(String text) {
+    return context.measureText(text).getWidth();
   }
 
   public Widget getCanvas() {
@@ -124,7 +118,7 @@ public class GWTRenderer extends BasicRenderer {
   }
 
   @Override
-  protected int getTextLineHeight(String text) {
+  protected double getTextLineHeight(String text) {
     if (font == null) {
       return 10;
     }
@@ -132,22 +126,22 @@ public class GWTRenderer extends BasicRenderer {
   }
 
   @Override
-  public void setSize(int width, int height) {
+  public void setSize(double width, double height) {
     if (canvas != null) {
       canvas.setWidth(width + "px");
-      canvas.setCoordinateSpaceWidth(width);
+      canvas.setCoordinateSpaceWidth((int) width);
       canvas.setHeight(height + "px");
-      canvas.setCoordinateSpaceHeight(height);
+      canvas.setCoordinateSpaceHeight((int) height);
     } else {
       ieCanvas.setWidth(width + "px");
-      ieCanvas.setCoordinateSpaceWidth(width);
+      ieCanvas.setCoordinateSpaceWidth((int) width);
       ieCanvas.setHeight(height + "px");
-      ieCanvas.setCoordinateSpaceHeight(height);
+      ieCanvas.setCoordinateSpaceHeight((int) height);
     }
   }
 
   @Override
-  protected void setGradient(int x, int y, int width, int height) {
+  protected void setGradient(double x, double y, double width, double height) {
     if (getColor().isGradient()) {
       final CanvasGradient grad = context.createLinearGradient(x, y, x + width * 2, y + height * 2);
       grad.addColorStop(0, getColor().toString());
@@ -157,7 +151,7 @@ public class GWTRenderer extends BasicRenderer {
   }
 
   @Override
-  public int getWidth() {
+  public double getWidth() {
     if (canvas != null) {
       return canvas.getCoordinateSpaceWidth();
     } else {
@@ -177,7 +171,7 @@ public class GWTRenderer extends BasicRenderer {
   }
 
   @Override
-  public int getHeight() {
+  public double getHeight() {
     if (canvas != null) {
       return canvas.getCoordinateSpaceHeight();
     } else {
@@ -186,7 +180,7 @@ public class GWTRenderer extends BasicRenderer {
   }
 
   @Override
-  public void drawPolyLine(int[] x, int[] y) {
+  public void drawPolyLine(double[] x, double[] y) {
     context.beginPath();
     context.moveTo(x[0] + shift, y[0] + shift);
     for (int n = 1; n < x.length; n++) {
@@ -196,7 +190,7 @@ public class GWTRenderer extends BasicRenderer {
   }
 
   @Override
-  public void drawLine(int x1, int y1, int x2, int y2) {
+  public void drawLine(double x1, double y1, double x2, double y2) {
     context.beginPath();
     if ((dashLen1 == 0) || (dashLen2 == 0)) {
       context.moveTo(x1 + shift, y1 + shift);
@@ -207,9 +201,9 @@ public class GWTRenderer extends BasicRenderer {
     context.stroke();
   }
 
-  private void addDashLine(int x1, int y1, int x2, int y2) {
+  private void addDashLine(double x1, double y1, double x2, double y2) {
     final double len = Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
-    final int dashLen = dashLen1 + dashLen2;
+    final double dashLen = dashLen1 + dashLen2;
     final double steps = len / dashLen;
     final double part = (double) dashLen1 / (double) dashLen;
 
@@ -236,7 +230,7 @@ public class GWTRenderer extends BasicRenderer {
   }
 
   @Override
-  public void drawRect(int x, int y, int width, int height) {
+  public void drawRect(double x, double y, double width, double height) {
     context.beginPath();
     if ((dashLen1 == 0) || (dashLen2 == 0)) {
       context.rect(x + shift, y + shift, width, height);
@@ -251,13 +245,13 @@ public class GWTRenderer extends BasicRenderer {
   }
 
   @Override
-  public void drawRoundedRect(int xx, int yy, int w, int h, int rr) {
+  public void drawRoundedRect(double xx, double yy, double w, double h, double rr) {
     createRoundedRecPath(xx, yy, w, h, rr);
     context.stroke();
   }
 
   @Override
-  public void fillRect(int xx, int yy, int width, int height) {
+  public void fillRect(double xx, double yy, double width, double height) {
     prepareFillRect(xx, yy, width, height);
 
     final double x = xx + shift;
@@ -266,13 +260,13 @@ public class GWTRenderer extends BasicRenderer {
   }
 
   @Override
-  public void fillRoundedRect(int x, int y, int width, int height, int rr) {
+  public void fillRoundedRect(double x, double y, double width, double height, double rr) {
     prepareFillRect(x, y, width, height);
     createRoundedRecPath(x, y, width, height, rr);
     context.fill();
   }
 
-  private void createRoundedRecPath(int xx, int yy, int w, int h, int rr) {
+  private void createRoundedRecPath(double xx, double yy, double w, double h, double rr) {
     final double x = xx + shift;
     final double y = yy + shift;
     final double r = rr / 2.0;
@@ -297,21 +291,21 @@ public class GWTRenderer extends BasicRenderer {
   }
 
   @Override
-  public void drawPolygon(int[] x, int[] y) {
+  public void drawPolygon(double[] x, double[] y) {
     setPolygon(x, y);
     context.stroke();
   }
 
   @Override
-  public void fillPolygon(int[] x, int[] y) {
+  public void fillPolygon(double[] x, double[] y) {
     prepareFillPolygon(x, y);
     setPolygon(x, y);
     context.fill();
   }
 
   @Override
-  public void drawCircle(int x, int y, int size) {
-    final int hSize = size / 2;
+  public void drawCircle(double x, double y, double size) {
+    final double hSize = size / 2;
     if (hSize >= 0) {
       context.beginPath();
       context.arc(x + hSize + shift, y + hSize + shift, hSize, 0, 2 * Math.PI);
@@ -321,8 +315,8 @@ public class GWTRenderer extends BasicRenderer {
   }
 
   @Override
-  public void fillCircle(int x, int y, int size) {
-    final int hSize = size / 2;
+  public void fillCircle(double x, double y, double size) {
+    final double hSize = size / 2;
     if (hSize >= 0) {
       prepareFillRect(x, y, size, size);
       context.beginPath();
@@ -333,19 +327,19 @@ public class GWTRenderer extends BasicRenderer {
   }
 
   @Override
-  public void fillDonut(int x, int y, int r1, int r2, double a1, double a2, boolean round) {
+  public void fillDonut(double x, double y, double r1, double r2, double a1, double a2, boolean round) {
     prepareFillDonut(x, y, r2, a1, a2);
     createDonutPath(x, y, r1, r2, a1, a2, round);
     context.fill();
   }
 
   @Override
-  public void drawDonut(int x, int y, int r1, int r2, double a1, double a2, boolean round) {
+  public void drawDonut(double x, double y, double r1, double r2, double a1, double a2, boolean round) {
     createDonutPath(x, y, r1, r2, a1, a2, round);
     context.stroke();
   }
 
-  private void createDonutPath(int x, int y, int r1, int r2, double a1, double a2, boolean round) {
+  private void createDonutPath(double x, double y, double r1, double r2, double a1, double a2, boolean round) {
     context.beginPath();
     if (round) {
       a1 -= Math.PI / 2;
@@ -391,7 +385,7 @@ public class GWTRenderer extends BasicRenderer {
   }
 
   @Override
-  public void drawText(int x, int y, String text, double angle, int anchor) {
+  public void drawText(double x, double y, String text, double angle, int anchor) {
     if (text == null) {
       return;
     }
@@ -401,7 +395,7 @@ public class GWTRenderer extends BasicRenderer {
 
     context.translate(i.rx, i.ry);
     context.rotate(i.rad);
-    context.translate((int) -i.rx, (int) -i.ry);
+    context.translate(-i.rx, -i.ry);
 
     drawText(i.tx, i.ty, text);
 
@@ -424,7 +418,7 @@ public class GWTRenderer extends BasicRenderer {
   }
 
   @Override
-  public void clipRoundedRect(int x, int y, int w, int h, int arc) {
+  public void clipRoundedRect(double x, double y, double w, double h, double arc) {
     context.save();
     createRoundedRecPath(x, y, w, h, arc);
     context.clip();
@@ -440,7 +434,7 @@ public class GWTRenderer extends BasicRenderer {
     setStroke(null);
   }
 
-  private void setPolygon(int[] x, int[] y) {
+  private void setPolygon(double[] x, double[] y) {
     context.beginPath();
     context.moveTo(x[0] + shift, y[0] + shift);
     for (int n = 0; n < x.length; n++) {
@@ -484,8 +478,7 @@ public class GWTRenderer extends BasicRenderer {
           if (progress >= 1) {
             cancel();
           }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
           cancel();
         }
       }
@@ -507,8 +500,7 @@ public class GWTRenderer extends BasicRenderer {
 
   @Override
   public boolean isInDonut(
-    int xx, int yy, int x, int y, int r1, int r2, double a1, double a2, boolean round)
-  {
+    double xx, double yy, double x, double y, double r1, double r2, double a1, double a2, boolean round) {
     createDonutPath(x, y, r1, r2, a1, a2, round);
     return context.isPointInPath(xx, yy);
   }
@@ -544,8 +536,7 @@ public class GWTRenderer extends BasicRenderer {
       chart.render();
 
       Window.addWindowScrollHandler(event -> setPopupPosition(width, height, popup));
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       GWT.log(e.getMessage(), e);
     }
   }
@@ -566,18 +557,18 @@ public class GWTRenderer extends BasicRenderer {
   }
 
   @Override
-  public void drawBubble(int bx, int by, int bw, int bh, int x, int y, int arc) {
+  public void drawBubble(double bx, double by, double bw, double bh, double x, double y, double arc) {
     createBubblePath(bx, by, bw, bh, x, y, arc);
     context.stroke();
   }
 
   @Override
-  public void fillBubble(int bx, int by, int bw, int bh, int x, int y, int arc) {
+  public void fillBubble(double bx, double by, double bw, double bh, double x, double y, double arc) {
     createBubblePath(bx, by, bw, bh, x, y, arc);
     context.fill();
   }
 
-  private void createBubblePath(int xx, int yy, int w, int h, int ax, int ay, int rr) {
+  private void createBubblePath(double xx, double yy, double w, double h, double ax, double ay, double rr) {
     final double x = xx + shift;
     final double y = yy + shift;
     final double r = rr / 2.0;

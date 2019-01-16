@@ -23,11 +23,10 @@ public class RoundLineContentImpl extends BasicLineContentImpl implements Sample
   }
 
   @Override
-  public void render(double progress, Renderer r, Data data, int x, int y,
-    int width, int height, PositionAxis xAxis, ValueAxis yAxis,
-    boolean isStacked, boolean isCentered, boolean isRotated,
-    ChartFont font, ChartColor background) throws ChartException
-  {
+  public void render(double progress, Renderer r, Data data, double x, double y,
+                     double width, double height, PositionAxis xAxis, ValueAxis yAxis,
+                     boolean isStacked, boolean isCentered, boolean isRotated,
+                     ChartFont font, ChartColor background) throws ChartException {
     final Cube cube = getCube();
     if (cube == null) {
       return;
@@ -50,15 +49,15 @@ public class RoundLineContentImpl extends BasicLineContentImpl implements Sample
       labelFont = font;
     }
 
-    final int cx = x + width / 2;
-    final int cy = y + height / 2;
+    final double cx = x + width / 2;
+    final double cy = y + height / 2;
 
     // draw lines
     final int size0 = cube.getSampleCount(0);
     final int size1 = (dimensions >= 2) ? cube.getSampleCount(1) : 1;
 
-    final int xOffset = getShadowXOffset();
-    final int yOffset = getShadowYOffset();
+    final double xOffset = getShadowXOffset();
+    final double yOffset = getShadowYOffset();
     final boolean isAreaChart = isAreaChart();
 
     final RoundLabelDrawer labelDrawer = new RoundLabelDrawer(r, cx, cy, 10);
@@ -94,15 +93,15 @@ public class RoundLineContentImpl extends BasicLineContentImpl implements Sample
             }
 
             // coordinates
-            final int len = yAxis.getRadius(anim.getValue(progress, progress0, maxValue));
+            final double len = yAxis.getRadius(anim.getValue(progress, progress0, maxValue));
             final double rad =
               getRad(startAngle, endAngle, c0 + (isCentered ? 0.5 : 0), size0, progress);
-            final int xx = (int) (Math.sin(rad) * len);
-            final int yy = (int) (-Math.cos(rad) * len);
+            final double xx = Math.sin(rad) * len;
+            final double yy = -Math.cos(rad) * len;
 
-            final int len0 = yAxis.getRadius(minValue);
-            final int xx0 = (int) (Math.sin(rad) * len0);
-            final int yy0 = (int) (-Math.cos(rad) * len0);
+            final double len0 = yAxis.getRadius(minValue);
+            final double xx0 = Math.sin(rad) * len0;
+            final double yy0 = -Math.cos(rad) * len0;
 
             // draw line?
             final int prevN = (c0 + size0 - 1) % size0;
@@ -114,16 +113,16 @@ public class RoundLineContentImpl extends BasicLineContentImpl implements Sample
               }
 
               // previous coordinates
-              final int plen = yAxis.getRadius(anim.getValue(progress, progress0, prevMaxValue));
+              final double plen = yAxis.getRadius(anim.getValue(progress, progress0, prevMaxValue));
               final double prad =
                 getRad(startAngle, endAngle, prevN + (isCentered ? 0.5 : 0), size0, progress
                 );
-              final int xp = (int) (Math.sin(prad) * plen);
-              final int yp = (int) (-Math.cos(prad) * plen);
+              final double xp = Math.sin(prad) * plen;
+              final double yp = -Math.cos(prad) * plen;
 
-              final int prevLen0 = yAxis.getRadius(prevMinValue);
-              final int xp0 = (int) (Math.sin(prad) * prevLen0);
-              final int yp0 = (int) (-Math.cos(prad) * prevLen0);
+              final double prevLen0 = yAxis.getRadius(prevMinValue);
+              final double xp0 = Math.sin(prad) * prevLen0;
+              final double yp0 = -Math.cos(prad) * prevLen0;
 
               final ChartStroke stroke = data.getStroke(c1);
 
@@ -132,8 +131,8 @@ public class RoundLineContentImpl extends BasicLineContentImpl implements Sample
                   if (isAreaChart) {
                     if (maxValue * prevMaxValue >= 0.0) {
 
-                      final int[] ax = new int[]{xp, xx, xx0, xp0};
-                      final int[] ay = new int[]{yp, yy, yy0, yp0};
+                      final double[] ax = new double[]{xp, xx, xx0, xp0};
+                      final double[] ay = new double[]{yp, yy, yy0, yp0};
 
                       r.setColor(areaColor);
                       r.fillPolygon(shift(ax, cx), shift(ay, cy));

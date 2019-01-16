@@ -12,9 +12,9 @@ public class LineAxisRenderer implements AxisRenderer {
   public void render(
     Renderer r,
     Axis axis,
-    int x, int y,
-    int width, int height,
-    int radius,
+    double x, double y,
+    double width, double height,
+    double radius,
     boolean isCentered,
     boolean flip,
     ChartFont font)
@@ -46,16 +46,16 @@ public class LineAxisRenderer implements AxisRenderer {
 
       r.setFont(titleFont);
       r.setColor(axis.getTitleColor());
-      final int titlePadding = axis.getTitlePadding();
+      final double titlePadding = axis.getTitlePadding();
 
       if (isVertical) {
-        final int textY = y + (height / 2);
-        final int textX = flip ? (x + titlePadding) : (x + width - titlePadding);
+        final double textY = y + (height / 2);
+        final double textX = flip ? (x + titlePadding) : (x + width - titlePadding);
         final int anchor = flip ? Renderer.WEST : Renderer.EAST;
         r.drawText(textX, textY, title, axis.getTitleRotation(), anchor);
       } else {
-        final int textX = x + (width / 2);
-        final int textY = flip ? (y + titlePadding) : (y + height - titlePadding);
+        final double textX = x + (width / 2);
+        final double textY = flip ? (y + titlePadding) : (y + height - titlePadding);
         final int anchor = flip ? Renderer.NORTH : Renderer.SOUTH;
         r.drawText(textX, textY, title, axis.getTitleRotation(), anchor);
       }
@@ -81,15 +81,15 @@ public class LineAxisRenderer implements AxisRenderer {
     }
 
     // draw ticks
-    final int tickWidth = axis.getTickWidth();
-    final int[] grid = isCentered ? axis.getCenteredGrid() : axis.getGrid();
+    final double tickWidth = axis.getTickWidth();
+    final double[] grid = isCentered ? axis.getCenteredGrid() : axis.getGrid();
     if (grid == null) {
       return;
     }
     final boolean[] visible = new boolean[grid.length];
     final String[] texts = axis.getTexts();
-    int lastStart = Integer.MIN_VALUE;
-    int lastEnd = Integer.MIN_VALUE;
+    double lastStart = Double.MIN_VALUE;
+    double lastEnd = Double.MIN_VALUE;
     final ChartColor[] colors = axis.getColors();
 
     r.setFont(tickFont);
@@ -99,20 +99,20 @@ public class LineAxisRenderer implements AxisRenderer {
       // draw label
       if (axis.isShowLabels()) {
         final String text = texts[n];
-        final int rot = axis.getLabelRotation();
-        final int pos = grid[n];
+        final double rot = axis.getLabelRotation();
+        final double pos = grid[n];
 
         // enough space?
         if (autoSpacing) {
           final double[] size = r.getTextSize(text, rot);
-          final int minSpace = 5;
+          final double minSpace = 5;
           final double space = ((isVertical ? size[1] : size[0]) + minSpace) / 2.0;
           if ((pos + space) > lastStart && (pos - space) < lastEnd) {
             continue;
           }
 
-          lastStart = pos - (int) space;
-          lastEnd = pos + (int) space;
+          lastStart = pos - space;
+          lastEnd = pos + space;
         }
 
         // draw ticks
@@ -135,7 +135,7 @@ public class LineAxisRenderer implements AxisRenderer {
 
         // draw
         r.setColor(colors[n % colors.length]);
-        final int spacing = axis.getLabelSpacing();
+        final double spacing = axis.getLabelSpacing();
         if (isVertical) {
           if (flip) {
             r.drawText(x + width - spacing - tickWidth, y + pos, text, rot, Renderer.EAST);

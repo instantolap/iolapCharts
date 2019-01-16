@@ -6,10 +6,9 @@ import com.instantolap.charts.renderer.ChartFont;
 
 public interface HasValueLabels {
 
-  int AUTO = 0;
-  int INSIDE = 1;
-  int OUTSIDE = 2;
-  int POINTER = 3;
+  enum ValueLabelType {
+    AUTO, INSIDE, OUTSIDE, POINTER
+  }
 
   boolean isShowValueLabels();
 
@@ -31,9 +30,9 @@ public interface HasValueLabels {
 
   void setPercentLabelFormat(String format);
 
-  int getValueLabelType();
+  ValueLabelType getValueLabelType();
 
-  void setValueLabelType(int type);
+  void setValueLabelType(ValueLabelType type);
 
   String getValueLabelPrefix();
 
@@ -47,13 +46,13 @@ public interface HasValueLabels {
 
   void setLabelColor(ChartColor color);
 
-  int getLabelAngle();
+  double getLabelAngle();
 
-  void setLabelAngle(int angle);
+  void setLabelAngle(double angle);
 
-  int getLabelSpacing();
+  double getLabelSpacing();
 
-  void setLabelSpacing(int spacing);
+  void setLabelSpacing(double spacing);
 
   ChartFont getLabelFont();
 

@@ -21,8 +21,8 @@ public class LabelContentImpl extends BasicLabelContentImpl
     double progress,
     Renderer r,
     Data data,
-    int x, int y,
-    int width, int height,
+    double x, double y,
+    double width, double height,
     PositionAxis xAxis, ValueAxis yAxis,
     boolean isStacked, boolean isCentered, boolean isRotated,
     ChartFont font, ChartColor background) throws ChartException
@@ -30,7 +30,7 @@ public class LabelContentImpl extends BasicLabelContentImpl
     render(r, x, y);
   }
 
-  private void render(Renderer r, int x, int y) {
+  private void render(Renderer r, double x, double y) {
     if (getText() != null) {
       r.setFont(getFont());
       r.setColor(getColor());
@@ -47,8 +47,8 @@ public class LabelContentImpl extends BasicLabelContentImpl
     double progress,
     Renderer r,
     Data data,
-    int x, int y,
-    int width, int height,
+    double x, double y,
+    double width, double height,
     SampleAxis xAxis, SampleAxis yAxis,
     ChartFont font, ChartColor background) throws ChartException
   {
@@ -60,8 +60,8 @@ public class LabelContentImpl extends BasicLabelContentImpl
     double progress,
     Renderer r,
     Data data,
-    int x, int y,
-    int width, int height,
+    double x, double y,
+    double width, double height,
     ScaleAxis xAxis, ValueAxis yAxis,
     ChartFont font, ChartColor background) throws ChartException
   {

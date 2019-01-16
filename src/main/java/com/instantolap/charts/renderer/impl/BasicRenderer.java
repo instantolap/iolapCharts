@@ -20,12 +20,12 @@ public abstract class BasicRenderer implements Renderer {
   private Popup currentPopup, nextPopup;
   private ChartColor color;
 
-  protected abstract int getTextLineWidth(String text);
+  protected abstract double getTextLineWidth(String text);
 
-  protected abstract int getTextLineHeight(String text);
+  protected abstract double getTextLineHeight(String text);
 
   @Override
-  public TextInfo getTextInfo(final int x, final int y, String text, double angle, int anchor) {
+  public TextInfo getTextInfo(final double x, final double y, String text, double angle, int anchor) {
     final double[] size = getTextSize(text, angle);
     final TextInfo i = new TextInfo();
     i.w = size[0];
@@ -184,14 +184,14 @@ public abstract class BasicRenderer implements Renderer {
   }
 
   @Override
-  public int getTextWidth(String text) {
+  public double getTextWidth(String text) {
     if (text == null) {
       return 0;
     } else if (!text.contains("\n")) {
       return getTextLineWidth(text);
     }
 
-    int width = 0;
+    double width = 0;
     final String[] lines = StringHelper.splitString(text, "\n");
     for (String line : lines) {
       width = Math.max(getTextLineWidth(line), width);
@@ -200,7 +200,7 @@ public abstract class BasicRenderer implements Renderer {
   }
 
   @Override
-  public int getTextHeight(String text) {
+  public double getTextHeight(String text) {
     if (text == null) {
       return 0;
     } else if (!text.contains("\n")) {
@@ -225,8 +225,8 @@ public abstract class BasicRenderer implements Renderer {
   @Override
   public double[] getTextSize(String text, double angle) {
 
-    final int width = getTextWidth(text);
-    final int height = getTextHeight(text);
+    final double width = getTextWidth(text);
+    final double height = getTextHeight(text);
     final double a = Math.toRadians(angle);
 
     final double w = Math.abs(Math.cos(a) * width) + Math.abs(Math.sin(a) * height);
@@ -240,7 +240,7 @@ public abstract class BasicRenderer implements Renderer {
   }
 
   @Override
-  public void addPopup(int x, int y, int width, int height, int rotation,
+  public void addPopup(double x, double y, double width, double height, double rotation,
     int anchor, String text, ChartFont font, Runnable onMouseOver,
     Runnable onMouseOut, Runnable onMouseClick)
   {
@@ -274,7 +274,7 @@ public abstract class BasicRenderer implements Renderer {
   }
 
   @Override
-  public void addPopup(int x, int y, int r1, int r2, double a1, double a2,
+  public void addPopup(double x, double y, double r1, double r2, double a1, double a2,
     boolean round, String text, ChartFont font, Runnable onMouseOver,
     Runnable onMouseOut, Runnable onMouseClick)
   {
@@ -328,7 +328,7 @@ public abstract class BasicRenderer implements Renderer {
   }
 
   @Override
-  public void addMouseListener(int x, int y, int width, int height, ChartMouseListener listener) {
+  public void addMouseListener(double x, double y, double width, double height, ChartMouseListener listener) {
     if (!enableHandlers) {
       return;
     }
@@ -336,38 +336,38 @@ public abstract class BasicRenderer implements Renderer {
     mouseListeners.addMouseListener(x, y, width, height, listener);
   }
 
-  protected void prepareFillDonut(int x, int y, int r2, double a1, double a2) {
+  protected void prepareFillDonut(double x, double y, double r2, double a1, double a2) {
     setGradient(x - r2, y - r2, x + r2 * 2, y + r2 * 2);
   }
 
-  protected abstract void setGradient(int x, int y, int width, int height);
+  protected abstract void setGradient(double x, double y, double width, double height);
 
-  protected void prepareFillRect(int x, int y, int width, int height) {
+  protected void prepareFillRect(double x, double y, double width, double height) {
     setGradient(x, y, width, height);
   }
 
-  protected void prepareFillPolygon(int[] x, int[] y) {
+  protected void prepareFillPolygon(double[] x, double[] y) {
     setGradient(getMin(x), getMin(y), getWidth(x), getWidth(y));
   }
 
-  private int getMin(int[] v) {
-    int min = Integer.MAX_VALUE;
-    for (int i : v) {
+  private double getMin(double[] v) {
+    double min = Double.MAX_VALUE;
+    for (double i : v) {
       min = Math.min(min, i);
     }
     return min;
   }
 
-  private int getWidth(int[] v) {
-    int max = Integer.MIN_VALUE, min = Integer.MAX_VALUE;
-    for (int i : v) {
+  private double getWidth(double[] v) {
+    double max = Double.MIN_VALUE, min = Double.MAX_VALUE;
+    for (double i : v) {
       min = Math.min(min, i);
       max = Math.min(max, i);
     }
     return max - min;
   }
 
-  protected int findAnchor(double x, double y, int w, int h, int ax, int ay) {
+  protected int findAnchor(double x, double y, double w, double h, double ax, double ay) {
     if (ay < y) {
       return NORTH;
     } else if (ax > (x + w)) {

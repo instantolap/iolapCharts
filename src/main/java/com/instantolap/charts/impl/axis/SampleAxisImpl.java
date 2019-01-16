@@ -9,11 +9,11 @@ import com.instantolap.charts.renderer.Renderer;
 public class SampleAxisImpl extends BasicAxisImpl implements SampleAxis {
 
   private final int dimension;
-  private int[] grid;
-  private int[] centeredGrid;
-  private int[] gridLines;
+  private double[] grid;
+  private double[] centeredGrid;
+  private double[] gridLines;
   private String[] texts;
-  private int neededSize;
+  private double neededSize;
   private double sampleWidth;
   private boolean isVertical;
   private String[] labels;
@@ -26,17 +26,17 @@ public class SampleAxisImpl extends BasicAxisImpl implements SampleAxis {
   }
 
   @Override
-  public int[] getGrid() {
+  public double[] getGrid() {
     return grid;
   }
 
   @Override
-  public int[] getCenteredGrid() {
+  public double[] getCenteredGrid() {
     return centeredGrid;
   }
 
   @Override
-  public int[] getGridLines() {
+  public double[] getGridLines() {
     if (gridLines != null) {
       return gridLines;
     } else {
@@ -50,28 +50,28 @@ public class SampleAxisImpl extends BasicAxisImpl implements SampleAxis {
   }
 
   @Override
-  public int getNeededSize() {
+  public double getNeededSize() {
     return neededSize;
   }
 
   @Override
-  public int getSize() {
-    return (int) size;
+  public double getSize() {
+    return size;
   }
 
   @Override
-  public int getSamplePosition(Cube cube, int sample) {
-    return (int) (sample * sampleWidth);
+  public double getSamplePosition(Cube cube, int sample) {
+    return sample * sampleWidth;
   }
 
   @Override
-  public int getSampleWidth() {
-    return (int) sampleWidth;
+  public double getSampleWidth() {
+    return sampleWidth;
   }
 
   @Override
   public void setData(
-    int width,
+    double width,
     Renderer r,
     int axisNum,
     boolean isStacked,
@@ -95,8 +95,8 @@ public class SampleAxisImpl extends BasicAxisImpl implements SampleAxis {
     }
 
     sampleWidth = (double) width / (double) (count - (isCentered ? 0 : 1));
-    grid = new int[count + (isCentered ? 1 : 0)];
-    centeredGrid = new int[count];
+    grid = new double[count + (isCentered ? 1 : 0)];
+    centeredGrid = new double[count];
     texts = new String[count];
     double x = 0;
     neededSize = 0;
@@ -104,14 +104,14 @@ public class SampleAxisImpl extends BasicAxisImpl implements SampleAxis {
     for (int n = 0; n < grid.length; n++) {
 
       // set grid position
-      grid[n] = (int) x;
+      grid[n] = x;
 
       if (n >= count) {
         break;
       }
 
       // add text
-      centeredGrid[n] = (int) (x + sampleWidth / 2);
+      centeredGrid[n] = x + sampleWidth / 2;
       x += sampleWidth;
 
       // max text height
@@ -131,16 +131,16 @@ public class SampleAxisImpl extends BasicAxisImpl implements SampleAxis {
         r.setFont(getFont());
         final double[] size = r.getTextSize(texts[n], getLabelRotation());
         final double needed = isVertical ? size[0] : size[1];
-        neededSize = Math.max(neededSize, (int) needed);
+        neededSize = Math.max(neededSize, needed);
       }
     }
 
     // calculate custom grid lines
     gridLines = null;
     if (gridPositions != null) {
-      gridLines = new int[gridPositions.length];
+      gridLines = new double[gridPositions.length];
       for (int n = 0; n < gridPositions.length; n++) {
-        gridLines[n] = (int) (width * gridPositions[n] / 100.0);
+        gridLines[n] = width * gridPositions[n] / 100.0;
       }
     }
 

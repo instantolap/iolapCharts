@@ -10,8 +10,8 @@ import com.instantolap.charts.renderer.Renderer;
 
 
 public interface SampleValueRenderer extends RendererWithSamples {
-  void render(double progress, Renderer r, Data data, int x, int y,
-    int width, int height, PositionAxis xAxis, ValueAxis yAxis,
+  void render(double progress, Renderer r, Data data, double x, double y,
+              double width, double height, PositionAxis xAxis, ValueAxis yAxis,
     boolean isStacked, boolean isCentered, boolean isRotated,
     ChartFont font, ChartColor background) throws ChartException;
 

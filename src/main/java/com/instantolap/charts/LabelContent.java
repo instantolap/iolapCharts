@@ -10,13 +10,13 @@ public interface LabelContent extends Content {
 
   void setText(String text);
 
-  int getX();
+  double getX();
 
-  void setX(int x);
+  void setX(double x);
 
-  int getY();
+  double getY();
 
-  void setY(int x);
+  void setY(double x);
 
   ChartFont getFont();
 

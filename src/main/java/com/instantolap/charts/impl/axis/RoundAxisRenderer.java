@@ -14,9 +14,9 @@ public class RoundAxisRenderer implements AxisRenderer {
   public void render(
     Renderer r,
     Axis _axis,
-    int x, int y,
-    int width, int height,
-    int radius,
+    double x, double y,
+    double width, double height,
+    double radius,
     boolean isCentered,
     boolean flip,
     ChartFont font)
@@ -31,9 +31,9 @@ public class RoundAxisRenderer implements AxisRenderer {
       tickFont = font;
     }
 
-    final int tickWidth = axis.getTickWidth();
+    final double tickWidth = axis.getTickWidth();
 
-    final int r1 = radius;
+    final double r1 = radius;
     final double a1 = axis.getStartAngle();
     final double a2 = axis.getStopAngle();
 
@@ -44,7 +44,7 @@ public class RoundAxisRenderer implements AxisRenderer {
       r.drawDonut(x, y, r1, r1, a1, a2, true);
     }
 
-    final int[] grid = isCentered ? axis.getCenteredGrid() : axis.getGrid();
+    final double[] grid = isCentered ? axis.getCenteredGrid() : axis.getGrid();
     if (grid == null) {
       return;
     }
@@ -52,8 +52,8 @@ public class RoundAxisRenderer implements AxisRenderer {
     // draw ticks
     //		boolean visible[] = new boolean[grid.length];
     final String[] texts = axis.getTexts();
-    int lastStart = Integer.MIN_VALUE;
-    int lastEnd = Integer.MIN_VALUE;
+    double lastStart = Double.MIN_VALUE;
+    double lastEnd = Double.MIN_VALUE;
     final ChartColor[] colors = axis.getColors();
     final boolean autoSpacing = axis.isAutoSpacingOn() || true;
 
@@ -68,28 +68,28 @@ public class RoundAxisRenderer implements AxisRenderer {
       // draw label
       if (axis.isShowLabels()) {
         final String text = texts[n];
-        final int pos = grid[n];
+        final double pos = grid[n];
         r.setColor(colors[n % colors.length]);
         r.setFont(axis.getFont());
 
         // enough space?
         if (autoSpacing) {
           final double[] size = r.getTextSize(text, 0);
-          final int minSpace = 5;
+          final double minSpace = 5;
           final double space = (size[0] + minSpace) / 2.0;
           if ((pos + space) > lastStart && (pos - space) < lastEnd) {
             continue;
           }
 
-          lastStart = pos - (int) space;
-          lastEnd = pos + (int) space;
+          lastStart = pos - space;
+          lastEnd = pos + space;
         }
 
         if (axis.isRotateLabels()) {
-          final int textHeight = r.getTextHeight(text);
-          final int tr = r1 + textHeight / 2;
-          final int tx = x + (int) (Math.sin(a) * tr);
-          final int ty = y - (int) (Math.cos(a) * tr);
+          final double textHeight = r.getTextHeight(text);
+          final double tr = r1 + textHeight / 2;
+          final double tx = x + Math.sin(a) * tr;
+          final double ty = y - Math.cos(a) * tr;
 
           double ta = a;
           if (ta < 0) {
@@ -113,12 +113,12 @@ public class RoundAxisRenderer implements AxisRenderer {
 
       // draw ticks
       if ((lineColor != null) && (tickWidth > 0)) {
-        final int usedTickWidth = axis.isShowLabelsInside() ? -tickWidth : tickWidth;
+        final double usedTickWidth = axis.isShowLabelsInside() ? -tickWidth : tickWidth;
         final double x2 = x + Math.sin(a) * (r1 + usedTickWidth);
         final double y2 = y - Math.cos(a) * (r1 + usedTickWidth);
 
         r.setColor(axis.getLineColor());
-        r.drawLine((int) x1, (int) y1, (int) x2, (int) y2);
+        r.drawLine(x1, y1, x2, y2);
       }
     }
   }

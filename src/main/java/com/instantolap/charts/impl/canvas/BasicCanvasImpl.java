@@ -14,10 +14,10 @@ public abstract class BasicCanvasImpl implements Canvas {
   private ChartColor border;
   private ChartStroke borderStroke;
   private ChartColor background;
-  private int roundedCorner;
+  private double roundedCorner;
   private ChartColor shadow;
-  private int shadowXOffset = 3;
-  private int shadowYOffset = 3;
+  private double shadowXOffset = 3;
+  private double shadowYOffset = 3;
 
   public BasicCanvasImpl(Theme theme) {
     this.theme = theme;
@@ -28,9 +28,9 @@ public abstract class BasicCanvasImpl implements Canvas {
   }
 
   public void render(
-    CanvasAnimation anim, double progress, Renderer r, int x, int y, int width, int height)
+    CanvasAnimation anim, double progress, Renderer r, double x, double y, double width, double height)
   {
-    final int roundedCorner = getRoundedCorner();
+    final double roundedCorner = getRoundedCorner();
 
     // background
     final ChartColor background = getBackground();
@@ -39,8 +39,8 @@ public abstract class BasicCanvasImpl implements Canvas {
       // draw shadow
       final ChartColor shadow = getShadow();
       if (shadow != null) {
-        final int xOffset = getShadowXOffset();
-        final int yOffset = getShadowYOffset();
+        final double xOffset = getShadowXOffset();
+        final double yOffset = getShadowYOffset();
         r.setColor(shadow);
         r.fillRoundedRect(x + xOffset, y + yOffset, width, height, roundedCorner);
       }
@@ -71,27 +71,27 @@ public abstract class BasicCanvasImpl implements Canvas {
   }
 
   @Override
-  public int getShadowXOffset() {
+  public double getShadowXOffset() {
     return shadowXOffset;
   }
 
   @Override
-  public void setShadowXOffset(int offset) {
+  public void setShadowXOffset(double offset) {
     this.shadowXOffset = offset;
   }
 
   @Override
-  public int getShadowYOffset() {
+  public double getShadowYOffset() {
     return shadowYOffset;
   }
 
   @Override
-  public void setShadowYOffset(int offset) {
+  public void setShadowYOffset(double offset) {
     this.shadowYOffset = offset;
   }
 
   public void postRender(
-    CanvasAnimation anim, double progress, Renderer r, int x, int y, int width, int height)
+    CanvasAnimation anim, double progress, Renderer r, double x, double y, double width, double height)
   {
     // border
     ChartColor border = getBorder();
@@ -127,12 +127,12 @@ public abstract class BasicCanvasImpl implements Canvas {
   }
 
   @Override
-  public int getRoundedCorner() {
+  public double getRoundedCorner() {
     return roundedCorner;
   }
 
   @Override
-  public void setRoundedCorner(int arc) {
+  public void setRoundedCorner(double arc) {
     this.roundedCorner = arc;
   }
 }

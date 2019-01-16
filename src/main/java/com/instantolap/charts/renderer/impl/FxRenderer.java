@@ -3,6 +3,7 @@ package com.instantolap.charts.renderer.impl;
 import com.instantolap.charts.impl.data.Theme;
 import com.instantolap.charts.renderer.*;
 import com.instantolap.charts.renderer.util.StringHelper;
+import javafx.geometry.VPos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
@@ -38,21 +39,21 @@ public class FxRenderer extends BasicRenderer {
   }
 
   @Override
-  public void setSize(int width, int height) {
+  public void setSize(double width, double height) {
   }
 
   @Override
-  public int getWidth() {
-    return (int) image.getWidth();
+  public double getWidth() {
+    return image.getWidth();
   }
 
   @Override
-  public int getHeight() {
-    return (int) image.getHeight();
+  public double getHeight() {
+    return image.getHeight();
   }
 
   @Override
-  public void drawText(int x, int y, String text, double angle, int anchor) {
+  public void drawText(double x, double y, String text, double angle, int anchor) {
     if (text == null) {
       return;
     }
@@ -65,13 +66,14 @@ public class FxRenderer extends BasicRenderer {
       graphics.setTransform(at1);
     }
 
-    drawText((int) i.tx, (int) i.ty, text);
+    drawText(i.tx, i.ty, text);
 
     // reset transform
     graphics.setTransform(new Affine());
   }
 
-  private void drawText(int x, int y, String text) {
+  private void drawText(double x, double y, String text) {
+    graphics.setTextBaseline(VPos.BOTTOM);
     final String[] lines = StringHelper.splitString(text, "\n");
     for (int n = lines.length - 1; n >= 0; n--) {
       final String line = lines[n];
@@ -82,7 +84,7 @@ public class FxRenderer extends BasicRenderer {
   }
 
   @Override
-  public void drawLine(int x1, int y1, int x2, int y2) {
+  public void drawLine(double x1, double y1, double x2, double y2) {
     graphics.strokeLine(x1, y1, x2, y2);
   }
 
@@ -97,8 +99,8 @@ public class FxRenderer extends BasicRenderer {
     graphics.setLineCap(StrokeLineCap.ROUND);
     graphics.setLineJoin(StrokeLineJoin.ROUND);
 
-    final int len1 = stroke.getLen1();
-    final int len2 = stroke.getLen2();
+    final double len1 = stroke.getLen1();
+    final double len2 = stroke.getLen2();
     if ((len1 == 0) || (len2 == 0)) {
       graphics.setLineDashes();
     } else {
@@ -137,21 +139,21 @@ public class FxRenderer extends BasicRenderer {
   }
 
   @Override
-  public void fillRect(int x, int y, int width, int height) {
+  public void fillRect(double x, double y, double width, double height) {
     prepareFillRect(x, y, width, height);
     graphics.fillRect(x, y, width, height);
 //    graphics.setPaint(null);
   }
 
   @Override
-  public void fillRoundedRect(int x, int y, int width, int height, int arc) {
+  public void fillRoundedRect(double x, double y, double width, double height, double arc) {
     prepareFillRect(x, y, width, height);
     graphics.fillRoundRect(x, y, width, height, arc, arc);
 //    graphics.setPaint(null);
   }
 
   @Override
-  public void clipRoundedRect(int x, int y, int width, int height, int arc) {
+  public void clipRoundedRect(double x, double y, double width, double height, double arc) {
 //    graphics.clip(new RoundRectangle2D.Double(x, y, width, height, arc, arc));
   }
 
@@ -161,41 +163,33 @@ public class FxRenderer extends BasicRenderer {
   }
 
   @Override
-  public void drawRect(int x, int y, int width, int height) {
+  public void drawRect(double x, double y, double width, double height) {
     graphics.strokeRect(x, y, width, height);
   }
 
   @Override
-  public void drawRoundedRect(int x, int y, int width, int height, int arc) {
+  public void drawRoundedRect(double x, double y, double width, double height, double arc) {
     graphics.strokeRoundRect(x, y, width, height, arc, arc);
   }
 
   @Override
-  public void drawPolyLine(int[] x, int[] y) {
-    graphics.strokePolyline(convert(x), convert(y), Math.min(x.length, y.length));
+  public void drawPolyLine(double[] x, double[] y) {
+    graphics.strokePolyline(x, y, Math.min(x.length, y.length));
   }
 
   @Override
-  public void drawPolygon(int[] x, int[] y) {
-    graphics.strokePolygon(convert(x), convert(y), Math.min(x.length, y.length));
+  public void drawPolygon(double[] x, double[] y) {
+    graphics.strokePolygon(x, y, Math.min(x.length, y.length));
   }
 
   @Override
-  public void fillPolygon(int[] x, int[] y) {
+  public void fillPolygon(double[] x, double[] y) {
     prepareFillPolygon(x, y);
-    graphics.fillPolygon(convert(x), convert(y), Math.min(x.length, y.length));
-  }
-
-  private double[] convert(int[] a) {
-    final double[] result = new double[a.length];
-    for (int n = 0; n < result.length; n++) {
-      result[n] = a[n];
-    }
-    return result;
+    graphics.fillPolygon(x, y, Math.min(x.length, y.length));
   }
 
   @Override
-  public void fillDonut(int x, int y, int r1, int r2, double a1, double a2,
+  public void fillDonut(double x, double y, double r1, double r2, double a1, double a2,
                         boolean round) {
     prepareFillDonut(x, y, r2, a1, a2);
     getDonutPath(x, y, r1, r2, a1, a2, round);
@@ -203,19 +197,19 @@ public class FxRenderer extends BasicRenderer {
   }
 
   @Override
-  public void drawDonut(int x, int y, int r1, int r2, double a1, double a2,
+  public void drawDonut(double x, double y, double r1, double r2, double a1, double a2,
                         boolean round) {
     getDonutPath(x, y, r1, r2, a1, a2, round);
     graphics.stroke();
   }
 
   @Override
-  public void drawCircle(int x, int y, int size) {
+  public void drawCircle(double x, double y, double size) {
     graphics.strokeOval(x, y, size, size);
   }
 
   @Override
-  public void fillCircle(int x, int y, int size) {
+  public void fillCircle(double x, double y, double size) {
     prepareFillRect(x, y, size, size);
     graphics.fillOval(x, y, size, size);
   }
@@ -251,7 +245,7 @@ public class FxRenderer extends BasicRenderer {
   }
 
   @Override
-  public boolean isInDonut(int xx, int yy, int x, int y, int r1, int r2,
+  public boolean isInDonut(double xx, double yy, double x, double y, double r1, double r2,
                            double a1, double a2, boolean round) {
     getDonutPath(x, y, r1, r2, a1, a2, round);
     return graphics.isPointInPath(xx, yy);
@@ -277,20 +271,20 @@ public class FxRenderer extends BasicRenderer {
   }
 
   @Override
-  public void drawBubble(int bx, int by, int bw, int bh, int x, int y, int arc) {
+  public void drawBubble(double bx, double by, double bw, double bh, double x, double y, double arc) {
     createBubblePath(bx, by, bw, bh, x, y, arc);
     graphics.stroke();
   }
 
   @Override
-  public void fillBubble(int bx, int by, int bw, int bh, int x, int y, int arc) {
+  public void fillBubble(double bx, double by, double bw, double bh, double x, double y, double arc) {
     createBubblePath(bx, by, bw, bh, x, y, arc);
     graphics.closePath();
     graphics.fill();
   }
 
-  private void createBubblePath(int x, int y, int w, int h, int ax,
-                                int ay, int rr) {
+  private void createBubblePath(double x, double y, double w, double h, double ax,
+                                double ay, double rr) {
     graphics.beginPath();
 
     final double r = rr / 2.0;
@@ -402,23 +396,21 @@ public class FxRenderer extends BasicRenderer {
   }
 
   @Override
-  protected int getTextLineWidth(String text) {
+  protected double getTextLineWidth(String text) {
     final Text label = new Text(text);
-    final Font font = graphics.getFont();
-    label.setFont(font);
-    return (int) (label.getLayoutBounds().getWidth() * (this.font.getSize() / font.getSize()) - 1);
+    label.setFont(graphics.getFont());
+    return label.getLayoutBounds().getWidth() - 1;
   }
 
   @Override
-  protected int getTextLineHeight(String text) {
+  protected double getTextLineHeight(String text) {
     final Text label = new Text(text);
-    final Font font = graphics.getFont();
-    label.setFont(font);
-    return (int) (label.getLayoutBounds().getHeight() * (this.font.getSize() / font.getSize()) - 1);
+    label.setFont(graphics.getFont());
+    return label.getLayoutBounds().getHeight() - 1;
   }
 
   @Override
-  protected void setGradient(int x, int y, int width, int height) {
+  protected void setGradient(double x, double y, double width, double height) {
     if (color.isGradient()) {
       setColor(color);
       graphics.setStroke(

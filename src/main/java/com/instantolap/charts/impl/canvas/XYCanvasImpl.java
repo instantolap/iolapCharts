@@ -18,18 +18,17 @@ public class XYCanvasImpl extends BasicXYCanvasImpl {
 
   public XYCanvasImpl(Theme theme) {
     super(theme);
-    
+
     anim = new FadeInCanvasAnim();
   }
 
   public void render(
     double progress,
     Renderer r,
-    int x, int y,
-    int width, int height,
+    double x, double y,
+    double width, double height,
     Axis yAxis1, Axis yAxis2,
-    Axis xAxis, Axis xAxis2)
-  {
+    Axis xAxis, Axis xAxis2) {
 
     super.render(anim, progress, r, x, y, width, height);
 
@@ -74,7 +73,7 @@ public class XYCanvasImpl extends BasicXYCanvasImpl {
     clip(r, x, y, width, height);
   }
 
-  private void clip(Renderer r, int x, int y, int width, int height) {
+  private void clip(Renderer r, double x, double y, double width, double height) {
     if (getBorder() == null) {
       x--;
       y--;
@@ -86,19 +85,18 @@ public class XYCanvasImpl extends BasicXYCanvasImpl {
   }
 
   private void drawVerticalBackground(
-    Axis xAxis, double progress, Renderer r, int x, int y, int height)
-  {
+    Axis xAxis, double progress, Renderer r, double x, double y, double height) {
     if (xAxis == null) {
       return;
     }
-    final int[] xGrid = xAxis.getGrid();
+    final double[] xGrid = xAxis.getGrid();
     if (xGrid != null) {
       final ChartColor verticalBackground2 = getVerticalBackground2();
       if (verticalBackground2 != null) {
         for (int n = 1; n < xGrid.length; n += 2) {
           final double grid = (double) n / (xGrid.length - 1);
           r.setColor(anim.getVerticalBackground(progress, grid, verticalBackground2));
-          final int bgWidth = xGrid[n] - xGrid[n - 1];
+          final double bgWidth = xGrid[n] - xGrid[n - 1];
           r.fillRect(x + xGrid[n - 1], y, bgWidth, height);
         }
       }
@@ -106,8 +104,7 @@ public class XYCanvasImpl extends BasicXYCanvasImpl {
   }
 
   private void drawHorizontalBackground(
-    Axis axis, double progress, Renderer r, int x, int y, int width)
-  {
+    Axis axis, double progress, Renderer r, double x, double y, double width) {
     if (axis == null || !axis.isShowGrid()) {
       return;
     }
@@ -117,18 +114,18 @@ public class XYCanvasImpl extends BasicXYCanvasImpl {
       return;
     }
 
-    final int[] yGrid = axis.getGrid();
+    final double[] yGrid = axis.getGrid();
     if (yGrid != null) {
       for (int n = 1; n < yGrid.length; n += 2) {
         final double grid = (double) n / (yGrid.length - 1);
         r.setColor(anim.getHorizontalBackground(progress, grid, horizontalBackground2));
-        final int bgHeight = yGrid[n - 1] - yGrid[n];
+        final double bgHeight = yGrid[n - 1] - yGrid[n];
         r.fillRect(x, y + yGrid[n], width, bgHeight);
       }
     }
   }
 
-  private void drawAreas(Renderer r, int x, int y, int width, int height, Axis axis) {
+  private void drawAreas(Renderer r, double x, double y, double width, double height, Axis axis) {
     final int padding = 10;
     if (axis != null) {
       if (axis instanceof ValueAxis) {
@@ -136,8 +133,8 @@ public class XYCanvasImpl extends BasicXYCanvasImpl {
         for (CriticalArea area : valueAxis.getCriticalAreas()) {
           final double min = Math.min(area.min, area.max);
           final double max = Math.max(area.min, area.max);
-          int x0 = valueAxis.getPosition(min);
-          int x1 = valueAxis.getPosition(max);
+          double x0 = valueAxis.getPosition(min);
+          double x1 = valueAxis.getPosition(max);
           r.setColor(area.color);
           if (valueAxis.isVertical()) {
             x0 = Math.max(0, Math.min(x0, height));
@@ -161,7 +158,7 @@ public class XYCanvasImpl extends BasicXYCanvasImpl {
     }
   }
 
-  private void drawVerticalGrid(Axis axis, double progress, Renderer r, int x, int y, int height) {
+  private void drawVerticalGrid(Axis axis, double progress, Renderer r, double x, double y, double height) {
     if (axis == null || !axis.isShowGrid()) {
       return;
     }
@@ -171,7 +168,7 @@ public class XYCanvasImpl extends BasicXYCanvasImpl {
       return;
     }
 
-    final int[] xGrid = axis.getGridLines();
+    final double[] xGrid = axis.getGridLines();
     if (xGrid != null) {
       r.setStroke(getVerticalGridStroke());
       final boolean[] visible = axis.getVisibleGrid();
@@ -188,7 +185,7 @@ public class XYCanvasImpl extends BasicXYCanvasImpl {
     }
   }
 
-  private void drawHorizontalGrid(Axis axis, double progress, Renderer r, int x, int y, int width) {
+  private void drawHorizontalGrid(Axis axis, double progress, Renderer r, double x, double y, double width) {
     if (axis == null || !axis.isShowGrid()) {
       return;
     }
@@ -198,7 +195,7 @@ public class XYCanvasImpl extends BasicXYCanvasImpl {
       return;
     }
 
-    final int[] yGrid = axis.getGridLines();
+    final double[] yGrid = axis.getGridLines();
     if (yGrid != null) {
       r.setStroke(getHorizontalGridStroke());
       final boolean[] visible = axis.getVisibleGrid();
@@ -215,28 +212,28 @@ public class XYCanvasImpl extends BasicXYCanvasImpl {
     }
   }
 
-  private void drawHorizontalBaseLine(Renderer r, int x, int y, int width, Axis axis) {
-    if ((axis != null) && (axis instanceof ValueAxis) && (axis.isVisible())) {
+  private void drawHorizontalBaseLine(Renderer r, double x, double y, double width, Axis axis) {
+    if ((axis instanceof ValueAxis) && axis.isVisible()) {
       final ValueAxis valueAxis = (ValueAxis) axis;
-      final int y0 = y + valueAxis.getPosition(0);
+      final double y0 = y + valueAxis.getPosition(0);
       r.drawLine(x, y0, x + width, y0);
     }
   }
 
-  private void drawVerticalBaseLine(Renderer r, int x, int y, int height, Axis axis) {
-    if ((axis != null) && (axis instanceof ValueAxis)) {
+  private void drawVerticalBaseLine(Renderer r, double x, double y, double height, Axis axis) {
+    if ((axis instanceof ValueAxis) && axis.isVisible()) {
       final ValueAxis valueAxis = (ValueAxis) axis;
-      final int x0 = x + valueAxis.getPosition(0);
+      final double x0 = x + valueAxis.getPosition(0);
       r.drawLine(x0, y, x0, y + height);
     }
   }
 
-  private void drawTargetLines(Renderer r, int x, int y, int width, int height, Axis axis) {
+  private void drawTargetLines(Renderer r, double x, double y, double width, double height, Axis axis) {
     if (axis != null) {
       if (axis instanceof ValueAxis) {
         final ValueAxis valueAxis = (ValueAxis) axis;
         for (TargetLine target : valueAxis.getTargetLines()) {
-          final int x0 = valueAxis.getPosition(target.value);
+          final double x0 = valueAxis.getPosition(target.value);
           r.setColor(target.color);
           if (target.stroke != null) {
             r.setStroke(target.stroke);

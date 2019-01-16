@@ -18,7 +18,7 @@ public interface HasTitle {
 
   void setTitleFont(ChartFont font);
 
-  int getTitlePadding();
+  double getTitlePadding();
 
-  void setTitlePadding(int padding);
+  void setTitlePadding(double padding);
 }

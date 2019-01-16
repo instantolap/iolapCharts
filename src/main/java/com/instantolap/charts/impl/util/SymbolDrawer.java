@@ -64,8 +64,8 @@ public class SymbolDrawer {
   public static void draw(
     Renderer r,
     int symbol,
-    int x, int y,
-    int size,
+    double x, double y,
+    double size,
     ChartColor color, ChartColor outline, ChartColor background)
   {
     if (outline != null) {
@@ -73,8 +73,8 @@ public class SymbolDrawer {
     }
 
     size -= size % 2;
-    final int xx = x - size / 2;
-    final int yy = y - size / 2;
+    final double xx = x - size / 2;
+    final double yy = y - size / 2;
 
     switch (symbol) {
       case SYMBOL_CIRCLE:
@@ -168,15 +168,15 @@ public class SymbolDrawer {
     }
   }
 
-  private static void fillDiamond(Renderer r, int x, int y, int w, int h) {
-    final int[] xx = new int[]{x, x + w / 2, x + w, x + w / 2};
-    final int[] yy = new int[]{y + h / 2, y, y + h / 2, y + h};
+  private static void fillDiamond(Renderer r, double x, double y, double w, double h) {
+    final double[] xx = new double[]{x, x + w / 2, x + w, x + w / 2};
+    final double[] yy = new double[]{y + h / 2, y, y + h / 2, y + h};
     r.fillPolygon(xx, yy);
   }
 
-  private static void drawDiamond(Renderer r, int x, int y, int w, int h) {
-    final int[] xx = new int[]{x, x + w / 2, x + w, x + w / 2};
-    final int[] yy = new int[]{y + h / 2, y, y + h / 2, y + h};
+  private static void drawDiamond(Renderer r, double x, double y, double w, double h) {
+    final double[] xx = new double[]{x, x + w / 2, x + w, x + w / 2};
+    final double[] yy = new double[]{y + h / 2, y, y + h / 2, y + h};
     r.drawPolygon(xx, yy);
   }
 }

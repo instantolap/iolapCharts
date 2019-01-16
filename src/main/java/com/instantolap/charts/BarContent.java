@@ -11,9 +11,9 @@ public interface BarContent
 
   void setBarWidth(double width);
 
-  int getBarSpacing();
+  double getBarSpacing();
 
-  void setBarSpacing(int spacing);
+  void setBarSpacing(double spacing);
 
   boolean isMultiColor();
 

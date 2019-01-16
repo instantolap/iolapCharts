@@ -36,12 +36,12 @@ public class ContentAnimationAdapter implements ContentAnimation {
   }
 
   @Override
-  public int getX(double progress, int x, int width, int height) {
+  public double getX(double progress, double x, double width, double height) {
     return x;
   }
 
   @Override
-  public int getY(double progress, int y, int width, int height) {
+  public double getY(double progress, double y, double width, double height) {
     return y;
   }
 }

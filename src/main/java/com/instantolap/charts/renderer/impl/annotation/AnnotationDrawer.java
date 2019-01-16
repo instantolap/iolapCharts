@@ -9,13 +9,13 @@ import com.instantolap.charts.renderer.impl.TextInfo;
 public class AnnotationDrawer {
 
   public static void draw(Renderer r, ChartFont font, ChartColor foreground,
-    ChartColor background, Integer pointerX, Integer pointerY,
-    Integer boxX, Integer boxY, int anchor, int rotation, String text)
+    ChartColor background, Double pointerX, Double pointerY,
+    Double boxX, Double boxY, int anchor, double rotation, String text)
   {
     // find bubble size
 
-    final int x;
-    final int y;
+    final double x;
+    final double y;
     if (pointerX != null) {
       x = pointerX;
       y = pointerY;
@@ -32,35 +32,35 @@ public class AnnotationDrawer {
     final double padding = 5;
     final double distance = 20;
 
-    int bx = (int) (i.x - padding);
-    int by = (int) (i.y - padding);
-    final int bw = (int) (i.w + 2 * padding);
-    final int bh = (int) (i.h + 2 * padding);
+    double bx = i.x - padding;
+    double by = i.y - padding;
+    final double bw = i.w + 2 * padding;
+    final double bh = i.h + 2 * padding;
 
     if (pointerX != null && pointerY != null) {
       switch (anchor) {
         case Renderer.NORTH:
-          by = (int) (pointerY - distance - bh);
+          by = pointerY - distance - bh;
           if (by < 0) {
             by = (int) (pointerY + distance);
           }
           break;
         case Renderer.SOUTH:
-          by = (int) (pointerY + distance);
+          by = pointerY + distance;
           if (by + bh > r.getHeight()) {
             by = (int) (pointerY - distance - bh);
           }
           break;
         case Renderer.WEST:
-          bx = (int) (pointerX - distance - bw);
+          bx = pointerX - distance - bw;
           if (bx < 0) {
-            bx = (int) (pointerX + distance);
+            bx = pointerX + distance;
           }
           break;
         case Renderer.EAST:
-          bx = (int) (pointerX + distance);
+          bx = pointerX + distance;
           if (bx + bw > r.getWidth()) {
-            bx = (int) (pointerX - distance - bw);
+            bx = pointerX - distance - bw;
           }
           break;
       }

@@ -5,13 +5,13 @@ import com.instantolap.charts.renderer.ChartMouseListener;
 
 public class RectAreaListener implements AreaListener {
 
-  private final int x;
-  private final int y;
-  private final int w;
-  private final int h;
+  private final double x;
+  private final double y;
+  private final double w;
+  private final double h;
   private final ChartMouseListener listener;
 
-  public RectAreaListener(int x, int y, int w, int h, ChartMouseListener l) {
+  public RectAreaListener(double x, double y, double w, double h, ChartMouseListener l) {
     this.x = x;
     this.y = y;
     this.w = w;
@@ -20,7 +20,7 @@ public class RectAreaListener implements AreaListener {
   }
 
   @Override
-  public boolean isInside(int xx, int yy) {
+  public boolean isInside(double xx, double yy) {
     return (xx >= x && yy >= y && xx <= x + w && yy <= y + h);
   }
 

@@ -41,9 +41,9 @@ public class SampleSampleChartImpl extends BasicMultiAxisChartImpl implements Sa
     double progress,
     Data data,
     Renderer r,
-    int canvasWidth, int canvasHeight,
+    double canvasWidth, double canvasHeight,
     ChartFont font,
-    int xx, int yy)
+    double xx, double yy)
     throws ChartException {
     for (Content content : getContents()) {
       if (content instanceof SampleSampleRenderer) {

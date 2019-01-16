@@ -31,20 +31,20 @@ public class LegendImpl extends BasicLegendImpl {
   public void render(
     double progress,
     final Renderer r,
-    int x, int y,
-    int totalWidth, int totalHeight,
+    double x, double y,
+    double totalWidth, double totalHeight,
     ChartColor foreground, ChartColor background,
     ChartFont font) {
     // calc size
-    final int padding = getPadding();
-    final int spacing = getSpacing();
+    final double padding = getPadding();
+    final double spacing = getSpacing();
     final boolean isVertical = isVertical();
     final ChartColor[] colors = getColors();
 
-    final int max = isVertical ? totalHeight : totalWidth;
-    final int[] size = getNeededSize(r, max, font);
-    final int width = size[0];
-    final int height = size[1];
+    final double max = isVertical ? totalHeight : totalWidth;
+    final double[] size = getNeededSize(r, max, font);
+    final double width = size[0];
+    final double height = size[1];
 
     // center
     // x += (totalWidth - width) / 2;
@@ -58,7 +58,7 @@ public class LegendImpl extends BasicLegendImpl {
     r.setFont(usedFont);
 
     // draw border
-    final int roundedCorner = getRoundedCorner();
+    final double roundedCorner = getRoundedCorner();
 
     final ChartColor legendBackground = getBackground();
     if (legendBackground != null) {
@@ -66,8 +66,8 @@ public class LegendImpl extends BasicLegendImpl {
       // draw shadow
       final ChartColor shadow = getShadow();
       if (shadow != null) {
-        final int xOffset = getShadowXOffset();
-        final int yOffset = getShadowYOffset();
+        final double xOffset = getShadowXOffset();
+        final double yOffset = getShadowYOffset();
         r.setColor(shadow);
         r.fillRoundedRect(x + xOffset, y + yOffset, width, height, roundedCorner);
       }
@@ -87,16 +87,16 @@ public class LegendImpl extends BasicLegendImpl {
     // draw content
     x += padding;
     y += padding;
-    int xx = 0, yy = 0;
-    int maxTextWidth = 0, maxTextHeight = 0;
+    double xx = 0, yy = 0;
+    double maxTextWidth = 0, maxTextHeight = 0;
 
     final String[] content = getContent();
     for (int n = 0; n < content.length; n++) {
       final String text = content[n];
 
       // calc text size
-      int textWidth = r.getTextWidth(text);
-      final int textHeight = r.getTextHeight(text);
+      double textWidth = r.getTextWidth(text);
+      final double textHeight = r.getTextHeight(text);
       textWidth += SYMBOL_SPACE + textHeight;
 
       // new row?
@@ -128,8 +128,8 @@ public class LegendImpl extends BasicLegendImpl {
         seriesColor = seriesColor.setOpacity(0.33);
       }
 
-      final int popupX = x + xx;
-      final int popupY = y + yy;
+      final double popupX = x + xx;
+      final double popupY = y + yy;
 
       SymbolDrawer.draw(r, symbol, x + xx + textHeight / 2, y + yy + textHeight / 2, textHeight,
         seriesColor, seriesColor, background
@@ -206,9 +206,9 @@ public class LegendImpl extends BasicLegendImpl {
   }
 
   @Override
-  public int[] getNeededSize(Renderer r, int maxSize, ChartFont font) {
-    final int padding = getPadding();
-    final int spacing = getSpacing();
+  public double[] getNeededSize(Renderer r, double maxSize, ChartFont font) {
+    final double padding = getPadding();
+    final double spacing = getSpacing();
 
     ChartFont usedFont = getFont();
     if (usedFont == null) {
@@ -217,23 +217,23 @@ public class LegendImpl extends BasicLegendImpl {
     r.setFont(usedFont);
 
     final boolean isVertical = isVertical();
-    int maxWidth = 0, maxHeight = 0;
-    int currentWidth = 0, currentHeight = 0;
-    int maxTextWidth = 0, maxTextHeight = 0;
+    double maxWidth = 0, maxHeight = 0;
+    double currentWidth = 0, currentHeight = 0;
+    double maxTextWidth = 0, maxTextHeight = 0;
 
     boolean isFirst = true;
     final String[] content = getContent();
     for (final String text : content) {
       // calc text size
-      int textWidth = r.getTextWidth(text);
-      final int textHeight = r.getTextHeight(text);
+      double textWidth = r.getTextWidth(text);
+      final double textHeight = r.getTextHeight(text);
       textWidth += SYMBOL_SPACE + textHeight; // symbol space
       maxTextWidth = Math.max(maxTextWidth, textWidth);
       maxTextHeight = Math.max(maxTextHeight, textHeight);
 
       if (isVertical) {
         // new column?
-        final int neededHeight = textHeight + (isFirst ? 0 : spacing);
+        final double neededHeight = textHeight + (isFirst ? 0 : spacing);
         isFirst = false;
         if (currentHeight + neededHeight > maxSize) {
           currentWidth += maxTextWidth + spacing;
@@ -246,7 +246,7 @@ public class LegendImpl extends BasicLegendImpl {
         currentHeight += neededHeight;
       } else {
         // new row?
-        final int neededWidth = textWidth + (isFirst ? 0 : spacing);
+        final double neededWidth = textWidth + (isFirst ? 0 : spacing);
         isFirst = false;
         if (currentWidth + neededWidth > maxSize) {
           currentHeight += maxTextHeight + spacing;
@@ -272,8 +272,8 @@ public class LegendImpl extends BasicLegendImpl {
     maxWidth = Math.max(maxWidth, currentWidth);
     maxHeight = Math.max(maxHeight, currentHeight);
 
-    int totalWidth = 2 * padding;
-    int totalHeight = 2 * padding;
+    double totalWidth = 2 * padding;
+    double totalHeight = 2 * padding;
     if (isVertical) {
       totalWidth += currentWidth;
       totalHeight += maxHeight;
@@ -281,7 +281,7 @@ public class LegendImpl extends BasicLegendImpl {
       totalWidth += maxWidth;
       totalHeight += currentHeight;
     }
-    return new int[]{totalWidth, totalHeight};
+    return new double[]{totalWidth, totalHeight};
   }
 
   private String[] getContent() {

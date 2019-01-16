@@ -29,14 +29,14 @@ public abstract class BasicSampleContentImpl extends BasicContentImpl
   private boolean showValuePopup = true;
   private boolean showPercentPopup = false;
   private String percentLabelFormat;
-  private int valueLabelType = AUTO;
+  private ValueLabelType valueLabelType = ValueLabelType.AUTO;
   private ChartColor labelColor;
   private ChartColor shadow;
-  private int shadowXOffset = 3;
-  private int shadowYOffset = 3;
+  private double shadowXOffset = 3;
+  private double shadowYOffset = 3;
   private ChartColor outlineColor;
-  private int labelAngle;
-  private int labelSpacing = 3;
+  private double labelAngle;
+  private double labelSpacing = 3;
   private ChartFont labelFont;
   private ChartFont popupFont;
   private String labelValuePrefix;
@@ -84,8 +84,8 @@ public abstract class BasicSampleContentImpl extends BasicContentImpl
     this.shine = shine;
   }
 
-  protected int[] shift(int[] a, int o) {
-    final int[] r = new int[a.length];
+  protected double[] shift(double[] a, double o) {
+    final double[] r = new double[a.length];
     for (int n = 0; n < a.length; n++) {
       r[n] = a[n] + o;
     }
@@ -285,12 +285,12 @@ public abstract class BasicSampleContentImpl extends BasicContentImpl
   }
 
   @Override
-  public int getValueLabelType() {
+  public ValueLabelType getValueLabelType() {
     return valueLabelType;
   }
 
   @Override
-  public void setValueLabelType(int type) {
+  public void setValueLabelType(ValueLabelType type) {
     this.valueLabelType = type;
   }
 
@@ -325,22 +325,22 @@ public abstract class BasicSampleContentImpl extends BasicContentImpl
   }
 
   @Override
-  public int getLabelAngle() {
+  public double getLabelAngle() {
     return labelAngle;
   }
 
   @Override
-  public void setLabelAngle(int angle) {
+  public void setLabelAngle(double angle) {
     this.labelAngle = angle;
   }
 
   @Override
-  public int getLabelSpacing() {
+  public double getLabelSpacing() {
     return labelSpacing;
   }
 
   @Override
-  public void setLabelSpacing(int labelSpacing) {
+  public void setLabelSpacing(double labelSpacing) {
     this.labelSpacing = labelSpacing;
   }
 
@@ -474,22 +474,22 @@ public abstract class BasicSampleContentImpl extends BasicContentImpl
   }
 
   @Override
-  public int getShadowXOffset() {
+  public double getShadowXOffset() {
     return shadowXOffset;
   }
 
   @Override
-  public void setShadowXOffset(int offset) {
+  public void setShadowXOffset(double offset) {
     this.shadowXOffset = offset;
   }
 
   @Override
-  public int getShadowYOffset() {
+  public double getShadowYOffset() {
     return shadowYOffset;
   }
 
   @Override
-  public void setShadowYOffset(int offset) {
+  public void setShadowYOffset(double offset) {
     this.shadowYOffset = offset;
   }
 
@@ -540,16 +540,16 @@ public abstract class BasicSampleContentImpl extends BasicContentImpl
   }
 
   protected void drawRegression(
-    Renderer r, int x, int y, int width, int height, boolean isRotated, SimpleRegression regression)
+    Renderer r, double x, double y, double width, double height, boolean isRotated, SimpleRegression regression)
   {
     if (regression != null) {
-      final int y0 = (int) regression.predict(0);
-      final int y1 = (int) regression.predict(width);
+      final double y0 = regression.predict(0);
+      final double y1 = regression.predict(width);
       r.setStroke(getRegressionStroke());
 
       final ChartColor shadow = getShadow();
-      final int xOffset = getShadowXOffset();
-      final int yOffset = getShadowYOffset();
+      final double xOffset = getShadowXOffset();
+      final double yOffset = getShadowYOffset();
 
       if (isRotated) {
         if (shadow != null) {
@@ -604,14 +604,14 @@ public abstract class BasicSampleContentImpl extends BasicContentImpl
   protected void drawAnnotations(
     Renderer r,
     PositionAxis xAxis, ValueAxis yAxis,
-    int x, int y,
-    int width, int height,
+    double x, double y,
+    double width, double height,
     boolean isCentered)
   {
     for (Annotation a : annotations) {
 
       // fixed X position or sample?
-      Integer pointerX = null;
+      Double pointerX = null;
       if (a.pos != null) {
         pointerX = x + xAxis.getSamplePosition(getCube(), a.pos);
         if (isCentered) {
@@ -619,26 +619,26 @@ public abstract class BasicSampleContentImpl extends BasicContentImpl
         }
       }
 
-      Integer boxX = null;
+      Double boxX = null;
       if (a.x != null) {
         if (a.x > 0 && a.x < 1) {
-          boxX = (int) (x + width * a.x);
+          boxX = x + width * a.x;
         } else {
-          boxX = a.x.intValue();
+          boxX = a.x;
         }
       }
 
       // fixed Y position or value?
-      Integer boxY = null;
+      Double boxY = null;
       if (a.y != null) {
         if (a.y > 0 && a.y < 1) {
-          boxY = (int) (y + height * a.y);
+          boxY = y + height * a.y;
         } else {
-          boxY = a.y.intValue();
+          boxY = a.y;
         }
       }
 
-      Integer pointerY = null;
+      Double pointerY = null;
       if (a.pos != null && a.series != null) {
         final Double v = getCube().get(Cube.MEASURE_VALUE, a.pos, a.series);
         if (v == null) {

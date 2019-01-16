@@ -1,7 +1,7 @@
 package com.instantolap.charts.impl.chart;
 
 import com.instantolap.charts.Content;
-import com.instantolap.charts.control.RoundChart;
+import com.instantolap.charts.RoundChart;
 import com.instantolap.charts.impl.content.SampleValueRenderer;
 import com.instantolap.charts.impl.data.Theme;
 import com.instantolap.charts.renderer.ChartColor;

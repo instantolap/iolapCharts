@@ -25,24 +25,24 @@ public abstract class BasicChartImpl implements Chart, HasAnimation, RendererLis
   private ChartFont titleFont;
   private ChartFont subTitleFont;
   private Data data;
-  private int insetTop = 10;
-  private int insetBottom = 10;
-  private int insetLeft = 10;
-  private int insetRight = 10;
+  private double insetTop = 10;
+  private double insetBottom = 10;
+  private double insetLeft = 10;
+  private double insetRight = 10;
   private Renderer renderer;
   private boolean animationEnabled = true;
   private long animationTime = 1000;
-  private int titlePadding = 10;
+  private double titlePadding = 10;
   private boolean showLegend = false;
   private int legendPosition = SOUTH;
   private int legendAlignment = CENTER;
   private boolean legendInside = false;
-  private int legendSpacing = 10;
+  private double legendSpacing = 10;
   private double lastProgress;
-  private Integer contentInsetTop, contentInsetLeft, contentInsetRight, contentInsetBottom;
+  private Double contentInsetTop, contentInsetLeft, contentInsetRight, contentInsetBottom;
   private ChartColor titleColor, subTitleColor;
   private LinkOpener linkOpener;
-  private int canvasX, canvasY, canvasWidth, canvasHeight;
+  private double canvasX, canvasY, canvasWidth, canvasHeight;
 
   public BasicChartImpl(Theme theme) {
     this.theme = theme;
@@ -138,8 +138,8 @@ public abstract class BasicChartImpl implements Chart, HasAnimation, RendererLis
     this.animationTime = animationTime;
   }
 
-  protected abstract void render(double progress, int x, int y, int width,
-                                 int height) throws ChartException;
+  protected abstract void render(double progress, double x, double y, double width,
+                                 double height) throws ChartException;
 
   @Override
   public long getAnimationTime() {
@@ -196,8 +196,8 @@ public abstract class BasicChartImpl implements Chart, HasAnimation, RendererLis
     return foreground == null ? theme.getTextColor() : foreground;
   }
 
-  protected Integer coalesce(Integer... a) {
-    for (Integer v : a) {
+  protected Double coalesce(Double... a) {
+    for (Double v : a) {
       if (v != null) {
         return v;
       }
@@ -210,7 +210,7 @@ public abstract class BasicChartImpl implements Chart, HasAnimation, RendererLis
     this.font = font;
   }
 
-  protected void setCanvasArea(int x, int y, int w, int h) {
+  protected void setCanvasArea(double x, double y, double w, double h) {
     this.canvasX = x;
     this.canvasY = y;
     this.canvasWidth = w;
@@ -283,12 +283,12 @@ public abstract class BasicChartImpl implements Chart, HasAnimation, RendererLis
   }
 
   @Override
-  public void setTitlePadding(int spacing) {
-    this.titlePadding = spacing;
+  public void setTitlePadding(double titlePadding) {
+    this.titlePadding = titlePadding;
   }
 
   @Override
-  public int getTitlePadding() {
+  public double getTitlePadding() {
     return titlePadding;
   }
 
@@ -303,7 +303,7 @@ public abstract class BasicChartImpl implements Chart, HasAnimation, RendererLis
   }
 
   @Override
-  public void setInsets(int top, int left, int right, int bottom) {
+  public void setInsets(double top, double left, double right, double bottom) {
     this.insetTop = top;
     this.insetLeft = left;
     this.insetRight = right;
@@ -311,22 +311,22 @@ public abstract class BasicChartImpl implements Chart, HasAnimation, RendererLis
   }
 
   @Override
-  public int getInsetTop() {
+  public double getInsetTop() {
     return insetTop;
   }
 
   @Override
-  public int getInsetLeft() {
+  public double getInsetLeft() {
     return insetLeft;
   }
 
   @Override
-  public int getInsetRight() {
+  public double getInsetRight() {
     return insetRight;
   }
 
   @Override
-  public int getInsetBottom() {
+  public double getInsetBottom() {
     return insetBottom;
   }
 
@@ -377,17 +377,17 @@ public abstract class BasicChartImpl implements Chart, HasAnimation, RendererLis
   }
 
   @Override
-  public void setLegendSpacing(int padding) {
+  public void setLegendSpacing(double padding) {
     this.legendSpacing = padding;
   }
 
   @Override
-  public int getLegendSpacing() {
+  public double getLegendSpacing() {
     return legendSpacing;
   }
 
   @Override
-  public void setContentInsets(int top, int left, int right, int bottom) {
+  public void setContentInsets(double top, double left, double right, double bottom) {
     this.contentInsetTop = top;
     this.contentInsetLeft = left;
     this.contentInsetRight = right;
@@ -395,22 +395,22 @@ public abstract class BasicChartImpl implements Chart, HasAnimation, RendererLis
   }
 
   @Override
-  public Integer getContentInsetBottom() {
+  public Double getContentInsetBottom() {
     return contentInsetBottom;
   }
 
   @Override
-  public Integer getContentInsetLeft() {
+  public Double getContentInsetLeft() {
     return contentInsetLeft;
   }
 
   @Override
-  public Integer getContentInsetRight() {
+  public Double getContentInsetRight() {
     return contentInsetRight;
   }
 
   @Override
-  public Integer getContentInsetTop() {
+  public Double getContentInsetTop() {
     return contentInsetTop;
   }
 
@@ -421,15 +421,15 @@ public abstract class BasicChartImpl implements Chart, HasAnimation, RendererLis
 
     final Renderer r = getRenderer();
     r.enableHandlers(isInteractive && !isPopup);
-    int width = r.getWidth();
-    int height = r.getHeight();
+    double width = r.getWidth();
+    double height = r.getHeight();
 
     r.init();
     r.setColor(getBackground());
     r.fillRect(0, 0, width + 1, height + 1);
 
-    int x = getInsetLeft();
-    int y = getInsetTop();
+    double x = getInsetLeft();
+    double y = getInsetTop();
     width -= (getInsetLeft() + getInsetRight());
     height -= (getInsetTop() + getInsetBottom());
 
@@ -449,7 +449,7 @@ public abstract class BasicChartImpl implements Chart, HasAnimation, RendererLis
     final String title = getTitle();
     if (title != null) {
       r.setFont(titleFont);
-      final int textHeight = r.getTextHeight(title);
+      final double textHeight = r.getTextHeight(title);
 
       ChartColor color = getTitleColor();
       if (color == null) {
@@ -459,7 +459,7 @@ public abstract class BasicChartImpl implements Chart, HasAnimation, RendererLis
       r.setColor(color);
       r.drawText(x + width / 2, y, title, 0, Renderer.NORTH);
 
-      final int titlePadding = getTitlePadding() + textHeight;
+      final double titlePadding = getTitlePadding() + textHeight;
       y += titlePadding;
       height -= titlePadding;
     }
@@ -468,7 +468,7 @@ public abstract class BasicChartImpl implements Chart, HasAnimation, RendererLis
     final String subTitle = getSubTitle();
     if (subTitle != null) {
       r.setFont(subTitleFont);
-      final int textHeight = r.getTextHeight(subTitle);
+      final double textHeight = r.getTextHeight(subTitle);
 
       ChartColor color = getSubTitleColor();
       if (color == null) {
@@ -481,19 +481,19 @@ public abstract class BasicChartImpl implements Chart, HasAnimation, RendererLis
       r.setColor(color);
       r.drawText(x + width / 2, y, subTitle, 0, Renderer.NORTH);
 
-      final int titlePadding = getTitlePadding() + textHeight;
+      final double titlePadding = getTitlePadding() + textHeight;
       y += titlePadding;
       height -= titlePadding;
     }
 
-    final int legendPadding = getLegendSpacing();
-    int legendY = y;
-    int legendX = x;
-    int legendSpaceX = width;
-    int legendSpaceY = height;
+    final double legendPadding = getLegendSpacing();
+    double legendY = y;
+    double legendX = x;
+    double legendSpaceX = width;
+    double legendSpaceY = height;
 
     if (legendInside) {
-      int rx = x, ry = y, rWidth = width, rHeight = height;
+      double rx = x, ry = y, rWidth = width, rHeight = height;
       if (contentInsetLeft != null) {
         rx = contentInsetLeft;
       }
@@ -520,11 +520,11 @@ public abstract class BasicChartImpl implements Chart, HasAnimation, RendererLis
         legend.setDimension(needsSampleLegend() ? 0 : 1);
         final int pos = getLegendPosition();
         legend.setVertical((pos == WEST) || (pos == EAST));
-        final int max = legend.isVertical() ? legendSpaceY : legendSpaceX;
+        final double max = legend.isVertical() ? legendSpaceY : legendSpaceX;
         legend.setData(data);
-        final int[] size = legend.getNeededSize(r, max, font);
-        final int legendWidth = size[0];
-        final int legendHeight = size[1];
+        final double[] size = legend.getNeededSize(r, max, font);
+        final double legendWidth = size[0];
+        final double legendHeight = size[1];
 
         switch (pos) {
           case WEST:
@@ -595,7 +595,7 @@ public abstract class BasicChartImpl implements Chart, HasAnimation, RendererLis
     }
 
     if (!legendInside) {
-      int rx = x, ry = y, rWidth = width, rHeight = height;
+      double rx = x, ry = y, rWidth = width, rHeight = height;
       if (contentInsetLeft != null) {
         rx = contentInsetLeft;
       }

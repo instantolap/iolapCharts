@@ -14,7 +14,7 @@ public interface HasBorder extends HasShadow {
 
   void setBorderStroke(ChartStroke border);
 
-  int getRoundedCorner();
+  double getRoundedCorner();
 
-  void setRoundedCorner(int arc);
+  void setRoundedCorner(double arc);
 }

@@ -62,9 +62,9 @@ public class SampleChartImpl extends BasicMultiAxisChartImpl implements SampleCh
     double progress,
     Data data,
     Renderer r,
-    int canvasWidth, int canvasHeight,
+    double canvasWidth, double canvasHeight,
     ChartFont font,
-    int xx, int yy)
+    double xx, double yy)
     throws ChartException {
     final boolean isStacked = isStacked();
     final boolean isRotated = isRotated();

@@ -14,7 +14,7 @@ public class ChartPanel extends JPanel {
   private HasAnimation animated;
   private HeadlessRenderer renderer = new HeadlessRenderer() {
 
-    private void setImageSize(int width, int height) {
+    private void setImageSize(double width, double height) {
       super.setSize(width, height);
 
       final JLabel label = new JLabel(new ImageIcon(getImage()));
@@ -23,7 +23,7 @@ public class ChartPanel extends JPanel {
     }
 
     @Override
-    public void setSize(int width, int height) {
+    public void setSize(double width, double height) {
       setImageSize(width, height);
     }
 

@@ -5,7 +5,7 @@ import com.instantolap.charts.renderer.impl.BasicRenderer;
 
 
 public class DonutPopup extends Popup {
-  public int x, y, r1, r2;
+  public double x, y, r1, r2;
   public double a1, a2;
   public boolean round;
 
@@ -15,7 +15,7 @@ public class DonutPopup extends Popup {
   }
 
   @Override
-  public boolean isInside(Renderer r, int x, int y) {
+  public boolean isInside(Renderer r, double x, double y) {
     return r.isInDonut(x, y, this.x, this.y, r1, r2, a1, a2, round);
   }
 
@@ -28,8 +28,8 @@ public class DonutPopup extends Popup {
     final double len = (double) (r1 + r2) / 2.0;
     final double rad = (double) (a1 + a2) / 2.0;
 
-    final int xx = (int) (Math.sin(rad) * len);
-    final int yy = (int) (-Math.cos(rad) * len);
+    final double xx = Math.sin(rad) * len;
+    final double yy = -Math.cos(rad) * len;
 
     display(r, x + xx, y + yy, Renderer.SOUTH);
   }

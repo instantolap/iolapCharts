@@ -31,8 +31,8 @@ public class HeatMapContentImpl extends BasicHeatMapContentImpl implements Sampl
   public void render(
     double progress,
     Renderer r,
-    Data data, int x, int y,
-    int width, int height,
+    Data data, double x, double y,
+    double width, double height,
     SampleAxis xAxis, SampleAxis yAxis,
     ChartFont font, ChartColor background) throws ChartException
   {
@@ -44,8 +44,8 @@ public class HeatMapContentImpl extends BasicHeatMapContentImpl implements Sampl
     final ContentAnimation anim = getAnimation();
     final ChartFont labelFont = getLabelFont();
 
-    final int xOffset = getShadowXOffset();
-    final int yOffset = getShadowYOffset();
+    final double xOffset = getShadowXOffset();
+    final double yOffset = getShadowYOffset();
 
     final int size0 = cube.getSampleCount(0);
     final int size1 = cube.getSampleCount(1);
@@ -62,19 +62,19 @@ public class HeatMapContentImpl extends BasicHeatMapContentImpl implements Sampl
         if (!cube.isVisible(0, c0)) {
           continue;
         }
-        final int xx = xAxis.getSamplePosition(cube, c0);
-        final int cellWidth = xAxis.getSamplePosition(cube, c0 + 1) - xx;
+        final double xx = xAxis.getSamplePosition(cube, c0);
+        final double cellWidth = xAxis.getSamplePosition(cube, c0 + 1) - xx;
 
         final double progress0 = (double) c0 / (double) (size0 - 1);
         for (int c1 = 0; c1 < size1; c1++) {
           if (!cube.isVisible(1, c1)) {
             continue;
           }
-          final int yy = yAxis.getSamplePosition(cube, c1);
-          final int cellHeight = yAxis.getSamplePosition(cube, c1 + 1) - yy;
-          final int contentWidth = Math.min(cellWidth, cellHeight);
-          final int cx = x + xx + cellWidth / 2;
-          final int cy = y + yy + cellHeight / 2;
+          final double yy = yAxis.getSamplePosition(cube, c1);
+          final double cellHeight = yAxis.getSamplePosition(cube, c1 + 1) - yy;
+          final double contentWidth = Math.min(cellWidth, cellHeight);
+          final double cx = x + xx + cellWidth / 2;
+          final double cy = y + yy + cellHeight / 2;
 
           final Double value = cube.get(Cube.MEASURE_VALUE, c0, c1);
           if (value != null) {
@@ -117,11 +117,11 @@ public class HeatMapContentImpl extends BasicHeatMapContentImpl implements Sampl
               case 2:
                 if (isShowSymbols()) {
                   // use symbolsize or calc symbol size?
-                  int symbolSize = data.getSymbolSize(c1);
+                  double symbolSize = data.getSymbolSize(c1);
                   if (isSymbolAutoSize()) {
-                    final int minSize = getMinTickSize();
-                    final int diff = contentWidth - minSize;
-                    symbolSize = (int) (minSize + (p * diff));
+                    final double minSize = getMinTickSize();
+                    final double diff = contentWidth - minSize;
+                    symbolSize = (minSize + (p * diff));
                   }
 
                   if (symbolSize > 0) {

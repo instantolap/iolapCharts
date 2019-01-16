@@ -25,9 +25,9 @@ public class ScatterContentImpl extends BasicScatterContentImpl implements Value
   }
 
   @Override
-  public void render(double progress, Renderer r, Data data, int x, int y,
-    int width, int height, ScaleAxis xAxis, ValueAxis yAxis,
-    ChartFont font, ChartColor background) throws ChartException
+  public void render(double progress, Renderer r, Data data, double x, double y,
+                     double width, double height, ScaleAxis xAxis, ValueAxis yAxis,
+                     ChartFont font, ChartColor background) throws ChartException
   {
     final Cube cube = getCube();
     if (cube == null) {
@@ -51,8 +51,8 @@ public class ScatterContentImpl extends BasicScatterContentImpl implements Value
     final int size0 = (dimensions >= 1) ? cube.getSampleCount(0) : 1;
     final int size1 = (dimensions >= 2) ? cube.getSampleCount(1) : 1;
 
-    final int xOffset = getShadowXOffset();
-    final int yOffset = getShadowYOffset();
+    final double xOffset = getShadowXOffset();
+    final double yOffset = getShadowYOffset();
 
     final double maxVZ = getMaxVZ(cube);
 
@@ -96,8 +96,8 @@ public class ScatterContentImpl extends BasicScatterContentImpl implements Value
 
           if (vx != null && vy != null) {
 
-            final int xx = xAxis.getPosition(vx);
-            final int yy = yAxis.getPosition(vy);
+            final double xx = xAxis.getPosition(vx);
+            final double yy = yAxis.getPosition(vy);
 
             if (regression != null) {
               regression.addData(xx, yy);
@@ -147,8 +147,8 @@ public class ScatterContentImpl extends BasicScatterContentImpl implements Value
 
     // draw regression line?
     if (regression != null) {
-      final int y0 = (int) regression.predict(x);
-      final int y1 = (int) regression.predict(x + width);
+      final double y0 = regression.predict(x);
+      final double y1 = regression.predict(x + width);
       r.setColor(regressionColor);
       r.setStroke(getRegressionStroke());
       r.drawLine(x, y + y0, x + width, y + y1);

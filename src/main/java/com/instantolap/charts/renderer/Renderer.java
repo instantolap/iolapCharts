@@ -13,17 +13,17 @@ public interface Renderer {
   int SOUTH = 3;
   int CENTER = 4;
 
-  void setSize(int width, int height);
+  void setSize(double width, double height);
 
-  int getWidth();
+  double getWidth();
 
-  int getHeight();
+  double getHeight();
 
-  TextInfo getTextInfo(int x, int y, String text, double rotation, int anchor);
+  TextInfo getTextInfo(double x, double y, String text, double rotation, int anchor);
 
-  void drawText(int x, int y, String title, double angle, int anchor);
+  void drawText(double x, double y, String title, double angle, int anchor);
 
-  void drawLine(int x1, int y1, int x2, int y2);
+  void drawLine(double x1, double y1, double x2, double y2);
 
   void setColor(ChartColor color);
 
@@ -37,39 +37,39 @@ public interface Renderer {
 
   void finish();
 
-  void fillRect(int x, int y, int width, int height);
+  void fillRect(double x, double y, double width, double height);
 
-  void fillRoundedRect(int x, int y, int width, int height, int arc);
+  void fillRoundedRect(double x, double y, double width, double height, double arc);
 
-  void clipRoundedRect(int x, int y, int width, int height, int arc);
+  void clipRoundedRect(double x, double y, double width, double height, double arc);
 
   void resetClip();
 
-  int getTextWidth(String text);
+  double getTextWidth(String text);
 
-  int getTextHeight(String text);
+  double getTextHeight(String text);
 
   double[] getTextSize(String text, double angle);
 
-  void drawRect(int x, int y, int width, int height);
+  void drawRect(double x, double y, double width, double height);
 
-  void drawRoundedRect(int x, int y, int width, int height, int arc);
+  void drawRoundedRect(double x, double y, double width, double height, double arc);
 
-  void drawPolyLine(int[] x, int[] y);
+  void drawPolyLine(double[] x, double[] y);
 
-  void drawPolygon(int[] x, int[] y);
+  void drawPolygon(double[] x, double[] y);
 
-  void fillPolygon(int[] x, int[] y);
+  void fillPolygon(double[] x, double[] y);
 
-  void fillDonut(int x, int y, int r1, int r2, double a1, double a2,
-    boolean round);
+  void fillDonut(double x, double y, double r1, double r2, double a1, double a2,
+                 boolean round);
 
-  void drawDonut(int x, int y, int r1, int r2, double a1, double a2,
-    boolean round);
+  void drawDonut(double x, double y, double r1, double r2, double a1, double a2,
+                 boolean round);
 
-  void drawCircle(int i, int j, int size);
+  void drawCircle(double i, double j, double size);
 
-  void fillCircle(int i, int j, int size);
+  void fillCircle(double i, double j, double size);
 
   String format(String format, double v);
 
@@ -79,18 +79,18 @@ public interface Renderer {
 
   void addListener(RendererListener l);
 
-  void addPopup(int x, int y, int w, int h, int rotation, int anchor,
+  void addPopup(double x, double y, double w, double h, double rotation, int anchor,
     String text, ChartFont font, Runnable onMouseOver,
     Runnable onMouseOut, Runnable onMouseClick);
 
-  void addPopup(int xx, int yy, int len0, int len1, double rad, double rad2,
+  void addPopup(double xx, double yy, double len0, double len1, double rad, double rad2,
     boolean round, String popupText, ChartFont popupFont,
     Runnable onMouseOver, Runnable onMouseOut, Runnable onMouseClick);
 
   boolean inPath(double cx1, double cy1, double[] path);
 
   boolean isInDonut(
-    int xx, int yy, int x, int y, int r1, int r2, double a1, double a2, boolean round
+    double xx, double yy, double x, double y, double r1, double r2, double a1, double a2, boolean round
   );
 
   void fireRepaint(boolean buildCubes) throws ChartException;
@@ -107,9 +107,9 @@ public interface Renderer {
 
   void showError(Exception e);
 
-  void drawBubble(int bx, int by, int bw, int bh, int x, int y, int arc);
+  void drawBubble(double bx, double by, double bw, double bh, double x, double y, double arc);
 
-  void fillBubble(int bx, int by, int bw, int bh, int x, int y, int arc);
+  void fillBubble(double bx, double by, double bw, double bh, double x, double y, double arc);
 
-  void addMouseListener(int x, int y, int width, int height, ChartMouseListener listener);
+  void addMouseListener(double x, double y, double width, double height, ChartMouseListener listener);
 }

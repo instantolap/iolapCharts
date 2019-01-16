@@ -10,9 +10,9 @@ public interface AxisRenderer {
   void render(
     Renderer r,
     Axis axis,
-    int x, int y,
-    int width, int height,
-    int radius,
+    double x, double y,
+    double width, double height,
+    double radius,
     boolean isCentered,
     boolean flip,
     ChartFont font);

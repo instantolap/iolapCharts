@@ -5,7 +5,7 @@ import com.instantolap.charts.renderer.ChartMouseListener;
 
 public interface AreaListener {
 
-  boolean isInside(int x, int y);
+  boolean isInside(double x, double y);
 
   ChartMouseListener getListener();
 }

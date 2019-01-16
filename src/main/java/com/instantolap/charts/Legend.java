@@ -18,13 +18,13 @@ public interface Legend extends HasBackground, HasShadow, HasBorder {
 
   void setColors(ChartColor[] colors);
 
-  int getPadding();
+  double getPadding();
 
-  void setPadding(int padding);
+  void setPadding(double padding);
 
-  int getSpacing();
+  double getSpacing();
 
-  void setSpacing(int spacing);
+  void setSpacing(double spacing);
 
   boolean isVertical();
 

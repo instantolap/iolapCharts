@@ -2,7 +2,7 @@ package com.instantolap.charts.factories;
 
 import com.instantolap.charts.*;
 import com.instantolap.charts.HeatMapContent.HeatColor;
-import com.instantolap.charts.control.RoundChart;
+import com.instantolap.charts.RoundChart;
 import com.instantolap.charts.impl.animation.*;
 import com.instantolap.charts.impl.chart.*;
 import com.instantolap.charts.impl.content.*;
@@ -188,8 +188,8 @@ public class JSONChartFactory {
     }
 
     chart.setLegendInside(json.optBoolean("inside", chart.isLegendInside()));
-    chart.setLegendSpacing(json.optInt("spacing", chart.getLegendSpacing()));
-    legend.setSpacing(json.optInt("labelspacing", legend.getSpacing()));
+    chart.setLegendSpacing(json.optDouble("spacing", chart.getLegendSpacing()));
+    legend.setSpacing(json.optDouble("labelspacing", legend.getSpacing()));
 
     final String color = json.optString("color", null);
     if (color != null) {
@@ -206,7 +206,7 @@ public class JSONChartFactory {
       legend.setFont(new ChartFont(font));
     }
 
-    legend.setPadding(json.optInt("padding", legend.getPadding()));
+    legend.setPadding(json.optDouble("padding", legend.getPadding()));
     legend.setReverse(json.optBoolean("reverse", legend.isReverse()));
 
     final String[] labels = getStringArray(json, "labels");
@@ -507,8 +507,8 @@ public class JSONChartFactory {
   private static void initTimeAxis(TimeAxis axis, JSONObject json, Data data) throws JSONException {
     initScaleAxis(axis, json, data);
 
-    axis.setMinSampleWidth(json.optInt("minunitsize", axis.getMinSampleWidth()));
-    axis.setMaxSampleWidth(json.optInt("maxunitsize", axis.getMaxSampleWidth()));
+    axis.setMinSampleWidth(json.optDouble("minunitsize", axis.getMinSampleWidth()));
+    axis.setMaxSampleWidth(json.optDouble("maxunitsize", axis.getMaxSampleWidth()));
     axis.setSampleMilliseconds(json.optLong("unitms", axis.getSampleMilliseconds()));
   }
 
@@ -528,7 +528,7 @@ public class JSONChartFactory {
     }
 
     axis.setMaxLineCount(json.optInt("maxlinecount", axis.getMaxLineCount()));
-    axis.setMinTickSize(json.optInt("minticksize", axis.getMinTickSize()));
+    axis.setMinTickSize(json.optDouble("minticksize", axis.getMinTickSize()));
 
     // zoom
     axis.enableZoom(json.optBoolean("zoom", axis.isZoomEnabled()));
@@ -615,7 +615,7 @@ public class JSONChartFactory {
 
     axis.setVisible(json.optBoolean("visible", axis.isVisible()));
 
-    axis.setTitleRotation(json.optInt("titleangle", axis.getTitleRotation()));
+    axis.setTitleRotation(json.optDouble("titleangle", axis.getTitleRotation()));
 
     axis.setAutoSpacingOn(json.optBoolean("autospacing", axis.isAutoSpacingOn()));
 
@@ -631,11 +631,11 @@ public class JSONChartFactory {
 
     axis.setShowLabels(json.optBoolean("showlabels", axis.isShowLabels()));
     axis.setShowLabelsInside(json.optBoolean("showlabelsinside", axis.isShowLabelsInside()));
-    axis.setLabelRotation(json.optInt("labelangle", axis.getLabelRotation()));
-    axis.setLabelSpacing(json.optInt("labelspacing", axis.getLabelSpacing()));
+    axis.setLabelRotation(json.optDouble("labelangle", axis.getLabelRotation()));
+    axis.setLabelSpacing(json.optDouble("labelspacing", axis.getLabelSpacing()));
     axis.setPrefix(json.optString("prefix", axis.getPrefix()));
     axis.setPostfix(json.optString("postfix", axis.getPostfix()));
-    axis.setTickWidth(json.optInt("tickwidth", axis.getTickWidth()));
+    axis.setTickWidth(json.optDouble("tickwidth", axis.getTickWidth()));
 
     if (json.has("line")) {
       if (json.isNull("line")) {
@@ -660,10 +660,10 @@ public class JSONChartFactory {
       final RoundAxis round = (RoundAxis) axis;
       round.setRotateLabels(json.optBoolean("rotatelabels", round.isRotateLabels()));
       round.setStartAngle(
-        Math.toRadians(json.optInt("start", (int) Math.toDegrees(round.getStartAngle())))
+        Math.toRadians(json.optDouble("start", Math.toDegrees(round.getStartAngle())))
       );
       round.setStopAngle(
-        Math.toRadians(json.optInt("end", (int) Math.toDegrees(round.getStopAngle())))
+        Math.toRadians(json.optDouble("end", Math.toDegrees(round.getStopAngle())))
       );
 
     }
@@ -761,7 +761,7 @@ public class JSONChartFactory {
     initHasMeasure(content, json);
 
     content.setBarWidth(json.optDouble("barwidth", content.getBarWidth()));
-    content.setBarSpacing(json.optInt("barspacing", content.getBarSpacing()));
+    content.setBarSpacing(json.optDouble("barspacing", content.getBarSpacing()));
     content.setMultiColor(json.optBoolean("multicolor", content.isMultiColor()));
 
     content.setLowerMeasure(json.optString("lowermeasure", content.getLowerMeasure()));
@@ -937,12 +937,12 @@ public class JSONChartFactory {
 
     content.setShowSymbols(json.optBoolean("showsymbols", content.isShowSymbols()));
     content.setSymbolAutoSize(json.optBoolean("symbolautosize", content.isSymbolAutoSize()));
-    content.setMinTickSize(json.optInt("minticksize", content.getMinTickSize()));
+    content.setMinTickSize(json.optDouble("minticksize", content.getMinTickSize()));
     content.setSymbolAutoColor(json.optBoolean("symbolautocolor", content.isSymbolAutoColor()));
     content.setFormat(json.optString("format", content.getFormat()));
 
     content.setFill(json.optBoolean("fill", content.isFill()));
-    content.setFillPadding(json.optInt("fillpadding", content.getFillPadding()));
+    content.setFillPadding(json.optDouble("fillpadding", content.getFillPadding()));
   }
 
   private static void initContent(Content content, JSONObject json, Data data, int index)
@@ -1005,8 +1005,8 @@ public class JSONChartFactory {
       }
     }
 
-    content.setShadowXOffset(json.optInt("shadowxoffset", content.getShadowXOffset()));
-    content.setShadowYOffset(json.optInt("shadowyoffset", content.getShadowYOffset()));
+    content.setShadowXOffset(json.optDouble("shadowxoffset", content.getShadowXOffset()));
+    content.setShadowYOffset(json.optDouble("shadowyoffset", content.getShadowYOffset()));
   }
 
   private static void initHasBackground(HasBackground content, JSONObject json)
@@ -1032,7 +1032,7 @@ public class JSONChartFactory {
   }
 
   private static void initHasValueLabels(HasValueLabels content, JSONObject json) {
-    content.setLabelAngle(json.optInt("labelangle", content.getLabelAngle()));
+    content.setLabelAngle(json.optDouble("labelangle", content.getLabelAngle()));
 
     final String labelColor = json.optString("labelcolor", null);
     if (labelColor != null) {
@@ -1044,7 +1044,7 @@ public class JSONChartFactory {
       content.setLabelFont(new ChartFont(labelFont));
     }
 
-    content.setLabelSpacing(json.optInt("labelspacing", content.getLabelSpacing()));
+    content.setLabelSpacing(json.optDouble("labelspacing", content.getLabelSpacing()));
 
     // popups
     content.setShowPopup(json.optBoolean("popup", content.isShowPopup()));
@@ -1061,6 +1061,9 @@ public class JSONChartFactory {
     content.setShowValueLabels(json.optBoolean("valuelabels", content.isShowValueLabels()));
     content.setShowValuePopup(json.optBoolean("valuepopup", content.isShowValuePopup()));
     content.setShowPercentPopup(json.optBoolean("percentpopup", content.isShowPercentPopup()));
+    content.setValueLabelType(HasValueLabels.ValueLabelType.valueOf(
+      json.optString("valuelabeltype", content.getValueLabelType().toString()).toUpperCase()
+    ));
 
     // prefix / postfix
     content.setValueLabelPostfix(json.optString("postfix", content.getValueLabelPostfix()));
@@ -1090,7 +1093,7 @@ public class JSONChartFactory {
       content.setBorderStroke(new ChartStroke(borderStroke));
     }
 
-    content.setRoundedCorner(json.optInt("corner", content.getRoundedCorner()));
+    content.setRoundedCorner(json.optDouble("corner", content.getRoundedCorner()));
   }
 
   private static void initHasRegression(HasRegression content, JSONObject json) {

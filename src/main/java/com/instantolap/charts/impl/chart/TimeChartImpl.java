@@ -64,8 +64,8 @@ public class TimeChartImpl extends BasicMultiAxisChartImpl implements TimeChart 
 
   @Override
   protected void renderContent(double progress, Data data, final Renderer r,
-                               final int canvasWidth, final int canvasHeight, ChartFont font,
-                               final int xx, final int yy) throws ChartException {
+                               final double canvasWidth, final double canvasHeight, ChartFont font,
+                               final double xx, final double yy) throws ChartException {
 
     for (Content content : getContents()) {
 

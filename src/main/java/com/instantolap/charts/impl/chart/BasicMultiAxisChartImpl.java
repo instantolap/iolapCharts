@@ -109,7 +109,7 @@ public abstract class BasicMultiAxisChartImpl extends BasicSampleChartImpl {
   }
 
   @Override
-  protected void render(double progress, int x, int y, int width, int height)
+  protected void render(double progress, double x, double y, double width, double height)
     throws ChartException
   {
 
@@ -125,8 +125,8 @@ public abstract class BasicMultiAxisChartImpl extends BasicSampleChartImpl {
     final boolean isCentered = needsCenteredSampleAxis();
 
     // find axis sizes (2 pass)
-    int valueAxisSize1 = 0, valueAxisSize2 = 0, sampleAxisSize = 0;
-    int canvasWidth = width, canvasHeight = height;
+    double valueAxisSize1 = 0, valueAxisSize2 = 0, sampleAxisSize = 0;
+    double canvasWidth = width, canvasHeight = height;
 
     for (int n = 0; n < 2; n++) {
       if (yAxis1 != null) {
@@ -184,21 +184,21 @@ public abstract class BasicMultiAxisChartImpl extends BasicSampleChartImpl {
 
     // render canvas
     if (isRotated) {
-      final int canvasX = x + sampleAxisSize;
-      final int canvasY = y + valueAxisSize2;
+      final double canvasX = x + sampleAxisSize;
+      final double canvasY = y + valueAxisSize2;
       canvas.render(
         progress, r, canvasX, canvasY, canvasWidth, canvasHeight, xAxis, null, yAxis1, yAxis2
       );
     } else {
-      final int canvasX = x + valueAxisSize1;
+      final double canvasX = x + valueAxisSize1;
       canvas.render(
         progress, r, canvasX, y, canvasWidth, canvasHeight, yAxis1, yAxis2, xAxis, null
       );
     }
 
     // paint content
-    final int xx = x + (isRotated ? sampleAxisSize : valueAxisSize1);
-    final int yy = y + (isRotated ? valueAxisSize2 : 0);
+    final double xx = x + (isRotated ? sampleAxisSize : valueAxisSize1);
+    final double yy = y + (isRotated ? valueAxisSize2 : 0);
     setCanvasArea(xx, yy, canvasWidth, canvasHeight);
     renderContent(progress, data, r, canvasWidth, canvasHeight, font, xx, yy);
 
@@ -282,9 +282,9 @@ public abstract class BasicMultiAxisChartImpl extends BasicSampleChartImpl {
     double progress,
     Data data,
     Renderer r,
-    int canvasWidth, int canvasHeight,
+    double canvasWidth, double canvasHeight,
     ChartFont font,
-    int xx, int yy)
+    double xx, double yy)
     throws ChartException;
 
   protected Axis getAxis(Content content) {

@@ -42,15 +42,15 @@ public interface Chart extends RendererContent, HasBackground, HasTitle, HasAnim
 
   void setData(Data data);
 
-  void setInsets(int top, int left, int right, int bottom);
+  void setInsets(double top, double left, double right, double bottom);
 
-  int getInsetLeft();
+  double getInsetLeft();
 
-  int getInsetRight();
+  double getInsetRight();
 
-  int getInsetTop();
+  double getInsetTop();
 
-  int getInsetBottom();
+  double getInsetBottom();
 
   Legend getLegend();
 
@@ -70,23 +70,23 @@ public interface Chart extends RendererContent, HasBackground, HasTitle, HasAnim
 
   void setLegendInside(boolean inside);
 
-  int getLegendSpacing();
+  double getLegendSpacing();
 
-  void setLegendSpacing(int padding);
+  void setLegendSpacing(double padding);
 
   void addContent(Content content);
 
   List<Content> getContents();
 
-  void setContentInsets(int top, int left, int right, int bottom);
+  void setContentInsets(double top, double left, double right, double bottom);
 
-  Integer getContentInsetLeft();
+  Double getContentInsetLeft();
 
-  Integer getContentInsetRight();
+  Double getContentInsetRight();
 
-  Integer getContentInsetTop();
+  Double getContentInsetTop();
 
-  Integer getContentInsetBottom();
+  Double getContentInsetBottom();
 
   LinkOpener getLinkOpener();
 

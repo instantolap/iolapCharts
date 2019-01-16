@@ -14,9 +14,9 @@ public interface ScaleAxis extends Axis {
 
   void setMax(Double max);
 
-  int getMinTickSize();
+  double getMinTickSize();
 
-  void setMinTickSize(int minTickSize);
+  void setMinTickSize(double minTickSize);
 
   int getMaxLineCount();
 
@@ -30,9 +30,9 @@ public interface ScaleAxis extends Axis {
 
   void setUserTick(Double stepSize);
 
-  int getPosition(double v);
+  double getPosition(double v);
 
-  int getRadius(double v);
+  double getRadius(double v);
 
   void enableZoom(boolean enable);
 

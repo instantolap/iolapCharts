@@ -23,8 +23,8 @@ public class HeadlessRenderer extends BasicRenderer {
   private BufferedImage image;
 
   @Override
-  public void setSize(int width, int height) {
-    image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+  public void setSize(double width, double height) {
+    image = new BufferedImage((int) width, (int) height, BufferedImage.TYPE_INT_ARGB);
 
     graphics = (Graphics2D) image.getGraphics();
     graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
@@ -35,17 +35,17 @@ public class HeadlessRenderer extends BasicRenderer {
   }
 
   @Override
-  public int getWidth() {
+  public double getWidth() {
     return image.getWidth();
   }
 
   @Override
-  public int getHeight() {
+  public double getHeight() {
     return image.getHeight();
   }
 
   @Override
-  public void drawText(int x, int y, String text, double angle, int anchor) {
+  public void drawText(double x, double y, String text, double angle, int anchor) {
     if (text == null) {
       return;
     }
@@ -75,8 +75,8 @@ public class HeadlessRenderer extends BasicRenderer {
   }
 
   @Override
-  public void drawLine(int x1, int y1, int x2, int y2) {
-    graphics.drawLine(x1, y1, x2, y2);
+  public void drawLine(double x1, double y1, double x2, double y2) {
+    graphics.drawLine((int) x1, (int) y1, (int) x2, (int) y2);
   }
 
   @Override
@@ -86,16 +86,16 @@ public class HeadlessRenderer extends BasicRenderer {
       return;
     }
 
-    final int len1 = stroke.getLen1();
-    final int len2 = stroke.getLen2();
+    final double len1 = stroke.getLen1();
+    final double len2 = stroke.getLen2();
     if ((len1 == 0) || (len2 == 0)) {
-      graphics.setStroke(new BasicStroke(stroke.getWidth(),
+      graphics.setStroke(new BasicStroke((int) stroke.getWidth(),
         BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND
       ));
     } else {
-      graphics.setStroke(new BasicStroke(stroke.getWidth(),
+      graphics.setStroke(new BasicStroke((int) stroke.getWidth(),
         BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 1f,
-        new float[]{len1, len2}, 0f
+        new float[]{(float) len1, (float) len2}, 0f
       ));
     }
   }
@@ -123,21 +123,21 @@ public class HeadlessRenderer extends BasicRenderer {
   }
 
   @Override
-  public void fillRect(int x, int y, int width, int height) {
+  public void fillRect(double x, double y, double width, double height) {
     prepareFillRect(x, y, width, height);
-    graphics.fillRect(x, y, width, height);
+    graphics.fillRect((int) x, (int) y, (int) width, (int) height);
     graphics.setPaint(null);
   }
 
   @Override
-  public void fillRoundedRect(int x, int y, int width, int height, int arc) {
+  public void fillRoundedRect(double x, double y, double width, double height, double arc) {
     prepareFillRect(x, y, width, height);
-    graphics.fillRoundRect(x, y, width, height, arc, arc);
+    graphics.fillRoundRect((int) x, (int) y, (int) width, (int) height, (int) arc, (int) arc);
     graphics.setPaint(null);
   }
 
   @Override
-  public void clipRoundedRect(int x, int y, int width, int height, int arc) {
+  public void clipRoundedRect(double x, double y, double width, double height, double arc) {
     graphics.clip(new RoundRectangle2D.Double(x, y, width, height, arc, arc));
   }
 
@@ -147,33 +147,33 @@ public class HeadlessRenderer extends BasicRenderer {
   }
 
   @Override
-  public void drawRect(int x, int y, int width, int height) {
-    graphics.drawRect(x, y, width, height);
+  public void drawRect(double x, double y, double width, double height) {
+    graphics.drawRect((int) x, (int) y, (int) width, (int) height);
   }
 
   @Override
-  public void drawRoundedRect(int x, int y, int width, int height, int arc) {
-    graphics.drawRoundRect(x, y, width, height, arc, arc);
+  public void drawRoundedRect(double x, double y, double width, double height, double arc) {
+    graphics.drawRoundRect((int) x, (int) y, (int) width, (int) height, (int) arc, (int) arc);
   }
 
   @Override
-  public void drawPolyLine(int[] x, int[] y) {
-    graphics.drawPolyline(x, y, Math.min(x.length, y.length));
+  public void drawPolyLine(double[] x, double[] y) {
+    graphics.drawPolyline(convert(x), convert(y), Math.min(x.length, y.length));
   }
 
   @Override
-  public void drawPolygon(int[] x, int[] y) {
-    graphics.drawPolygon(x, y, Math.min(x.length, y.length));
+  public void drawPolygon(double[] x, double[] y) {
+    graphics.drawPolygon(convert(x), convert(y), Math.min(x.length, y.length));
   }
 
   @Override
-  public void fillPolygon(int[] x, int[] y) {
+  public void fillPolygon(double[] x, double[] y) {
     prepareFillPolygon(x, y);
-    graphics.fillPolygon(x, y, Math.min(x.length, y.length));
+    graphics.fillPolygon(convert(x), convert(y), Math.min(x.length, y.length));
   }
 
   @Override
-  public void fillDonut(int x, int y, int r1, int r2, double a1, double a2,
+  public void fillDonut(double x, double y, double r1, double r2, double a1, double a2,
                         boolean round) {
     prepareFillDonut(x, y, r2, a1, a2);
     final GeneralPath path = getDonutPath(x, y, r1, r2, a1, a2, round);
@@ -182,21 +182,21 @@ public class HeadlessRenderer extends BasicRenderer {
   }
 
   @Override
-  public void drawDonut(int x, int y, int r1, int r2, double a1, double a2,
+  public void drawDonut(double x, double y, double r1, double r2, double a1, double a2,
                         boolean round) {
     final GeneralPath path = getDonutPath(x, y, r1, r2, a1, a2, round);
     graphics.draw(path);
   }
 
   @Override
-  public void drawCircle(int x, int y, int size) {
-    graphics.drawOval(x, y, size, size);
+  public void drawCircle(double x, double y, double size) {
+    graphics.drawOval((int) x, (int) y, (int) size, (int) size);
   }
 
   @Override
-  public void fillCircle(int x, int y, int size) {
+  public void fillCircle(double x, double y, double size) {
     prepareFillRect(x, y, size, size);
-    graphics.fillOval(x, y, size, size);
+    graphics.fillOval((int) x, (int) y, (int) size, (int) size);
   }
 
   @Override
@@ -230,7 +230,7 @@ public class HeadlessRenderer extends BasicRenderer {
   }
 
   @Override
-  public boolean isInDonut(int xx, int yy, int x, int y, int r1, int r2,
+  public boolean isInDonut(double xx, double yy, double x, double y, double r1, double r2,
                            double a1, double a2, boolean round) {
     final GeneralPath p = getDonutPath(x, y, r1, r2, a1, a2, round);
     p.closePath();
@@ -266,20 +266,20 @@ public class HeadlessRenderer extends BasicRenderer {
   }
 
   @Override
-  public void drawBubble(int bx, int by, int bw, int bh, int x, int y, int arc) {
+  public void drawBubble(double bx, double by, double bw, double bh, double x, double y, double arc) {
     final GeneralPath path = createBubblePath(bx, by, bw, bh, x, y, arc);
     graphics.draw(path);
   }
 
   @Override
-  public void fillBubble(int bx, int by, int bw, int bh, int x, int y, int arc) {
+  public void fillBubble(double bx, double by, double bw, double bh, double x, double y, double arc) {
     final GeneralPath path = createBubblePath(bx, by, bw, bh, x, y, arc);
     path.closePath();
     graphics.fill(path);
   }
 
-  private GeneralPath createBubblePath(int x, int y, int w, int h, int ax,
-                                       int ay, int rr) {
+  private GeneralPath createBubblePath(double x, double y, double w, double h, double ax,
+                                       double ay, double rr) {
     final GeneralPath path = new GeneralPath();
 
     final double r = rr / 2.0;
@@ -393,23 +393,24 @@ public class HeadlessRenderer extends BasicRenderer {
   }
 
   @Override
-  protected int getTextLineWidth(String text) {
+  protected double getTextLineWidth(String text) {
     final FontMetrics m = graphics.getFontMetrics();
     final Rectangle2D bounds = m.getStringBounds(text, graphics);
-    return (int) (bounds.getWidth() - 1);
+    return bounds.getWidth() - 1;
   }
 
   @Override
-  protected int getTextLineHeight(String text) {
+  protected double getTextLineHeight(String text) {
     final FontMetrics m = graphics.getFontMetrics();
     return m.getAscent() - 2;
   }
 
   @Override
-  protected void setGradient(int x, int y, int width, int height) {
+  protected void setGradient(double x, double y, double width, double height) {
     if (color.isGradient()) {
-      final GradientPaint paint = new GradientPaint(x, y, graphics.getColor(),
-        x + 2 * width, y + 2 * height, Color.WHITE
+      final GradientPaint paint = new GradientPaint(
+        (int) x, (int) y, graphics.getColor(),
+        (int) (x + 2 * width), (int) (y + 2 * height), Color.WHITE
       );
       graphics.setPaint(paint);
     }
@@ -429,5 +430,13 @@ public class HeadlessRenderer extends BasicRenderer {
 
   public BufferedImage getImage() {
     return image;
+  }
+
+  private int[] convert(double[] a) {
+    final int[] result = new int[a.length];
+    for (int n = 0; n < result.length; n++) {
+      result[n] = (int) a[n];
+    }
+    return result;
   }
 }

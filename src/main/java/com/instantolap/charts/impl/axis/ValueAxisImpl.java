@@ -20,7 +20,7 @@ public class ValueAxisImpl extends BasicScaleAxisImpl implements ValueAxis {
   private final List<CriticalArea> areas = new ArrayList<>();
   private String format;
   private Integer decimalCount;
-  private int maxLabelSize;
+  private double maxLabelSize;
   private boolean includeCriticalAreas = true;
   private boolean includeTargets = true;
   private boolean useZeroAsBase = true;
@@ -47,7 +47,7 @@ public class ValueAxisImpl extends BasicScaleAxisImpl implements ValueAxis {
 
   @Override
   public void setData(
-    int height,
+    double height,
     Renderer r,
     int axisNum,
     boolean isStacked,
@@ -124,7 +124,7 @@ public class ValueAxisImpl extends BasicScaleAxisImpl implements ValueAxis {
     // calc size
     neededWidth = 0;
     if ((min.equals(max)) || height <= 0) {
-      grids = new int[0];
+      grids = new double[0];
     } else {
 
       // find stepsize
@@ -149,7 +149,7 @@ public class ValueAxisImpl extends BasicScaleAxisImpl implements ValueAxis {
       int tickCount = 0;
       double tickV = v;
       while (tick > 0) {
-        final int pos = getPosition(tickV);
+        final double pos = getPosition(tickV);
         if (pos < 0 || pos > size) {
           break;
         }
@@ -161,7 +161,7 @@ public class ValueAxisImpl extends BasicScaleAxisImpl implements ValueAxis {
       // create custom grid
       gridLines = null;
       if (gridPositions != null) {
-        gridLines = new int[gridPositions.length];
+        gridLines = new double[gridPositions.length];
         texts = new String[gridPositions.length];
         for (int n = 0; n < gridPositions.length; n++) {
           gridLines[n] = getPosition(gridPositions[n]);
@@ -172,7 +172,7 @@ public class ValueAxisImpl extends BasicScaleAxisImpl implements ValueAxis {
       }
 
       // create grid
-      grids = new int[tickCount];
+      grids = new double[tickCount];
       texts = new String[tickCount];
       for (int n = 0; n < tickCount; n++) {
         grids[n] = getPosition(v);
@@ -182,7 +182,7 @@ public class ValueAxisImpl extends BasicScaleAxisImpl implements ValueAxis {
 
         if (isVisible() && isShowLabels()) {
           final double[] size = r.getTextSize(texts[n], getLabelRotation());
-          neededWidth = Math.max(neededWidth, (int) (vertical ? size[0] : size[1]));
+          neededWidth = Math.max(neededWidth, vertical ? size[0] : size[1]);
         }
 
         v += tick;
@@ -200,10 +200,10 @@ public class ValueAxisImpl extends BasicScaleAxisImpl implements ValueAxis {
     neededWidth += getNeededTitleWidth(r, vertical);
 
     // targets
-    int maxTargetSize = 0;
+    double maxTargetSize = 0;
     for (TargetLine target : getTargetLines()) {
       final double[] size = r.getTextSize(target.text, getLabelRotation());
-      maxTargetSize = Math.max(maxTargetSize, (int) (vertical ? size[0] : size[1]));
+      maxTargetSize = Math.max(maxTargetSize, vertical ? size[0] : size[1]);
       target.valueText = prefix + r.format(format, target.value) + postfix;
     }
     if (maxTargetSize > 0) {
@@ -213,8 +213,7 @@ public class ValueAxisImpl extends BasicScaleAxisImpl implements ValueAxis {
   }
 
   @Override
-  protected double findBestScale(Double min, Double max, int size,
-                                 int minTickSize) {
+  protected double findBestScale(Double min, Double max, double size, double minTickSize) {
     return ScaleHelper.findBestScale(min, max, size, minTickSize);
   }
 
@@ -226,8 +225,8 @@ public class ValueAxisImpl extends BasicScaleAxisImpl implements ValueAxis {
   @Override
   public void render(
     Renderer r,
-    int x, int y,
-    int width, int height,
+    double x, double y,
+    double width, double height,
     boolean isCentered,
     boolean flip,
     ChartFont font) {
@@ -244,12 +243,12 @@ public class ValueAxisImpl extends BasicScaleAxisImpl implements ValueAxis {
     }
     r.setFont(usedFont);
 
-    final int tick = getTickWidth();
-    final int spacing = getLabelSpacing();
-    final int rot = getLabelRotation();
+    final double tick = getTickWidth();
+    final double spacing = getLabelSpacing();
+    final double rot = getLabelRotation();
 
     for (TargetLine target : getTargetLines()) {
-      final int pos = getPosition(target.value);
+      final double pos = getPosition(target.value);
       r.setColor(target.color);
       if (isVertical()) {
         if (flip) {
@@ -259,14 +258,14 @@ public class ValueAxisImpl extends BasicScaleAxisImpl implements ValueAxis {
           // background
           if ((target.background != null) && (target.valueText != null)) {
             r.setColor(target.background);
-            final int textHeight = (int) ((r.getTextSize(target.valueText, rot)[1] + 4) / 2);
-            final int[] xx = new int[]{
+            final double textHeight = ((r.getTextSize(target.valueText, rot)[1] + 4) / 2);
+            final double[] xx = new double[]{
               x,
               x + width,
               x + width + textHeight,
               x + width,
               x};
-            final int[] yy = new int[]{
+            final double[] yy = new double[]{
               y + pos - textHeight,
               y + pos - textHeight,
               y + pos,

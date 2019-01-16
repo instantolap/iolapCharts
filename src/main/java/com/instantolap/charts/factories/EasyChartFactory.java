@@ -1,7 +1,7 @@
 package com.instantolap.charts.factories;
 
 import com.instantolap.charts.*;
-import com.instantolap.charts.control.RoundChart;
+import com.instantolap.charts.RoundChart;
 import com.instantolap.charts.impl.chart.RoundChartImpl;
 import com.instantolap.charts.impl.chart.SampleChartImpl;
 import com.instantolap.charts.impl.content.*;

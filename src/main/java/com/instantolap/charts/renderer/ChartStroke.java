@@ -11,14 +11,14 @@ public class ChartStroke implements Serializable {
   public static ChartStroke DEFAULT = new ChartStroke(1);
   public static ChartStroke HIDDEN = new ChartStroke(0);
 
-  private int width;
-  private int len1, len2;
+  private double width;
+  private double len1, len2;
 
   public ChartStroke() {
     this(1, 1, 0);
   }
 
-  public ChartStroke(int width, int len1, int len2) {
+  public ChartStroke(double width, double len1, double len2) {
     this.width = width;
     this.len1 = len1;
     this.len2 = len2;
@@ -46,7 +46,7 @@ public class ChartStroke implements Serializable {
     this(width, 1, 0);
   }
 
-  public int getWidth() {
+  public double getWidth() {
     return width;
   }
 
@@ -54,11 +54,11 @@ public class ChartStroke implements Serializable {
     this.width = width;
   }
 
-  public int getLen1() {
+  public double getLen1() {
     return len1;
   }
 
-  public int getLen2() {
+  public double getLen2() {
     return len2;
   }
 

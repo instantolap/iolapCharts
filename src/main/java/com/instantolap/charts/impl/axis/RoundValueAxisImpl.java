@@ -19,7 +19,7 @@ public class RoundValueAxisImpl extends ValueAxisImpl implements RoundAxis {
   }
 
   @Override
-  public void doZoom(Renderer r, int wheelMotion, int x, int startX, int width) {
+  public void doZoom(Renderer r, int wheelMotion, double x, double startX, double width) {
   }
 
   @Override

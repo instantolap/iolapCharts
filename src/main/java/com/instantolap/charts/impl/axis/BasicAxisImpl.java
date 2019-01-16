@@ -14,20 +14,20 @@ public abstract class BasicAxisImpl implements Axis {
   private String title;
   private ChartColor titleColor;
   private ChartFont titleFont;
-  private int titlePadding = 10;
+  private double titlePadding = 10;
 
   private boolean showLabels = true;
   private ChartColor[] colors;
   private ChartFont font;
-  private int labelRotation;
+  private double labelRotation;
   private boolean showLabelsInside;
 
   private ChartColor lineColor;
   private boolean showBaseLine = false;
   private ChartColor background;
-  private int titleRotation;
-  private int tickWidth;
-  private int labelSpacing = 5;
+  private double titleRotation;
+  private double tickWidth;
+  private double labelSpacing = 5;
   private boolean[] visibleGrid;
   private boolean autoSpacingOn = true;
   private String postfix;
@@ -36,7 +36,7 @@ public abstract class BasicAxisImpl implements Axis {
   private boolean visible = true;
   private boolean showGrid = true;
   private AxisRenderer renderer = new LineAxisRenderer();
-  private int radius;
+  private double radius;
 
   protected BasicAxisImpl(Theme theme) {
     this.theme = theme;
@@ -61,7 +61,7 @@ public abstract class BasicAxisImpl implements Axis {
   }
 
   public abstract void setData(
-    int height,
+    double height,
     Renderer r,
     int axisNum,
     boolean isStacked,
@@ -71,8 +71,8 @@ public abstract class BasicAxisImpl implements Axis {
 
   public void render(
     Renderer r,
-    int x, int y,
-    int width, int height,
+    double x, double y,
+    double width, double height,
     boolean isCentered,
     boolean flip,
     ChartFont font) {
@@ -98,13 +98,13 @@ public abstract class BasicAxisImpl implements Axis {
     return titleColor == null ? theme.getTextColor() : titleColor;
   }
 
-  protected int getNeededTitleWidth(Renderer r, boolean vertical) {
+  protected double getNeededTitleWidth(Renderer r, boolean vertical) {
     final String title = getTitle();
     if (title == null) {
       return 0;
     }
 
-    int neededWidth = 2 * getTitlePadding();
+    double neededWidth = 2 * getTitlePadding();
 
     r.setFont(getTitleFont());
     final double[] size = r.getTextSize(getTitle(), getTitleRotation());
@@ -121,15 +121,15 @@ public abstract class BasicAxisImpl implements Axis {
     this.titleColor = titleColor;
   }
 
-  public int getRadius(Renderer r, int width, int height) {
-    int xRadius = width / 2;
-    int yRadius = height / 2;
+  public double getRadius(Renderer r, double width, double height) {
+    double xRadius = width / 2;
+    double yRadius = height / 2;
 
     if (isVisible() && isShowLabels() && !isShowLabelsInside()) {
       final String[] texts = getTexts();
       if (texts != null) {
         r.setFont(getFont());
-        int maxHeight = 0, maxWidth = 0;
+        double maxHeight = 0, maxWidth = 0;
         for (String text : texts) {
           maxWidth = Math.max(r.getTextWidth(text), maxWidth);
           maxHeight = Math.max(r.getTextHeight(text), maxHeight);
@@ -165,17 +165,17 @@ public abstract class BasicAxisImpl implements Axis {
   }
 
   @Override
-  public int getTitleRotation() {
-    return titleRotation;
-  }
-
-  @Override
   public ChartFont getTitleFont() {
     return titleFont != null ? titleFont : theme.getSubTitleFont();
   }
 
   @Override
-  public void setTitleRotation(int titleRotation) {
+  public double getTitleRotation() {
+    return titleRotation;
+  }
+
+  @Override
+  public void setTitleRotation(double titleRotation) {
     this.titleRotation = titleRotation;
   }
 
@@ -243,22 +243,22 @@ public abstract class BasicAxisImpl implements Axis {
   }
 
   @Override
-  public int getLabelRotation() {
+  public double getLabelRotation() {
     return labelRotation;
   }
 
   @Override
-  public void setLabelRotation(int rotation) {
+  public void setLabelRotation(double rotation) {
     this.labelRotation = rotation;
   }
 
   @Override
-  public int getLabelSpacing() {
+  public double getLabelSpacing() {
     return labelSpacing;
   }
 
   @Override
-  public void setLabelSpacing(int spacing) {
+  public void setLabelSpacing(double spacing) {
     this.labelSpacing = spacing;
   }
 
@@ -273,12 +273,12 @@ public abstract class BasicAxisImpl implements Axis {
   }
 
   @Override
-  public int getTickWidth() {
+  public double getTickWidth() {
     return tickWidth;
   }
 
   @Override
-  public void setTickWidth(int tickWidth) {
+  public void setTickWidth(double tickWidth) {
     this.tickWidth = tickWidth;
   }
 
@@ -323,15 +323,15 @@ public abstract class BasicAxisImpl implements Axis {
   }
 
   @Override
-  public void setTitlePadding(int padding) {
-    this.titlePadding = padding;
-  }
-
-  @Override
   public abstract boolean isVertical();
 
   @Override
-  public int getTitlePadding() {
+  public void setTitlePadding(double titlePadding) {
+    this.titlePadding = titlePadding;
+  }
+
+  @Override
+  public double getTitlePadding() {
     return titlePadding;
   }
 
@@ -345,7 +345,7 @@ public abstract class BasicAxisImpl implements Axis {
     this.showGrid = show;
   }
 
-  public void setRadius(int radius) {
+  public void setRadius(double radius) {
     this.radius = radius;
   }
 

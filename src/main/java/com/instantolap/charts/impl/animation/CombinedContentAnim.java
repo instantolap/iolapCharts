@@ -63,7 +63,7 @@ public class CombinedContentAnim implements ContentAnimation {
   }
 
   @Override
-  public int getX(double progress, int x, int width, int height) {
+  public double getX(double progress, double x, double width, double height) {
     for (ContentAnimation a : animations) {
       x = a.getX(progress, x, width, height);
     }
@@ -71,7 +71,7 @@ public class CombinedContentAnim implements ContentAnimation {
   }
 
   @Override
-  public int getY(double progress, int y, int width, int height) {
+  public double getY(double progress, double y, double width, double height) {
     for (ContentAnimation a : animations) {
       y = a.getX(progress, y, width, height);
     }

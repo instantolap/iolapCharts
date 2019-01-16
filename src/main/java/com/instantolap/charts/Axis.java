@@ -10,9 +10,9 @@ public interface Axis extends HasTitle, HasBackground, HasSamples {
 
   void setVisible(boolean visible);
 
-  int getTitleRotation();
+  double getTitleRotation();
 
-  void setTitleRotation(int rotation);
+  void setTitleRotation(double rotation);
 
   ChartColor getLineColor();
 
@@ -38,21 +38,21 @@ public interface Axis extends HasTitle, HasBackground, HasSamples {
 
   void setFont(ChartFont font);
 
-  int getLabelRotation();
+  double getLabelRotation();
 
-  void setLabelRotation(int rotation);
+  void setLabelRotation(double rotation);
 
-  int getLabelSpacing();
+  double getLabelSpacing();
 
-  void setLabelSpacing(int spacing);
+  void setLabelSpacing(double spacing);
 
   boolean isAutoSpacingOn();
 
   void setAutoSpacingOn(boolean autoSpacing);
 
-  int getTickWidth();
+  double getTickWidth();
 
-  void setTickWidth(int tickWidth);
+  void setTickWidth(double tickWidth);
 
   String getPrefix();
 
@@ -66,11 +66,11 @@ public interface Axis extends HasTitle, HasBackground, HasSamples {
 
   void setShowLabelsInside(boolean inside);
 
-  int[] getGrid();
+  double[] getGrid();
 
-  int[] getCenteredGrid();
+  double[] getCenteredGrid();
 
-  int[] getGridLines();
+  double[] getGridLines();
 
   boolean[] getVisibleGrid();
 
@@ -78,9 +78,9 @@ public interface Axis extends HasTitle, HasBackground, HasSamples {
 
   String[] getTexts();
 
-  int getNeededSize();
+  double getNeededSize();
 
-  int getSize();
+  double getSize();
 
   boolean isVertical();
 

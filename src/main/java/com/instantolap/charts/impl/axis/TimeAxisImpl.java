@@ -11,8 +11,8 @@ import java.util.Date;
 
 public class TimeAxisImpl extends BasicScaleAxisImpl implements TimeAxis {
 
-  private int minSampleWidth = 1;
-  private int maxSampleWidth = Integer.MAX_VALUE;
+  private double minSampleWidth = 1;
+  private double maxSampleWidth = Integer.MAX_VALUE;
   private long sampleMilliseconds = 60000;
 
   public TimeAxisImpl(Theme theme) {
@@ -24,7 +24,7 @@ public class TimeAxisImpl extends BasicScaleAxisImpl implements TimeAxis {
 
   @Override
   public void setData(
-    int height,
+    double height,
     Renderer r,
     int axisNum,
     boolean isStacked,
@@ -65,7 +65,7 @@ public class TimeAxisImpl extends BasicScaleAxisImpl implements TimeAxis {
     // calc size
     neededWidth = 0;
     if ((min == null) || (max == null) || (min.equals(max)) || (height <= 0)) {
-      grids = new int[0];
+      grids = new double[0];
     } else {
 
       // find max ticksize
@@ -80,7 +80,7 @@ public class TimeAxisImpl extends BasicScaleAxisImpl implements TimeAxis {
       int tickCount = 0;
       double tickV = v;
       while (tick > 0) {
-        final int pos = getPosition(tickV);
+        final double pos = getPosition(tickV);
         if (pos < 0 || pos > size) {
           break;
         }
@@ -90,10 +90,10 @@ public class TimeAxisImpl extends BasicScaleAxisImpl implements TimeAxis {
       }
 
       // create grid
-      grids = new int[tickCount];
+      grids = new double[tickCount];
       texts = new String[tickCount];
       for (int n = 0; n < tickCount; n++) {
-        final int pos = getPosition(v);
+        final double pos = getPosition(v);
         if (pos > size) {
           break;
         }
@@ -116,7 +116,7 @@ public class TimeAxisImpl extends BasicScaleAxisImpl implements TimeAxis {
 
         if (isShowLabels()) {
           final double[] size = r.getTextSize(texts[n], getLabelRotation());
-          neededWidth = Math.max(neededWidth, (int) (vertical ? size[0] : size[1]));
+          neededWidth = Math.max(neededWidth, vertical ? size[0] : size[1]);
         }
 
         v += tick;
@@ -177,14 +177,14 @@ public class TimeAxisImpl extends BasicScaleAxisImpl implements TimeAxis {
   }
 
   @Override
-  protected double findBestScale(Double min, Double max, int size, int minTickSize) {
+  protected double findBestScale(Double min, Double max, double size, double minTickSize) {
     return ScaleHelper.findBestTimeScale(min.longValue(), max.longValue(),
       size, minTickSize
     );
   }
 
   @Override
-  public int getSamplePosition(Cube cube, int sample) {
+  public double getSamplePosition(Cube cube, int sample) {
     final Double v = cube.get(getMeasure(), sample);
     if (v == null) {
       return 0;
@@ -193,30 +193,30 @@ public class TimeAxisImpl extends BasicScaleAxisImpl implements TimeAxis {
   }
 
   @Override
-  public int getSampleWidth() {
-    int candleWidth = Math.abs(getPosition(getSampleMilliseconds()) - getPosition(0));
+  public double getSampleWidth() {
+    double candleWidth = Math.abs(getPosition(getSampleMilliseconds()) - getPosition(0));
     candleWidth = Math.min(candleWidth, getMaxSampleWidth());
     candleWidth = Math.max(candleWidth, getMinSampleWidth());
     return candleWidth;
   }
 
   @Override
-  public void setMinSampleWidth(int minSampleWidth) {
+  public void setMinSampleWidth(double minSampleWidth) {
     this.minSampleWidth = minSampleWidth;
   }
 
   @Override
-  public int getMinSampleWidth() {
+  public double getMinSampleWidth() {
     return minSampleWidth;
   }
 
   @Override
-  public void setMaxSampleWidth(int maxSampleWidth) {
+  public void setMaxSampleWidth(double maxSampleWidth) {
     this.maxSampleWidth = maxSampleWidth;
   }
 
   @Override
-  public int getMaxSampleWidth() {
+  public double getMaxSampleWidth() {
     return maxSampleWidth;
   }
 

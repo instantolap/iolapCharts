@@ -9,12 +9,12 @@ import com.instantolap.charts.renderer.impl.annotation.AnnotationDrawer;
 
 public abstract class Popup {
   public String text;
-  public int rotation;
+  public double rotation;
   public int anchor = Renderer.CENTER;
   public ChartFont font;
   public Runnable onMouseOver, onMouseOut, onMouseClick;
 
-  protected void display(BasicRenderer r, int x, int y, int anchor) {
+  protected void display(BasicRenderer r, double x, double y, int anchor) {
     final ChartColor foreground = ChartColor.BLACK;
     final ChartColor background = ChartColor.WHITE;
     AnnotationDrawer.draw(
@@ -22,7 +22,7 @@ public abstract class Popup {
     );
   }
 
-  public abstract boolean isInside(Renderer r, int x, int y);
+  public abstract boolean isInside(Renderer r, double x, double y);
 
   public abstract void display(BasicRenderer r);
 }
