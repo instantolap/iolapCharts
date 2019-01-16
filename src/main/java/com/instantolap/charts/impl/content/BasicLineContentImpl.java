@@ -22,8 +22,6 @@ public abstract class BasicLineContentImpl extends BasicSampleContentImpl implem
 
   public BasicLineContentImpl(Theme theme) {
     super(theme);
-
-    setOutline(ChartColor.WHITE);
   }
 
   @Override
@@ -133,6 +131,4 @@ public abstract class BasicLineContentImpl extends BasicSampleContentImpl implem
       return fillStarts[series];
     }
   }
-
-
 }

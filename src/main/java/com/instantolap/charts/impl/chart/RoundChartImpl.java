@@ -20,11 +20,11 @@ public class RoundChartImpl extends BasicRoundChartImpl {
 
     this.scaleOutside = scaleOutside;
     if (scaleOutside) {
-      this.scaleAxis = new RoundValueAxisImpl();
-      this.sampleAxis = new SampleAxisImpl(1);
+      this.scaleAxis = new RoundValueAxisImpl(theme);
+      this.sampleAxis = new SampleAxisImpl(theme, 1);
     } else {
-      this.scaleAxis = new ValueAxisImpl();
-      this.sampleAxis = new RoundSampleAxisImpl(0);
+      this.scaleAxis = new ValueAxisImpl(theme);
+      this.sampleAxis = new RoundSampleAxisImpl(theme, 0);
     }
     scaleAxis.enableZoom(false);
     this.canvas = new RoundCanvasImpl(theme);
@@ -62,21 +62,20 @@ public class RoundChartImpl extends BasicRoundChartImpl {
 
     if (scaleAxis != null) {
       scaleAxis.setData(cube);
-    }
+      scaleAxis.clearMeasures();
 
-    scaleAxis.clearMeasures();
-    for (Content content : getContents()) {
-      if (content instanceof SampleValueRenderer) {
-        final SampleValueRenderer sampleContent = (SampleValueRenderer) content;
-        sampleContent.addMeasuresToAxes(scaleAxis);
+      for (Content content : getContents()) {
+        if (content instanceof SampleValueRenderer) {
+          final SampleValueRenderer sampleContent = (SampleValueRenderer) content;
+          sampleContent.addMeasuresToAxes(scaleAxis);
+        }
       }
     }
   }
 
   @Override
   protected void render(double progress, int x, int y, int width, int height)
-    throws ChartException
-  {
+    throws ChartException {
     final Renderer r = getRenderer();
 
     final Data data = getData();

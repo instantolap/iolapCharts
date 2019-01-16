@@ -1,6 +1,7 @@
 package com.instantolap.charts.impl.axis;
 
 import com.instantolap.charts.RoundAxis;
+import com.instantolap.charts.impl.data.Theme;
 import com.instantolap.charts.renderer.Renderer;
 
 
@@ -10,7 +11,8 @@ public class RoundValueAxisImpl extends ValueAxisImpl implements RoundAxis {
   private double stopAngle = 2 * Math.PI;
   private boolean rotateLabels = false;
 
-  public RoundValueAxisImpl() {
+  public RoundValueAxisImpl(Theme theme) {
+    super(theme);
     setShowBaseLine(true);
     setTickWidth(10);
     setRenderer(new RoundAxisRenderer());
@@ -65,8 +67,7 @@ public class RoundValueAxisImpl extends ValueAxisImpl implements RoundAxis {
       startAngle += f;
       stopAngle += f;
       r.fireRepaint(true);
-    }
-    catch (Exception ignored) {
+    } catch (Exception ignored) {
     }
   }
 }

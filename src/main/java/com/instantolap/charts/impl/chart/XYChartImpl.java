@@ -14,11 +14,14 @@ import com.instantolap.charts.renderer.Renderer;
 
 public class XYChartImpl extends BasicMultiAxisChartImpl implements XYChart {
 
-  private final ValueAxisImpl xAxis = new ValueAxisImpl();
-  private final ValueAxisImpl yAxis = new ValueAxisImpl();
+  private final ValueAxisImpl xAxis;
+  private final ValueAxisImpl yAxis;
 
   public XYChartImpl(Theme theme) {
     super(theme);
+
+    xAxis = new ValueAxisImpl(theme);
+    yAxis = new ValueAxisImpl(theme);
 
     setAxes(xAxis, yAxis, null);
     xAxis.setTitleRotation(0);

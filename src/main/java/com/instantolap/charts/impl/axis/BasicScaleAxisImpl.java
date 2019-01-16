@@ -2,6 +2,7 @@ package com.instantolap.charts.impl.axis;
 
 import com.instantolap.charts.ScaleAxis;
 import com.instantolap.charts.ScaleAxisListener;
+import com.instantolap.charts.impl.data.Theme;
 import com.instantolap.charts.impl.util.ArrayHelper;
 import com.instantolap.charts.renderer.*;
 
@@ -27,7 +28,8 @@ public abstract class BasicScaleAxisImpl extends BasicAxisImpl implements ScaleA
   private boolean isZoomEnabled = true;
   private double zoomStep = 1.2;
 
-  public BasicScaleAxisImpl() {
+  public BasicScaleAxisImpl(Theme theme) {
+    super(theme);
     setTitleRotation(270);
   }
 
@@ -266,9 +268,8 @@ public abstract class BasicScaleAxisImpl extends BasicAxisImpl implements ScaleA
 
   @Override
   public void render(final Renderer r, final int x, final int y,
-    final int width, final int height, boolean isCentered,
-    boolean flip, ChartFont font)
-  {
+                     final int width, final int height, boolean isCentered,
+                     boolean flip, ChartFont font) {
     super.render(r, x, y, width, height, isCentered, flip, font);
 
     // add mouse listener for zoom
@@ -303,8 +304,7 @@ public abstract class BasicScaleAxisImpl extends BasicAxisImpl implements ScaleA
         zoom(getZoomStep(), f);
       }
       r.fireRepaint(true);
-    }
-    catch (ChartException ignored) {
+    } catch (ChartException ignored) {
     }
   }
 
@@ -318,8 +318,7 @@ public abstract class BasicScaleAxisImpl extends BasicAxisImpl implements ScaleA
         translate(dx * f);
       }
       r.fireRepaint(true);
-    }
-    catch (Exception ignored) {
+    } catch (Exception ignored) {
     }
   }
 

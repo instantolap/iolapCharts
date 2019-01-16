@@ -3,6 +3,7 @@ package com.instantolap.charts.impl.axis;
 import com.instantolap.charts.Cube;
 import com.instantolap.charts.TimeAxis;
 import com.instantolap.charts.impl.data.SlicedCube;
+import com.instantolap.charts.impl.data.Theme;
 import com.instantolap.charts.renderer.Renderer;
 
 import java.util.Date;
@@ -14,7 +15,8 @@ public class TimeAxisImpl extends BasicScaleAxisImpl implements TimeAxis {
   private int maxSampleWidth = Integer.MAX_VALUE;
   private long sampleMilliseconds = 60000;
 
-  public TimeAxisImpl() {
+  public TimeAxisImpl(Theme theme) {
+    super(theme);
     addMeasures(Cube.MEASURE_TIME);
     setTitleRotation(270);
     setMinTickSize(100);
@@ -28,8 +30,7 @@ public class TimeAxisImpl extends BasicScaleAxisImpl implements TimeAxis {
     boolean isStacked,
     boolean isCentered,
     boolean vertical,
-    int index)
-  {
+    int index) {
     final Cube cube = getCube();
     if (cube == null) {
       return;

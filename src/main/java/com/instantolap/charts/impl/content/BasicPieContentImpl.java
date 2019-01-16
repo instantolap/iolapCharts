@@ -3,7 +3,6 @@ package com.instantolap.charts.impl.content;
 import com.instantolap.charts.Cube;
 import com.instantolap.charts.PieContent;
 import com.instantolap.charts.impl.data.Theme;
-import com.instantolap.charts.renderer.ChartColor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +19,6 @@ public abstract class BasicPieContentImpl extends BasicSampleContentImpl impleme
 
   public BasicPieContentImpl(Theme theme) {
     super(theme);
-
-    setOutline(ChartColor.BLACK);
   }
 
   public String[] getMeasures() {

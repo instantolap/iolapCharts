@@ -47,6 +47,7 @@ public abstract class BasicChartImpl implements Chart, HasAnimation, RendererLis
   public BasicChartImpl(Theme theme) {
     this.theme = theme;
     this.legend = new LegendImpl(theme);
+    this.animationEnabled = theme.isAnimationEnabled();
   }
 
   public Theme getTheme() {

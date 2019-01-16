@@ -1,6 +1,7 @@
 package com.instantolap.charts.impl.axis;
 
 import com.instantolap.charts.RoundAxis;
+import com.instantolap.charts.impl.data.Theme;
 import com.instantolap.charts.renderer.Renderer;
 
 
@@ -10,8 +11,8 @@ public class RoundSampleAxisImpl extends SampleAxisImpl implements RoundAxis {
   private double stopAngle = 2 * Math.PI;
   private boolean rotateLabels = false;
 
-  public RoundSampleAxisImpl(int dimension) {
-    super(dimension);
+  public RoundSampleAxisImpl(Theme theme, int dimension) {
+    super(theme, dimension);
     setRenderer(new RoundAxisRenderer());
   }
 

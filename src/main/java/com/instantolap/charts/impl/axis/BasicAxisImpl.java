@@ -2,6 +2,7 @@ package com.instantolap.charts.impl.axis;
 
 import com.instantolap.charts.Axis;
 import com.instantolap.charts.Cube;
+import com.instantolap.charts.impl.data.Theme;
 import com.instantolap.charts.renderer.ChartColor;
 import com.instantolap.charts.renderer.ChartFont;
 import com.instantolap.charts.renderer.Renderer;
@@ -9,18 +10,19 @@ import com.instantolap.charts.renderer.Renderer;
 
 public abstract class BasicAxisImpl implements Axis {
 
+  private Theme theme;
   private String title;
-  private ChartColor titleColor = ChartColor.BLACK;
+  private ChartColor titleColor;
   private ChartFont titleFont;
   private int titlePadding = 10;
 
   private boolean showLabels = true;
-  private ChartColor[] colors = new ChartColor[]{ChartColor.BLACK};
+  private ChartColor[] colors;
   private ChartFont font;
   private int labelRotation;
   private boolean showLabelsInside;
 
-  private ChartColor lineColor = ChartColor.BLACK;
+  private ChartColor lineColor;
   private boolean showBaseLine = false;
   private ChartColor background;
   private int titleRotation;
@@ -35,6 +37,11 @@ public abstract class BasicAxisImpl implements Axis {
   private boolean showGrid = true;
   private AxisRenderer renderer = new LineAxisRenderer();
   private int radius;
+
+  protected BasicAxisImpl(Theme theme) {
+    this.theme = theme;
+    colors = new ChartColor[]{theme.getTextColor()};
+  }
 
   protected void setRenderer(AxisRenderer renderer) {
     this.renderer = renderer;
@@ -68,8 +75,7 @@ public abstract class BasicAxisImpl implements Axis {
     int width, int height,
     boolean isCentered,
     boolean flip,
-    ChartFont font)
-  {
+    ChartFont font) {
     renderer.render(r, this, x, y, width, height, radius, isCentered, flip, font);
   }
 
@@ -89,7 +95,7 @@ public abstract class BasicAxisImpl implements Axis {
 
   @Override
   public ChartColor getTitleColor() {
-    return titleColor;
+    return titleColor == null ? theme.getTextColor() : titleColor;
   }
 
   protected int getNeededTitleWidth(Renderer r, boolean vertical) {
@@ -165,7 +171,7 @@ public abstract class BasicAxisImpl implements Axis {
 
   @Override
   public ChartFont getTitleFont() {
-    return titleFont;
+    return titleFont != null ? titleFont : theme.getSubTitleFont();
   }
 
   @Override
@@ -206,7 +212,7 @@ public abstract class BasicAxisImpl implements Axis {
   @Override
   public ChartColor getColor() {
     if ((colors == null) || (colors.length == 0)) {
-      return null;
+      return theme.getTextColor();
     }
     return colors[0];
   }
@@ -228,7 +234,7 @@ public abstract class BasicAxisImpl implements Axis {
 
   @Override
   public ChartFont getFont() {
-    return font;
+    return font != null ? font : theme.getDefaultFont();
   }
 
   @Override

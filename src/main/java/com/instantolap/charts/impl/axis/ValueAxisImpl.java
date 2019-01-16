@@ -4,6 +4,7 @@ import com.instantolap.charts.CriticalArea;
 import com.instantolap.charts.Cube;
 import com.instantolap.charts.TargetLine;
 import com.instantolap.charts.ValueAxis;
+import com.instantolap.charts.impl.data.Theme;
 import com.instantolap.charts.renderer.ChartColor;
 import com.instantolap.charts.renderer.ChartFont;
 import com.instantolap.charts.renderer.ChartStroke;
@@ -24,7 +25,8 @@ public class ValueAxisImpl extends BasicScaleAxisImpl implements ValueAxis {
   private boolean includeTargets = true;
   private boolean useZeroAsBase = true;
 
-  public ValueAxisImpl() {
+  public ValueAxisImpl(Theme theme) {
+    super(theme);
     setTitleRotation(270);
   }
 
@@ -51,8 +53,7 @@ public class ValueAxisImpl extends BasicScaleAxisImpl implements ValueAxis {
     boolean isStacked,
     boolean isCentered,
     boolean vertical,
-    int index)
-  {
+    int index) {
     final Cube cube = getCube();
     if (cube == null) {
       return;
@@ -122,7 +123,7 @@ public class ValueAxisImpl extends BasicScaleAxisImpl implements ValueAxis {
 
     // calc size
     neededWidth = 0;
-    if ((min == max) || height <= 0) {
+    if ((min.equals(max)) || height <= 0) {
       grids = new int[0];
     } else {
 
@@ -213,8 +214,7 @@ public class ValueAxisImpl extends BasicScaleAxisImpl implements ValueAxis {
 
   @Override
   protected double findBestScale(Double min, Double max, int size,
-    int minTickSize)
-  {
+                                 int minTickSize) {
     return ScaleHelper.findBestScale(min, max, size, minTickSize);
   }
 
@@ -230,8 +230,7 @@ public class ValueAxisImpl extends BasicScaleAxisImpl implements ValueAxis {
     int width, int height,
     boolean isCentered,
     boolean flip,
-    ChartFont font)
-  {
+    ChartFont font) {
     if ((width <= 0) || (height <= 0)) {
       return;
     }
@@ -362,8 +361,6 @@ public class ValueAxisImpl extends BasicScaleAxisImpl implements ValueAxis {
   }
 
 
-
-
   @Override
   public void clearTargets() {
     targets.clear();
@@ -371,8 +368,7 @@ public class ValueAxisImpl extends BasicScaleAxisImpl implements ValueAxis {
 
   @Override
   public void addTargetLine(
-    double value, String text, ChartColor color, ChartColor background, ChartStroke stroke)
-  {
+    double value, String text, ChartColor color, ChartColor background, ChartStroke stroke) {
     targets.add(new TargetLine(value, text, color, background, stroke));
   }
 

@@ -2,6 +2,7 @@ package com.instantolap.charts.impl.axis;
 
 import com.instantolap.charts.Cube;
 import com.instantolap.charts.SampleAxis;
+import com.instantolap.charts.impl.data.Theme;
 import com.instantolap.charts.renderer.Renderer;
 
 
@@ -19,7 +20,8 @@ public class SampleAxisImpl extends BasicAxisImpl implements SampleAxis {
   private double size;
   private double[] gridPositions;
 
-  public SampleAxisImpl(int dimension) {
+  public SampleAxisImpl(Theme theme, int dimension) {
+    super(theme);
     this.dimension = dimension;
   }
 
@@ -75,8 +77,7 @@ public class SampleAxisImpl extends BasicAxisImpl implements SampleAxis {
     boolean isStacked,
     boolean isCentered,
     boolean vertical,
-    int index)
-  {
+    int index) {
     this.isVertical = vertical;
 
     final Cube cube = getCube();
@@ -127,6 +128,7 @@ public class SampleAxisImpl extends BasicAxisImpl implements SampleAxis {
       texts[n] = prefix + texts[n] + postfix;
 
       if (isVisible() && isShowLabels()) {
+        r.setFont(getFont());
         final double[] size = r.getTextSize(texts[n], getLabelRotation());
         final double needed = isVertical ? size[0] : size[1];
         neededSize = Math.max(neededSize, (int) needed);

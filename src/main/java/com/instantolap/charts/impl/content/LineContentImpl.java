@@ -134,8 +134,7 @@ public class LineContentImpl extends BasicLineContentImpl implements SampleValue
 
             if (c0 > 0) {
 
-              // find last sample (don't change code, otherwise
-              // GWT compiler hangs)
+              // find last sample (don't change code, otherwise GWT compiler hangs)
               int prevSample = c0 - 1;
               if (isConnected && !spline) {
                 prevSample = findLastIndexWithValue(cube, yMeasure, c0, c1);

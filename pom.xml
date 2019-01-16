@@ -3,9 +3,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>instantOLAP</groupId>
+  <groupId>com.instantOLAP</groupId>
   <artifactId>charts</artifactId>
-  <version>1.0.1</version>
+  <version>1.0.2</version>
 
   <licenses>
     <license>
@@ -50,12 +50,8 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.1</version>
         <configuration>
-          <source>1.9</source>
-          <target>1.9</target>
-          <compilerArgs>
-            <arg>--add-modules</arg>
-            <arg>javafx.base</arg>
-          </compilerArgs>
+          <source>1.8</source>
+          <target>1.8</target>
         </configuration>
         <inherited>true</inherited>
       </plugin>
@@ -78,6 +74,11 @@
       <artifactId>slf4j-simple</artifactId>
       <version>${slf4j.version}</version>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.quasarbase</groupId>
+      <artifactId>api</artifactId>
+      <version>LATEST</version>
     </dependency>
   </dependencies>
 </project>

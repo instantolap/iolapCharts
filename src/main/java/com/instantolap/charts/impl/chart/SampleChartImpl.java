@@ -12,12 +12,16 @@ import com.instantolap.charts.renderer.Renderer;
 
 public class SampleChartImpl extends BasicMultiAxisChartImpl implements SampleChart {
 
-  private final ValueAxisImpl valueAxis1 = new ValueAxisImpl();
-  private final ValueAxisImpl valueAxis2 = new ValueAxisImpl();
-  private final SampleAxisImpl sampleAxis = new SampleAxisImpl(0);
+  private final ValueAxisImpl valueAxis1;
+  private final ValueAxisImpl valueAxis2;
+  private final SampleAxisImpl sampleAxis;
 
   public SampleChartImpl(Theme theme) {
     super(theme);
+
+    valueAxis1 = new ValueAxisImpl(theme);
+    valueAxis2 = new ValueAxisImpl(theme);
+    sampleAxis = new SampleAxisImpl(theme, 0);
 
     setAxes(sampleAxis, valueAxis1, valueAxis2);
   }
@@ -61,8 +65,7 @@ public class SampleChartImpl extends BasicMultiAxisChartImpl implements SampleCh
     int canvasWidth, int canvasHeight,
     ChartFont font,
     int xx, int yy)
-    throws ChartException
-  {
+    throws ChartException {
     final boolean isStacked = isStacked();
     final boolean isRotated = isRotated();
     final boolean isCentered = needsCenteredSampleAxis();

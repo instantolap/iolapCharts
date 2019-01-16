@@ -20,7 +20,7 @@ public class DataImpl implements Data {
   private WriteableCube cube;
   private Cube currentCube;
   private ChartColor[][] sampleColors = new ChartColor[0][];
-  private ChartStroke defaultStroke = new ChartStroke(2);
+  private ChartStroke defaultStroke = new ChartStroke(1);
   private ChartStroke[] strokes = new ChartStroke[0];
   private int defaultSymbol = SymbolDrawer.SYMBOL_CIRCLE_OPAQUE;
   private int[] symbols = new int[0];

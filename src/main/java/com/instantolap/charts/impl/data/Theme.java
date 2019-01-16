@@ -18,15 +18,6 @@ public class Theme {
     "74796f", "5d645a", "434c43", "e6a5a4", "d6707b", "c4384f", "bc1c39", "b30023"
   };
 
-  public static final int[] DEFAULT_SCHEME_1A = new int[]{
-    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13
-  };
-
-  public static final int[] DEFAULT_SCHEME_2A = new int[]{
-    0, 5, 10, 15, 20, 25, 30, 2, 7, 12, 17, 22, 27, 32, 4, 9, 14, 19, 24, 29, 34, 1, 6, 11, 16, 21,
-    26, 31, 3, 8, 13, 18, 23, 28, 33
-  };
-
   public static final int[] DEFAULT_SCHEME_2B = new int[]{
     4, 9, 14, 19, 24, 29, 34, 2, 7, 12, 17, 22, 27, 32, 0, 5, 10, 15, 20, 25, 30, 3, 8, 13, 18, 23,
     28, 33, 1, 6, 11, 16, 21, 26, 31
@@ -36,16 +27,23 @@ public class Theme {
 
   // Canvas.
   private ChartColor background = ChartColor.WHITE;
+
   // Chart contents.
   private ChartColor[] colors;
+  private ChartColor outlineColor = ChartColor.WHITE;
+
   // Grid.
   private ChartColor baseLine;
-  private ChartColor[] horizontalGrid = { ChartColor.LIGHT_GRAY };
+  private ChartColor[] horizontalGrid = {ChartColor.LIGHT_GRAY};
   private ChartColor[] verticalGrid;
+
   // Text.
   private int baseFontSize = 11;
   private String baseFontName = "Arial";
   private ChartColor textColor = ChartColor.BLACK;
+
+  // Animation
+  private boolean animationEnabled = true;
 
   /**
    * Constructs a new set of defaults that uses {@link #DEFAULT_PALETTE_2} and {@link #DEFAULT_SCHEME_2B} for the color
@@ -72,6 +70,21 @@ public class Theme {
     for (int n = 0; n < scheme.length; n++) {
       colors[n] = new ChartColor(palette[scheme[n]], false);
     }
+  }
+
+  public void setColors(String[] palette) {
+    colors = new ChartColor[palette.length];
+    for (int n = 0; n < palette.length; n++) {
+      colors[n] = new ChartColor(palette[n], false);
+    }
+  }
+
+  public void setOutlineColor(ChartColor outlineColor) {
+    this.outlineColor = outlineColor;
+  }
+
+  public ChartColor getOutlineColor() {
+    return outlineColor;
   }
 
   public ChartColor getBaseLine() {
@@ -134,4 +147,11 @@ public class Theme {
     return new ChartFont(baseFontName, baseFontSize + 1, false);
   }
 
+  public void setAnimationEnabled(boolean animationEnabled) {
+    this.animationEnabled = animationEnabled;
+  }
+
+  public boolean isAnimationEnabled() {
+    return animationEnabled;
+  }
 }

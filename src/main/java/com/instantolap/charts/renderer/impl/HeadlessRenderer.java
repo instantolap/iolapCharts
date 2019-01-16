@@ -18,7 +18,7 @@ public class HeadlessRenderer extends BasicRenderer {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(HeadlessRenderer.class);
 
-  private Graphics2D graphics;
+  protected Graphics2D graphics;
   private ChartColor color;
   private BufferedImage image;
 

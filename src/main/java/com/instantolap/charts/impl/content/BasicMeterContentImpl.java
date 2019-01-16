@@ -14,8 +14,6 @@ public abstract class BasicMeterContentImpl extends BasicSampleContentImpl imple
 
   public BasicMeterContentImpl(Theme theme) {
     super(theme);
-
-    setOutline(ChartColor.BLACK);
   }
 
   @Override

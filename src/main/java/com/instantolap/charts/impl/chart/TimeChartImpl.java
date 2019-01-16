@@ -17,14 +17,14 @@ public class TimeChartImpl extends BasicMultiAxisChartImpl implements TimeChart 
   public TimeChartImpl(Theme theme) {
     super(theme);
 
-    timeAxis = new TimeAxisImpl();
+    timeAxis = new TimeAxisImpl(theme);
     timeAxis.setLabelRotation(270);
 
-    valueAxis1 = new ValueAxisImpl();
+    valueAxis1 = new ValueAxisImpl(theme);
     valueAxis1.setUseZeroAsBase(false);
     valueAxis1.enableZoom(false);
 
-    valueAxis2 = new ValueAxisImpl();
+    valueAxis2 = new ValueAxisImpl(theme);
     valueAxis2.setUseZeroAsBase(false);
     valueAxis2.enableZoom(false);
 
@@ -64,9 +64,8 @@ public class TimeChartImpl extends BasicMultiAxisChartImpl implements TimeChart 
 
   @Override
   protected void renderContent(double progress, Data data, final Renderer r,
-    final int canvasWidth, final int canvasHeight, ChartFont font,
-    final int xx, final int yy) throws ChartException
-  {
+                               final int canvasWidth, final int canvasHeight, ChartFont font,
+                               final int xx, final int yy) throws ChartException {
 
     for (Content content : getContents()) {
 

@@ -19,8 +19,6 @@ public abstract class BasicBarContentImpl extends BasicSampleContentImpl impleme
 
   public BasicBarContentImpl(Theme theme) {
     super(theme);
-
-    setOutline(ChartColor.BLACK);
   }
 
   @Override

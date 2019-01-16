@@ -55,6 +55,11 @@ public abstract class BasicSampleContentImpl extends BasicContentImpl
   }
 
   @Override
+  public void setUsedValueAxis(int axis) {
+    this.usedAxis = axis;
+  }
+
+  @Override
   public int getUsedValueAxis() {
     return usedAxis;
   }
@@ -65,13 +70,8 @@ public abstract class BasicSampleContentImpl extends BasicContentImpl
   }
 
   @Override
-  public void setUsedValueAxis(int axis) {
-    this.usedAxis = axis;
-  }
-
-  @Override
   public ChartColor getOutline() {
-    return outlineColor;
+    return outlineColor != null ? outlineColor : theme.getOutlineColor();
   }
 
   @Override

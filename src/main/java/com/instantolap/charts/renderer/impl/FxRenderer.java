@@ -28,6 +28,7 @@ public class FxRenderer extends BasicRenderer {
 
   private GraphicsContext graphics;
   private ChartColor color;
+  private ChartFont font;
   private final Canvas image;
 
   public FxRenderer(Canvas image) {
@@ -115,9 +116,13 @@ public class FxRenderer extends BasicRenderer {
 
   @Override
   public void setFont(ChartFont font) {
+
+    // remember current font
     if (font == null) {
       font = new Theme().getDefaultFont();
     }
+    this.font = font;
+
     FontWeight style = FontWeight.NORMAL;
     if (font.isBold()) {
       style = FontWeight.BOLD;
@@ -398,16 +403,18 @@ public class FxRenderer extends BasicRenderer {
 
   @Override
   protected int getTextLineWidth(String text) {
-    final Text fxText = new Text(text);
-    fxText.setFont(graphics.getFont());
-    return (int) (fxText.getLayoutBounds().getWidth() - 1);
+    final Text label = new Text(text);
+    final Font font = graphics.getFont();
+    label.setFont(font);
+    return (int) (label.getLayoutBounds().getWidth() * (this.font.getSize() / font.getSize()) - 1);
   }
 
   @Override
   protected int getTextLineHeight(String text) {
-    final Text fxText = new Text(text);
-    fxText.setFont(graphics.getFont());
-    return (int) (fxText.getLayoutBounds().getHeight() - 2);
+    final Text label = new Text(text);
+    final Font font = graphics.getFont();
+    label.setFont(font);
+    return (int) (label.getLayoutBounds().getHeight() * (this.font.getSize() / font.getSize()) - 1);
   }
 
   @Override
