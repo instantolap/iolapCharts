@@ -81,6 +81,9 @@ public class SampleAxisImpl extends BasicAxisImpl implements SampleAxis {
     this.isVertical = vertical;
 
     final Cube cube = getCube();
+    if (cube == null) {
+      return;
+    }
     final int count = cube.getSampleCount(dimension);
     final String[] labels = getLabels();
 

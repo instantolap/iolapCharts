@@ -426,6 +426,7 @@ public class JSONChartFactory {
       initTimeAxis(chart.getTimeAxis(), xData, data);
     }
 
+
     final JSONObject yData = json.optJSONObject("scale");
     if (yData != null) {
       initValueAxis(chart.getScaleAxis(), yData, data);

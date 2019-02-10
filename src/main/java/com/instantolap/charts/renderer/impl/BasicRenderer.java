@@ -6,6 +6,7 @@ import com.instantolap.charts.renderer.popup.Popup;
 import com.instantolap.charts.renderer.popup.RectPopup;
 import com.instantolap.charts.renderer.util.StringHelper;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,12 +14,14 @@ import java.util.List;
 public abstract class BasicRenderer implements Renderer {
 
   protected final static int TEXTLINE_SPACING = 4;
+
   private final List<RendererListener> listeners = new ArrayList<>();
   private final List<Popup> popups = new ArrayList<>();
-  protected MouseListeners mouseListeners = new MouseListeners();
+  protected final MouseListeners mouseListeners = new MouseListeners();
   private boolean enableHandlers = true;
   private Popup currentPopup, nextPopup;
   private ChartColor color;
+  private final List<Rectangle> textAreas = new ArrayList<>();
 
   protected abstract double getTextLineWidth(String text);
 
