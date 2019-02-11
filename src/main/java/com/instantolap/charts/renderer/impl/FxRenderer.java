@@ -53,13 +53,7 @@ public class FxRenderer extends BasicRenderer {
   }
 
   @Override
-  public void drawText(double x, double y, String text, double angle, int anchor) {
-    if (text == null) {
-      return;
-    }
-
-    final TextInfo i = getTextInfo(x, y, text, angle, anchor);
-
+  protected void drawText(TextInfo i, String text) {
     if (i.rad != 0) {
       final Affine at1 = new Affine();
       at1.appendRotation(Math.toDegrees(i.rad), i.rx, i.ry);

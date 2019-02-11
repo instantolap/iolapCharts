@@ -6,7 +6,6 @@ import com.instantolap.charts.renderer.popup.Popup;
 import com.instantolap.charts.renderer.popup.RectPopup;
 import com.instantolap.charts.renderer.util.StringHelper;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +20,7 @@ public abstract class BasicRenderer implements Renderer {
   private boolean enableHandlers = true;
   private Popup currentPopup, nextPopup;
   private ChartColor color;
-  private final List<Rectangle> textAreas = new ArrayList<>();
+  private final List<TextInfo> textInfos = new ArrayList<>();
 
   protected abstract double getTextLineWidth(String text);
 
@@ -172,6 +171,7 @@ public abstract class BasicRenderer implements Renderer {
   public void init() {
     popups.clear();
     mouseListeners.clear();
+    textInfos.clear();
     currentPopup = null;
     if (nextPopup != null) {
       currentPopup = nextPopup;
@@ -243,21 +243,19 @@ public abstract class BasicRenderer implements Renderer {
   }
 
   @Override
-  public void addPopup(double x, double y, double width, double height, double rotation,
-    int anchor, String text, ChartFont font, Runnable onMouseOver,
-    Runnable onMouseOut, Runnable onMouseClick)
-  {
+  public Popup addPopup(double x, double y, double width, double height, double rotation,
+                        int anchor, String text, ChartFont font, Runnable onMouseOver,
+                        Runnable onMouseOut, Runnable onMouseClick) {
     if (!enableHandlers) {
-      return;
+      return null;
     }
 
     final boolean hasText = (text != null) && (text.length() > 0);
     if (!hasText
       && (onMouseOver == null)
       && (onMouseOut == null)
-      && (onMouseClick == null))
-    {
-      return;
+      && (onMouseClick == null)) {
+      return null;
     }
 
     final RectPopup p = new RectPopup();
@@ -274,13 +272,13 @@ public abstract class BasicRenderer implements Renderer {
     p.onMouseClick = onMouseClick;
 
     popups.add(0, p);
+    return p;
   }
 
   @Override
   public void addPopup(double x, double y, double r1, double r2, double a1, double a2,
-    boolean round, String text, ChartFont font, Runnable onMouseOver,
-    Runnable onMouseOut, Runnable onMouseClick)
-  {
+                       boolean round, String text, ChartFont font, Runnable onMouseOver,
+                       Runnable onMouseOut, Runnable onMouseClick) {
     if (!enableHandlers) {
       return;
     }
@@ -289,8 +287,7 @@ public abstract class BasicRenderer implements Renderer {
     if (!hasText
       && (onMouseOver == null)
       && (onMouseOut == null)
-      && (onMouseClick == null))
-    {
+      && (onMouseClick == null)) {
       return;
     }
 
@@ -309,6 +306,11 @@ public abstract class BasicRenderer implements Renderer {
     p.onMouseClick = onMouseClick;
 
     popups.add(0, p);
+  }
+
+  @Override
+  public void setCurrentPopup(Popup currentPopup) {
+    this.currentPopup = currentPopup;
   }
 
   @Override
@@ -383,4 +385,26 @@ public abstract class BasicRenderer implements Renderer {
       return CENTER;
     }
   }
+
+  @Override
+  public final void drawText(double x, double y, String text, double angle, int anchor, boolean avoidOverlap) {
+    if (text == null) {
+      return;
+    }
+
+    final TextInfo i = getTextInfo(x, y, text, angle, anchor);
+    if (avoidOverlap) {
+      for (TextInfo old : textInfos) {
+        if (i.overlaps(old)) {
+          return;
+        }
+      }
+      textInfos.add(i);
+    }
+
+    drawText(i, text);
+  }
+
+  protected abstract void drawText(TextInfo i, String text);
+
 }

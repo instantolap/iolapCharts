@@ -1,6 +1,7 @@
 package com.instantolap.charts.renderer;
 
 import com.instantolap.charts.renderer.impl.TextInfo;
+import com.instantolap.charts.renderer.popup.Popup;
 
 import java.util.Date;
 
@@ -21,7 +22,7 @@ public interface Renderer {
 
   TextInfo getTextInfo(double x, double y, String text, double rotation, int anchor);
 
-  void drawText(double x, double y, String title, double angle, int anchor);
+  void drawText(double x, double y, String title, double angle, int anchor, boolean avoidOverlap);
 
   void drawLine(double x1, double y1, double x2, double y2);
 
@@ -79,9 +80,11 @@ public interface Renderer {
 
   void addListener(RendererListener l);
 
-  void addPopup(double x, double y, double w, double h, double rotation, int anchor,
-    String text, ChartFont font, Runnable onMouseOver,
-    Runnable onMouseOut, Runnable onMouseClick);
+  Popup addPopup(double x, double y, double w, double h, double rotation, int anchor,
+                 String text, ChartFont font, Runnable onMouseOver,
+                 Runnable onMouseOut, Runnable onMouseClick);
+
+  void setCurrentPopup(Popup popup);
 
   void addPopup(double xx, double yy, double len0, double len1, double rad, double rad2,
     boolean round, String popupText, ChartFont popupFont,

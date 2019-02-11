@@ -34,7 +34,7 @@ public class LabelContentImpl extends BasicLabelContentImpl
     if (getText() != null) {
       r.setFont(getFont());
       r.setColor(getColor());
-      r.drawText(x + getX(), y + getY(), getText(), 0, Renderer.WEST);
+      r.drawText(x + getX(), y + getY(), getText(), 0, Renderer.WEST, false);
     }
   }
 

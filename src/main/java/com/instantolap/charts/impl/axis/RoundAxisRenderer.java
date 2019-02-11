@@ -99,7 +99,7 @@ public class RoundAxisRenderer implements AxisRenderer {
           if (ta <= Math.PI * 0.5 || ta > Math.PI * 1.5) {
             ta -= Math.PI;
           }
-          r.drawText(tx, ty, text, 180 + Math.toDegrees(ta), Renderer.CENTER);
+          r.drawText(tx, ty, text, 180 + Math.toDegrees(ta), Renderer.CENTER, false);
         } else {
           if (axis.isShowLabelsInside()) {
             LabelDrawer.roundInsideLabel(r, x, y, r1 - tickWidth - axis.getLabelSpacing(), a, text);

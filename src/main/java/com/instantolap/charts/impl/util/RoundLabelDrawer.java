@@ -78,7 +78,7 @@ public class RoundLabelDrawer {
     final double x = this.x + Math.sin(a) * len;
     final double y = this.y - Math.cos(a) * len;
 
-    r.drawText(x, y, text, 0, Renderer.CENTER);
+    r.drawText(x, y, text, 0, Renderer.CENTER, false);
   }
 
   private void outsideLabel(double len, double a1, double a2, String text) {
@@ -91,7 +91,7 @@ public class RoundLabelDrawer {
     final double x = this.x + Math.sin(a) * len;
     final double y = this.y - Math.cos(a) * len;
 
-    r.drawText(x, y, text, 0, anchor);
+    r.drawText(x, y, text, 0, anchor, false);
   }
 
   private void pointerLabel(double len, double a1, double a2, ChartColor c, String text) {
@@ -220,13 +220,13 @@ public class RoundLabelDrawer {
         case Renderer.WEST:
           r.drawLine(x1, y1, x2, y2);
           r.drawLine(x2, y2, x2 + ex, y2);
-          r.drawText(x2 + ex + 5, y2, text, 0, anchor);
+          r.drawText(x2 + ex + 5, y2, text, 0, anchor, false);
           break;
         case Renderer.NORTH:
         case Renderer.EAST:
           r.drawLine(x1, y1, x2, y2);
           r.drawLine(x2, y2, x2 - ex, y2);
-          r.drawText(x2 - ex - 5, y2, text, 0, anchor);
+          r.drawText(x2 - ex - 5, y2, text, 0, anchor, false);
           break;
       }
     }

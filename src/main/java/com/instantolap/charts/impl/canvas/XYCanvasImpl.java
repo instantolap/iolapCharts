@@ -143,14 +143,14 @@ public class XYCanvasImpl extends BasicXYCanvasImpl {
 
             if (area.text != null) {
               r.setColor(ChartColor.BLACK);
-              r.drawText(x + width - padding, y + x0 - padding, area.text, 0, Renderer.EAST);
+              r.drawText(x + width - padding, y + x0 - padding, area.text, 0, Renderer.EAST, false);
             }
           } else {
             r.fillRect(x + x0, y, (x1 - x0), height);
 
             if (area.text != null) {
               r.setColor(ChartColor.BLACK);
-              r.drawText(x + x1 - padding, y + height - padding, area.text, 0, Renderer.EAST);
+              r.drawText(x + x1 - padding, y + height - padding, area.text, 0, Renderer.EAST, false);
             }
           }
         }

@@ -135,7 +135,7 @@ public class ScatterContentImpl extends BasicScatterContentImpl implements Value
                     r.setColor(anim.getLabelColor(progress, progress0, getLabelColor()));
 
                     r.setFont(labelFont);
-                    r.drawText(x + xx + symbolWidth / 2 + 2, y + yy, label, 0, Renderer.WEST);
+                    r.drawText(x + xx + symbolWidth / 2 + 2, y + yy, label, 0, Renderer.WEST, false);
                   }
                 }
                 break;

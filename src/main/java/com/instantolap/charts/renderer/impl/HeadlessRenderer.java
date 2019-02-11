@@ -45,13 +45,7 @@ public class HeadlessRenderer extends BasicRenderer {
   }
 
   @Override
-  public void drawText(double x, double y, String text, double angle, int anchor) {
-    if (text == null) {
-      return;
-    }
-
-    final TextInfo i = getTextInfo(x, y, text, angle, anchor);
-
+  protected void drawText(TextInfo i, String text) {
     if (i.rad != 0) {
       final AffineTransform at1 = new AffineTransform();
       at1.setToRotation(i.rad, i.rx, i.ry);

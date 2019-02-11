@@ -52,12 +52,12 @@ public class LineAxisRenderer implements AxisRenderer {
         final double textY = y + (height / 2);
         final double textX = flip ? (x + titlePadding) : (x + width - titlePadding);
         final int anchor = flip ? Renderer.WEST : Renderer.EAST;
-        r.drawText(textX, textY, title, axis.getTitleRotation(), anchor);
+        r.drawText(textX, textY, title, axis.getTitleRotation(), anchor, false);
       } else {
         final double textX = x + (width / 2);
         final double textY = flip ? (y + titlePadding) : (y + height - titlePadding);
         final int anchor = flip ? Renderer.NORTH : Renderer.SOUTH;
-        r.drawText(textX, textY, title, axis.getTitleRotation(), anchor);
+        r.drawText(textX, textY, title, axis.getTitleRotation(), anchor, false);
       }
     }
 
@@ -138,15 +138,15 @@ public class LineAxisRenderer implements AxisRenderer {
         final double spacing = axis.getLabelSpacing();
         if (isVertical) {
           if (flip) {
-            r.drawText(x + width - spacing - tickWidth, y + pos, text, rot, Renderer.EAST);
+            r.drawText(x + width - spacing - tickWidth, y + pos, text, rot, Renderer.EAST, false);
           } else {
-            r.drawText(x + tickWidth + spacing, y + pos, text, rot, Renderer.WEST);
+            r.drawText(x + tickWidth + spacing, y + pos, text, rot, Renderer.WEST, false);
           }
         } else {
           if (flip) {
-            r.drawText(x + pos, y + height - tickWidth - spacing, text, rot, Renderer.SOUTH);
+            r.drawText(x + pos, y + height - tickWidth - spacing, text, rot, Renderer.SOUTH, false);
           } else {
-            r.drawText(x + pos, y + spacing + tickWidth, text, rot, Renderer.NORTH);
+            r.drawText(x + pos, y + spacing + tickWidth, text, rot, Renderer.NORTH, false);
           }
         }
       }

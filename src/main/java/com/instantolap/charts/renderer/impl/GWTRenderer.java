@@ -385,12 +385,7 @@ public class GWTRenderer extends BasicRenderer {
   }
 
   @Override
-  public void drawText(double x, double y, String text, double angle, int anchor) {
-    if (text == null) {
-      return;
-    }
-
-    final TextInfo i = getTextInfo(x, y, text, angle, anchor);
+  protected void drawText(TextInfo i, String text) {
     context.save();
 
     context.translate(i.rx, i.ry);

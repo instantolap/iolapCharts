@@ -280,10 +280,10 @@ public class ValueAxisImpl extends BasicScaleAxisImpl implements ValueAxis {
 
           // text / value text
           r.drawText(
-            x + width - tick - maxLabelSize - 2 * spacing, y + pos, target.text, rot, Renderer.EAST
+            x + width - tick - maxLabelSize - 2 * spacing, y + pos, target.text, rot, Renderer.EAST, false
           );
           if (target.valueText != null) {
-            r.drawText(x + width - tick - spacing, y + pos, target.valueText, rot, Renderer.EAST);
+            r.drawText(x + width - tick - spacing, y + pos, target.valueText, rot, Renderer.EAST, false);
           }
         } else {
           r.setColor(target.color);
@@ -296,11 +296,11 @@ public class ValueAxisImpl extends BasicScaleAxisImpl implements ValueAxis {
 
           // text / value text
           r.drawText(
-            x + tick + maxLabelSize + 2 * spacing, y + pos, target.text, rot, Renderer.WEST
+            x + tick + maxLabelSize + 2 * spacing, y + pos, target.text, rot, Renderer.WEST, false
           );
 
           if (target.valueText != null) {
-            r.drawText(x + tick + spacing, y + pos, target.valueText, rot, Renderer.WEST);
+            r.drawText(x + tick + spacing, y + pos, target.valueText, rot, Renderer.WEST, false);
           }
         }
       } else {
@@ -316,12 +316,12 @@ public class ValueAxisImpl extends BasicScaleAxisImpl implements ValueAxis {
           // text / value text
           r.drawText(
             x + pos, y + height - tick - 2 * spacing - maxLabelSize, target.text, rot,
-            Renderer.SOUTH
+            Renderer.SOUTH, false
           );
 
           if (target.valueText != null) {
             r.drawText(
-              x + pos, y + height - tick - spacing, target.valueText, spacing, Renderer.SOUTH
+              x + pos, y + height - tick - spacing, target.valueText, spacing, Renderer.SOUTH, false
             );
           }
         } else {
@@ -335,12 +335,12 @@ public class ValueAxisImpl extends BasicScaleAxisImpl implements ValueAxis {
 
           // text / value text
           r.drawText(
-            x + pos, y + tick + 2 * spacing + maxLabelSize, target.text, rot, Renderer.NORTH
+            x + pos, y + tick + 2 * spacing + maxLabelSize, target.text, rot, Renderer.NORTH, false
           );
 
           if (target.valueText != null) {
             r.drawText(
-              x + pos, y + tick + spacing, target.valueText, rot, Renderer.NORTH
+              x + pos, y + tick + spacing, target.valueText, rot, Renderer.NORTH, false
             );
           }
         }

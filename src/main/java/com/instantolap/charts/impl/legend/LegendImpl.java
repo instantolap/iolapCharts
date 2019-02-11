@@ -7,6 +7,7 @@ import com.instantolap.charts.impl.util.SymbolDrawer;
 import com.instantolap.charts.renderer.ChartColor;
 import com.instantolap.charts.renderer.ChartFont;
 import com.instantolap.charts.renderer.Renderer;
+import com.instantolap.charts.renderer.popup.Popup;
 
 
 public class LegendImpl extends BasicLegendImpl {
@@ -147,7 +148,7 @@ public class LegendImpl extends BasicLegendImpl {
 
       r.setColor(color);
       r.drawText(x + xx + textHeight + SYMBOL_SPACE, y + yy + textHeight / 2, text, 0,
-        Renderer.WEST
+        Renderer.WEST, false
       );
 
       final int sample = n;
@@ -189,9 +190,17 @@ public class LegendImpl extends BasicLegendImpl {
         }
       };
 
-      r.addPopup(popupX, popupY, textHeight + SYMBOL_SPACE + textWidth, textHeight, 0,
-        Renderer.EAST, null, null, highlightCommand, unHighlightCommand, visibleCommand
+      final Popup popup = r.addPopup(
+        popupX, popupY,
+        textHeight + SYMBOL_SPACE + textWidth, textHeight, 0,
+        Renderer.EAST, null, null,
+        highlightCommand, unHighlightCommand, visibleCommand
       );
+
+      final Integer selectedSample = data.getSelectedSample(dimension);
+      if (selectedSample != null && selectedSample == sample) {
+        r.setCurrentPopup(popup);
+      }
 
       // next position
       if (isVertical) {

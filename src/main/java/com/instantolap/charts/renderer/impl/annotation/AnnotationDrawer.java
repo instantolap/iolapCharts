@@ -103,6 +103,6 @@ public class AnnotationDrawer {
     }
 
     r.setColor(foreground);
-    r.drawText(bx + bw / 2, by + bh / 2, text, rotation, Renderer.CENTER);
+    r.drawText(bx + bw / 2, by + bh / 2, text, rotation, Renderer.CENTER, false);
   }
 }

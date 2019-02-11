@@ -24,7 +24,7 @@ public class LabelDrawer {
     x += Math.sin(a) * len;
     y -= Math.cos(a) * len;
 
-    r.drawText(x, y, text, 0, anchor);
+    r.drawText(x, y, text, 0, anchor, false);
   }
 
   private static int getAnchor(double a) {
@@ -56,7 +56,7 @@ public class LabelDrawer {
     x += Math.sin(a) * len;
     y -= Math.cos(a) * len;
 
-    r.drawText(x, y, text, 0, anchor);
+    r.drawText(x, y, text, 0, anchor, false);
   }
 
   private static int invertAnchor(int anchor) {
@@ -117,16 +117,16 @@ public class LabelDrawer {
   ) {
     switch (anchor) {
       case Renderer.EAST:
-        r.drawText(x + w + s, y + h / 2, text, rotation, Renderer.WEST);
+        r.drawText(x + w + s, y + h / 2, text, rotation, Renderer.WEST, true);
         break;
       case Renderer.WEST:
-        r.drawText(x - s, y + h / 2, text, rotation, Renderer.EAST);
+        r.drawText(x - s, y + h / 2, text, rotation, Renderer.EAST, true);
         break;
       case Renderer.NORTH:
-        r.drawText(x + w / 2, y - s, text, rotation, Renderer.SOUTH);
+        r.drawText(x + w / 2, y - s, text, rotation, Renderer.SOUTH, true);
         break;
       case Renderer.SOUTH:
-        r.drawText(x + w / 2, y + h + s, text, rotation, Renderer.NORTH);
+        r.drawText(x + w / 2, y + h + s, text, rotation, Renderer.NORTH, true);
         break;
     }
   }
@@ -138,19 +138,19 @@ public class LabelDrawer {
   ) {
     switch (anchor) {
       case Renderer.EAST:
-        r.drawText(x + w - s, y + h / 2, text, rotation, Renderer.EAST);
+        r.drawText(x + w - s, y + h / 2, text, rotation, Renderer.EAST, true);
         break;
       case Renderer.WEST:
-        r.drawText(x + s, y + h / 2, text, rotation, Renderer.WEST);
+        r.drawText(x + s, y + h / 2, text, rotation, Renderer.WEST, true);
         break;
       case Renderer.NORTH:
-        r.drawText(x + w / 2, y + s, text, rotation, Renderer.NORTH);
+        r.drawText(x + w / 2, y + s, text, rotation, Renderer.NORTH, true);
         break;
       case Renderer.SOUTH:
-        r.drawText(x + w / 2, y + h - s, text, rotation, Renderer.SOUTH);
+        r.drawText(x + w / 2, y + h - s, text, rotation, Renderer.SOUTH, true);
         break;
       case Renderer.CENTER:
-        r.drawText(x + w / 2, y + h / 2, text, rotation, Renderer.CENTER);
+        r.drawText(x + w / 2, y + h / 2, text, rotation, Renderer.CENTER, true);
         break;
     }
   }

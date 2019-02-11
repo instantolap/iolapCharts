@@ -99,7 +99,7 @@ public class MeterContentImpl extends BasicMeterContentImpl implements SampleVal
                   r.setColor(color1);
                   r.setFont(labelFont);
 
-                  r.drawText(cx, labelY, label, 0, Renderer.CENTER);
+                  r.drawText(cx, labelY, label, 0, Renderer.CENTER, false);
                   labelY += r.getTextHeight(text);
                 }
                 break;
