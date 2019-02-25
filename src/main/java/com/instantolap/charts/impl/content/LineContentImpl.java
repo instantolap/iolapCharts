@@ -207,8 +207,8 @@ public class LineContentImpl extends BasicLineContentImpl implements SampleValue
                       r.setStroke(stroke);
                       if (shadowColor != null) {
                         r.setColor(shadowColor);
-                        drawLine(r, xAxis, yAxis, x
-                            + xOffset, y + yOffset,
+                        drawLine(r,
+                          xAxis, yAxis, x + xOffset, y + yOffset,
                           isRotated, spline,
                           stepLine, cube, cubics, xx,
                           yMax, prevSample, px,
@@ -221,7 +221,8 @@ public class LineContentImpl extends BasicLineContentImpl implements SampleValue
                       if (outlineColor != null) {
                         r.setColor(outlineColor);
                         r.setStroke(stroke.incStroke(2));
-                        drawLine(r, xAxis, yAxis, x, y,
+                        drawLine(r,
+                          xAxis, yAxis, x, y,
                           isRotated, spline,
                           stepLine, cube, cubics, xx,
                           yMax, prevSample, px,
@@ -237,7 +238,8 @@ public class LineContentImpl extends BasicLineContentImpl implements SampleValue
                     if (stroke.getWidth() > 0) {
                       r.setColor(sampleColor);
                       r.setStroke(stroke);
-                      drawLine(r, xAxis, yAxis, x, y,
+                      drawLine(r,
+                        xAxis, yAxis, x, y,
                         isRotated, spline, stepLine,
                         cube, cubics, xx, yMax,
                         prevSample, px, pyMax, c0, c1,
@@ -296,13 +298,13 @@ public class LineContentImpl extends BasicLineContentImpl implements SampleValue
                   if (isRotated) {
                     cx = x + yMax;
                     cy = y + xx;
-                    rectX = cx - symbolWidth / 2;
-                    rectY = cy - symbolWidth / 2;
+                    rectX = cx - symbolWidth / 2.0;
+                    rectY = cy - symbolWidth / 2.0;
                   } else {
                     cx = x + xx;
                     cy = y + yMax;
-                    rectX = cx - symbolWidth / 2;
-                    rectY = cy - symbolWidth / 2;
+                    rectX = cx - symbolWidth / 2.0;
+                    rectY = cy - symbolWidth / 2.0;
                   }
 
                   final int anchor;
@@ -437,7 +439,7 @@ public class LineContentImpl extends BasicLineContentImpl implements SampleValue
       final double vx = prevSample + p * (sample - prevSample);
       final double yMin;
       if (startSeries != null) {
-        yMin =  cubics[startSeries][1].value(vx);
+        yMin = cubics[startSeries][1].value(vx);
       } else {
         yMin = cubics[series][0].value(vx);
       }
@@ -496,7 +498,7 @@ public class LineContentImpl extends BasicLineContentImpl implements SampleValue
     final double endX = sampleAxis.getSamplePosition(cube, sample);
     final double[] xx = new double[(int) (endX - startX + 1)];
     final double[] yy = new double[xx.length];
-    int pos =  0;
+    int pos = 0;
     for (double dx = startX; dx <= endX; dx++) {
       final double p = (double) (dx - startX) / (double) (endX - startX);
       final double vx = prevSample + p * (sample - prevSample);

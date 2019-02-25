@@ -66,15 +66,12 @@ public class SymbolDrawer {
     int symbol,
     double x, double y,
     double size,
-    ChartColor color, ChartColor outline, ChartColor background)
-  {
-    if (outline != null) {
-      size -= 2;
-    }
-
-    size -= size % 2;
+    ChartColor color, ChartColor outline, ChartColor background) {
     final double xx = x - size / 2;
     final double yy = y - size / 2;
+    if (outline != null && size >= 3) {
+      size -= 2;
+    }
 
     switch (symbol) {
       case SYMBOL_CIRCLE:
@@ -83,26 +80,27 @@ public class SymbolDrawer {
 
         switch (symbol) {
           case SYMBOL_CIRCLE:
-            background = null;
+            r.setColor(color);
+            r.drawCircle(xx, yy, size);
             break;
           case SYMBOL_CIRCLE_FILLED:
-            background = color;
+            r.setColor(color);
+            r.fillCircle(xx, yy, size);
+            break;
+          case SYMBOL_CIRCLE_OPAQUE:
+            if (background != null) {
+              r.setColor(background);
+              r.fillCircle(xx, yy, size);
+            }
+            r.setColor(color);
+            r.drawCircle(xx, yy, size);
             break;
         }
 
-        if (background != null) {
-          r.setColor(background);
-          r.fillCircle(xx, yy, size);
-        }
-
-        r.setColor(color);
-        r.drawCircle(xx, yy, size);
-
-        if (outline != null) {
+        if (outline != null && size >= 3) {
           r.setColor(outline);
           r.drawCircle(xx - 1, yy - 1, size + 2);
         }
-
         break;
 
       case SYMBOL_SQUARE:
@@ -111,26 +109,27 @@ public class SymbolDrawer {
 
         switch (symbol) {
           case SYMBOL_SQUARE:
-            background = null;
+            r.setColor(color);
+            r.drawRect(xx, yy, size, size);
             break;
           case SYMBOL_SQUARE_FILLED:
-            background = color;
+            r.setColor(color);
+            r.fillRect(xx, yy, size, size);
+            break;
+          case SYMBOL_CIRCLE_OPAQUE:
+            if (background != null) {
+              r.setColor(background);
+              r.fillRect(xx, yy, size, size);
+            }
+            r.setColor(color);
+            r.drawRect(xx, yy, size, size);
             break;
         }
 
-        if (background != null) {
-          r.setColor(background);
-          r.fillRect(xx, yy, size, size);
-        }
-
-        r.setColor(color);
-        r.drawRect(xx, yy, size, size);
-
-        if (outline != null) {
+        if (outline != null && size >= 3) {
           r.setColor(outline);
           r.drawRect(xx - 1, yy - 1, size + 2, size + 2);
         }
-
         break;
 
       case SYMBOL_DIAMOND:
@@ -139,20 +138,23 @@ public class SymbolDrawer {
 
         switch (symbol) {
           case SYMBOL_DIAMOND:
-            background = null;
+            r.setColor(color);
+            drawDiamond(r, xx, yy, size, size);
             break;
           case SYMBOL_DIAMOND_FILLED:
-            background = color;
+            r.setColor(background);
+            fillDiamond(r, xx, yy, size, size);
+            break;
+          case SYMBOL_DIAMOND_OPAQUE:
+            if (background != null && size >= 3) {
+              r.setColor(background);
+              fillDiamond(r, xx, yy, size, size);
+            }
+
+            r.setColor(color);
+            drawDiamond(r, xx, yy, size, size);
             break;
         }
-
-        if (background != null) {
-          r.setColor(background);
-          fillDiamond(r, xx, yy, size, size);
-        }
-
-        r.setColor(color);
-        drawDiamond(r, xx, yy, size, size);
 
         if (outline != null) {
           r.setColor(outline);
@@ -169,14 +171,18 @@ public class SymbolDrawer {
   }
 
   private static void fillDiamond(Renderer r, double x, double y, double w, double h) {
-    final double[] xx = new double[]{x, x + w / 2, x + w, x + w / 2};
-    final double[] yy = new double[]{y + h / 2, y, y + h / 2, y + h};
-    r.fillPolygon(xx, yy);
+    r.fillPolygon(createDiamondX(x, w), createDimanondY(y, h));
   }
 
   private static void drawDiamond(Renderer r, double x, double y, double w, double h) {
-    final double[] xx = new double[]{x, x + w / 2, x + w, x + w / 2};
-    final double[] yy = new double[]{y + h / 2, y, y + h / 2, y + h};
-    r.drawPolygon(xx, yy);
+    r.drawPolygon(createDiamondX(x, w), createDimanondY(y, h));
+  }
+
+  private static double[] createDiamondX(double x, double w) {
+    return new double[]{x, x + w / 2, x + w, x + w / 2};
+  }
+
+  private static double[] createDimanondY(double y, double h) {
+    return new double[]{y + h / 2, y, y + h / 2, y + h};
   }
 }

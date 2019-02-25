@@ -12,6 +12,10 @@ public interface Cube extends Serializable {
   String MEASURE_X = "x";
   String MEASURE_Y = "y";
   String MEASURE_TIME = "time";
+  String MEASURE_ENTRY = "entry";
+  String MEASURE_EXIT = "exit";
+  String MEASURE_MIN = "min";
+  String MEASURE_MAX = "max";
 
   // dimensions
 

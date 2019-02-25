@@ -85,13 +85,14 @@ public class ScatterContentImpl extends BasicScatterContentImpl implements Value
           final Double vx = cube.get(getXMeasure(), c0, c1);
           final Double vy = cube.get(getYMeasure(), c0, c1);
 
-          int symbolWidth = data.getSymbolSize(c1);
+          double symbolWidth = data.getSymbolSize(c1);
           if (isBubble()) {
             final Double vz = cube.get(getMeasure(), c0, c1);
             if ((vz == null) || (vz <= 0)) {
               continue;
             }
             symbolWidth *= (vz / maxVZ);
+            symbolWidth = Math.max(symbolWidth, 1d);
           }
 
           if (vx != null && vy != null) {
@@ -120,6 +121,7 @@ public class ScatterContentImpl extends BasicScatterContentImpl implements Value
                 break;
 
               case 1:
+                /*
                 if (progress >= 1) {
                   final String text = r.format(format, vx) + " / " + r.format(format, vy);
                   final String popup = buildPopupText(cube, c0, c1, text);
@@ -139,6 +141,7 @@ public class ScatterContentImpl extends BasicScatterContentImpl implements Value
                   }
                 }
                 break;
+                */
             }
           }
         }

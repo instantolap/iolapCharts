@@ -2,7 +2,6 @@ package com.instantolap.charts.factories;
 
 import com.instantolap.charts.*;
 import com.instantolap.charts.HeatMapContent.HeatColor;
-import com.instantolap.charts.RoundChart;
 import com.instantolap.charts.impl.animation.*;
 import com.instantolap.charts.impl.chart.*;
 import com.instantolap.charts.impl.content.*;
@@ -102,18 +101,23 @@ public class JSONChartFactory {
       defaultContent = scatterContent;
     } else if ("heatmap".equalsIgnoreCase(type)) {
       chart = createSampleSampleChart(json, data, theme);
-      defaultContent = new HeatMapContentImpl(theme);
+      final HeatMapContent heatMapContent = new HeatMapContentImpl(theme);
+      initHeatMapContent(heatMapContent, json, data, 0);
+      defaultContent = heatMapContent;
     } else if ("timeline".equalsIgnoreCase(type)) {
       chart = createTimeChart(json, data, theme);
-      defaultContent = new LineContentImpl(theme);
+      final LineContent lineContent = new LineContentImpl(theme);
+      initLineContent(lineContent, json, data, 0);
+      defaultContent = lineContent;
     } else if ("candle".equalsIgnoreCase(type)) {
       chart = createTimeChart(json, data, theme);
       final BarContent barContent = new BarContentImpl(theme);
-      barContent.setLowerMeasure("entry");
-      barContent.setMeasure("exit");
-      barContent.setMinMeasure("min");
-      barContent.setMaxMeasure("max");
+      barContent.setLowerMeasure(Cube.MEASURE_ENTRY);
+      barContent.setMeasure(Cube.MEASURE_EXIT);
+      barContent.setMinMeasure(Cube.MEASURE_MIN);
+      barContent.setMaxMeasure(Cube.MEASURE_MAX);
       barContent.setBarSpacing(0);
+      initBarContent(barContent, json, data, 0);
       defaultContent = barContent;
     } else if ("meter".equalsIgnoreCase(type)) {
       chart = createRoundChart(json, data, theme, true, false, true, false);
@@ -126,6 +130,7 @@ public class JSONChartFactory {
       chart.addContent(defaultContent);
     }
 
+    initDataPresentation(json, data);
     chart.setData(data);
 
     // chart content (array or single object)
@@ -701,6 +706,10 @@ public class JSONChartFactory {
         initHeatMapContent((HeatMapContent) defaultContent, json, data, 0);
       } else if (defaultContent instanceof MeterContent) {
         initMeterContent((MeterContent) defaultContent, json, data, 0);
+      } else if (defaultContent instanceof ScatterContent) {
+        initScatterContent((ScatterContent) defaultContent, json, data, 0);
+      } else if (defaultContent instanceof HeatMapContent) {
+        initHeatMapContent((HeatMapContent) defaultContent, json, data, 0);
       }
       return null;
     } else if ("bar".equalsIgnoreCase(type)) {
@@ -970,6 +979,8 @@ public class JSONChartFactory {
           anims.addAnimation(new LeftToRightContentAnim());
         } else if ("right".equalsIgnoreCase(type)) {
           anims.addAnimation(new RightToLeftContentAnim());
+        } else if ("pendulum".equalsIgnoreCase(type)) {
+          anims.addAnimation(new PendulumContentAnim());
         }
       }
     }

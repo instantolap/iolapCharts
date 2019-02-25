@@ -214,12 +214,12 @@ public class BarContentImpl extends BasicBarContentImpl implements SampleValueRe
 
               case 1:
                 // used color (outline for very small bars)
-                if ((realBarWidth <= 2) && (outlineColor != null)) {
+/*                if ((realBarWidth <= 2) && (outlineColor != null)) {
                   r.setColor(outlineColor);
                 } else {
                   r.setColor(sampleColor);
                 }
-
+*/
                 // draw body
                 r.fillRect(rectX, rectY, rectWidth, rectHeight);
 
