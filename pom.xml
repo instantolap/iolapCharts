@@ -5,7 +5,7 @@
 
   <groupId>com.instantOLAP</groupId>
   <artifactId>charts</artifactId>
-  <version>1.0.6</version>
+  <version>1.0.7</version>
 
   <licenses>
     <license>
@@ -22,6 +22,7 @@
   <properties>
     <gwt.version>2.8.2</gwt.version>
     <slf4j.version>1.7.22</slf4j.version>
+    <batik.version>1.11</batik.version>
   </properties>
 
   <build>
@@ -88,9 +89,14 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>com.quasarbase</groupId>
-      <artifactId>api</artifactId>
-      <version>LATEST</version>
+      <groupId>org.apache.xmlgraphics</groupId>
+      <artifactId>batik-svggen</artifactId>
+      <version>${batik.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.xmlgraphics</groupId>
+      <artifactId>batik-svg-dom</artifactId>
+      <version>${batik.version}</version>
     </dependency>
   </dependencies>
 </project>

@@ -12,14 +12,14 @@ public class FxChartPanel extends Canvas {
 
   private Chart chart;
   private FxRenderer renderer;
-  private HasAnimation animated;
+  private boolean isAnimating;
+  private boolean isRendered;
 
   public FxChartPanel() {
     this.renderer = new FxRenderer(this) {
 
       @Override
       public void animate(final HasAnimation animated, final long duration) {
-        FxChartPanel.this.animated = animated;
         if (duration <= 0) {
           render(1, null);
           return;
@@ -27,6 +27,7 @@ public class FxChartPanel extends Canvas {
 
         new Thread(() -> {
           try {
+            isAnimating = true;
             final long start = System.currentTimeMillis();
             while (true) {
 
@@ -43,6 +44,8 @@ public class FxChartPanel extends Canvas {
             }
           } catch (Exception e) {
             e.printStackTrace();
+          } finally {
+            isAnimating = false;
           }
         }).start();
 
@@ -135,7 +138,9 @@ public class FxChartPanel extends Canvas {
   public void resize(double width, double height) {
     super.setWidth(width);
     super.setHeight(height);
-    render(1, null);
+    if (!isAnimating && isRendered) {
+      render(1, null);
+    }
   }
 
   private void render(double progress, CountDownLatch latch) {
@@ -150,6 +155,7 @@ public class FxChartPanel extends Canvas {
             latch.countDown();
           }
         }
+        isRendered = true;
       });
     }
   }

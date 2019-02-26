@@ -5,6 +5,7 @@ import com.instantolap.charts.Data;
 import com.instantolap.charts.ScaleAxis;
 import com.instantolap.charts.ValueAxis;
 import com.instantolap.charts.impl.animation.ContentAnimation;
+import com.instantolap.charts.impl.animation.ControllableFadeContentAnimation;
 import com.instantolap.charts.impl.animation.FadeInContentAnim;
 import com.instantolap.charts.impl.data.Theme;
 import com.instantolap.charts.impl.math.SimpleRegression;
@@ -27,8 +28,7 @@ public class ScatterContentImpl extends BasicScatterContentImpl implements Value
   @Override
   public void render(double progress, Renderer r, Data data, double x, double y,
                      double width, double height, ScaleAxis xAxis, ValueAxis yAxis,
-                     ChartFont font, ChartColor background) throws ChartException
-  {
+                     ChartFont font, ChartColor background) throws ChartException {
     final Cube cube = getCube();
     if (cube == null) {
       return;
@@ -39,7 +39,7 @@ public class ScatterContentImpl extends BasicScatterContentImpl implements Value
       throw new ChartException("Scatter contents can only display 0, 1- or 2-dimensional data");
     }
 
-    final ContentAnimation anim = getAnimation();
+    ContentAnimation anim = getAnimation();
 
     ChartFont labelFont = getLabelFont();
     if (labelFont == null) {
@@ -63,6 +63,20 @@ public class ScatterContentImpl extends BasicScatterContentImpl implements Value
       regression = new SimpleRegression();
     }
 
+    // time animation?
+    final ControllableFadeContentAnimation fadeAnimation = new ControllableFadeContentAnimation();
+    final Double visibleTime = (getTimeWindow() > 0) ? (double) getTimeWindow() * 1000L : null;
+    final Double minTime = cube.getMin(Cube.MEASURE_TIME);
+    final Double maxTime = cube.getMax(Cube.MEASURE_TIME);
+    Double currentTime = null;
+    if (minTime != null && maxTime != null && visibleTime != null) {
+      anim = fadeAnimation;
+      final double timeDifference = maxTime - minTime;
+      currentTime = minTime + timeDifference * progress;
+    }
+
+    final double minFade = getMinFade();
+
     // draw symbols
     for (int pass = 0; pass < 2; pass++) {
       for (int c0 = 0; c0 < size0; c0++) {
@@ -76,11 +90,36 @@ public class ScatterContentImpl extends BasicScatterContentImpl implements Value
             continue;
           }
 
+          Double timestamp = cube.get(Cube.MEASURE_TIME, c0, c1);
+          boolean showOutline = true;
+          if (timestamp != null && currentTime != null) {
+            if (timestamp > currentTime) {
+              continue;
+            }
+
+            // fade older values
+            double fade = Math.pow(Math.min(1, Math.max(0,
+              1 - (currentTime - timestamp) / visibleTime
+            )), 2);
+
+            fade = Math.max(minFade, fade);
+
+            // invisible? then skip
+            if (fade <= 0) {
+              continue;
+            }
+            fadeAnimation.setFade(fade);
+
+            // if the symbol is faded too much, the outline is no longer necessary
+            if (fade <= minFade) {
+              showOutline = false;
+            }
+          }
+
           // colors
-          final ChartColor sampleColor =
-            getSampleColor(progress, progress0, anim, data, c1, c0, false);
-          final ChartColor outlineColor = getOutlineColor(progress, progress0, anim, data, c1, c0);
-          final ChartColor shadowColor = getCurrentShadow(anim, progress, progress0, data, c1, c0);
+          final ChartColor sampleColor = getSampleColor(progress, progress0, anim, data, c1, c0, false);
+          final ChartColor outlineColor = showOutline ? getOutlineColor(progress, progress0, anim, data, c1, c0) : null;
+          final ChartColor shadowColor = showOutline ? getCurrentShadow(anim, progress, progress0, data, c1, c0) : null;
 
           final Double vx = cube.get(getXMeasure(), c0, c1);
           final Double vy = cube.get(getYMeasure(), c0, c1);

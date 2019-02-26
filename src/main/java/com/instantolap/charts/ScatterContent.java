@@ -13,4 +13,12 @@ public interface ScatterContent extends SampleContent, HasValueLabels, HasRegres
   String getYMeasure();
 
   void setYMeasure(String measure);
+
+  long getTimeWindow();
+
+  void setTimeWindow(long timeWindow);
+
+  double getMinFade();
+
+  void setMinFade(double minFade);
 }

@@ -906,6 +906,8 @@ public class JSONChartFactory {
     content.setBubble(json.optBoolean("bubble", content.isBubble()));
     content.setXMeasure(json.optString("xmeasure", content.getXMeasure()));
     content.setYMeasure(json.optString("ymeasure", content.getYMeasure()));
+    content.setTimeWindow(json.optLong("timewindow", content.getTimeWindow()));
+    content.setMinFade(json.optDouble("minfade", content.getMinFade()));
   }
 
   private static void initHeatMapContent(

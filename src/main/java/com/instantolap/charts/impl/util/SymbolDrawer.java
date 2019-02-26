@@ -70,7 +70,7 @@ public class SymbolDrawer {
     final double xx = x - size / 2;
     final double yy = y - size / 2;
     if (outline != null && size >= 3) {
-      size -= 2;
+//      size -= 2;
     }
 
     switch (symbol) {
@@ -99,7 +99,7 @@ public class SymbolDrawer {
 
         if (outline != null && size >= 3) {
           r.setColor(outline);
-          r.drawCircle(xx - 1, yy - 1, size + 2);
+          r.drawCircle(xx, yy, size);
         }
         break;
 
@@ -128,7 +128,7 @@ public class SymbolDrawer {
 
         if (outline != null && size >= 3) {
           r.setColor(outline);
-          r.drawRect(xx - 1, yy - 1, size + 2, size + 2);
+          r.drawRect(xx, yy, size, size);
         }
         break;
 
@@ -158,7 +158,7 @@ public class SymbolDrawer {
 
         if (outline != null) {
           r.setColor(outline);
-          drawDiamond(r, xx - 1, yy - 1, size + 2, size + 2);
+          drawDiamond(r, xx, yy, size, size);
         }
         break;
 

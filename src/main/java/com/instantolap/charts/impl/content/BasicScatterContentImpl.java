@@ -13,6 +13,8 @@ public abstract class BasicScatterContentImpl extends BasicSampleContentImpl
   private String measure = Cube.MEASURE_VALUE;
   private String xMeasure = Cube.MEASURE_X;
   private String yMeasure = Cube.MEASURE_Y;
+  private long timeWindow;
+  private double minFade = 0.02;
 
   public BasicScatterContentImpl(Theme theme) {
     super(theme);
@@ -60,7 +62,23 @@ public abstract class BasicScatterContentImpl extends BasicSampleContentImpl
     this.yMeasure = measure;
   }
 
+  @Override
+  public long getTimeWindow() {
+    return timeWindow;
+  }
 
+  @Override
+  public void setTimeWindow(long timeWindow) {
+    this.timeWindow = timeWindow;
+  }
 
+  @Override
+  public double getMinFade() {
+    return minFade;
+  }
 
+  @Override
+  public void setMinFade(double minFade) {
+    this.minFade = minFade;
+  }
 }
