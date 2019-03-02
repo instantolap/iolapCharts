@@ -613,7 +613,7 @@ public abstract class BasicSampleContentImpl extends BasicContentImpl
       // fixed X position or sample?
       Double pointerX = null;
       if (a.pos != null) {
-        pointerX = x + xAxis.getSamplePosition(getCube(), a.pos);
+        pointerX = x + xAxis.getSamplePosition(getCube(), a.pos, 0);
         if (isCentered) {
           pointerX += xAxis.getSampleWidth() / 2;
         }

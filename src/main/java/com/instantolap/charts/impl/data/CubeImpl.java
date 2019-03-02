@@ -3,6 +3,7 @@ package com.instantolap.charts.impl.data;
 import com.instantolap.charts.WriteableCube;
 import com.instantolap.charts.impl.util.ArrayHelper;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -348,6 +349,7 @@ public class CubeImpl extends BasicCube implements WriteableCube {
 
     // basic values
     values = new double[size];
+    Arrays.fill(values, Double.NaN);
   }
 
   private int calcSize() {
@@ -403,9 +405,7 @@ public class CubeImpl extends BasicCube implements WriteableCube {
     }
 
     values = new double[size];
-    for (int n = 0; n < size; n++) {
-      values[n] = Double.NaN;
-    }
+    Arrays.fill(values, Double.NaN);
     measureValues.put(measure, values);
     return values;
   }

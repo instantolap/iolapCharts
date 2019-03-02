@@ -60,7 +60,7 @@ public class SampleAxisImpl extends BasicAxisImpl implements SampleAxis {
   }
 
   @Override
-  public double getSamplePosition(Cube cube, int sample) {
+  public double getSamplePosition(Cube cube, int sample, int series) {
     return sample * sampleWidth;
   }
 

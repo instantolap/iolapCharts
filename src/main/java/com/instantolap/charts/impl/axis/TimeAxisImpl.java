@@ -184,10 +184,10 @@ public class TimeAxisImpl extends BasicScaleAxisImpl implements TimeAxis {
   }
 
   @Override
-  public double getSamplePosition(Cube cube, int sample) {
-    final Double v = cube.get(getMeasure(), sample);
+  public double getSamplePosition(Cube cube, int sample, int series) {
+    final Double v = cube.get(getMeasure(), sample, series);
     if (v == null) {
-      return 0;
+      return Double.NaN;
     }
     return getPosition(v);
   }

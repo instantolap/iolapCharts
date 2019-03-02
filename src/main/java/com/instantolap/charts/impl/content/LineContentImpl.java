@@ -92,20 +92,19 @@ public class LineContentImpl extends BasicLineContentImpl implements SampleValue
         final double bar = (double) c0 / (double) (size0 - 1);
 
         // centered?
-        final double xx = xAxis.getSamplePosition(cube, c0);
         double avgY = 0, avgCount = 0;
         for (int c1 = 0; c1 < size1; c1++) {
           if (!cube.isVisible(1, c1)) {
             continue;
           }
 
+          final double xx = xAxis.getSamplePosition(cube, c0, c1);
           final int symbolWidth = data.getSymbolSize(c1);
           final ChartStroke stroke = data.getStroke(c1);
 
-          // colors
+          // colors c1
           final ChartColor sampleColor = getSampleColor(progress, bar, anim, data, c1, c0, false);
-          final ChartColor areaColor =
-            getAreaColor(progress, bar, anim, data, getColorRange(), c1, c0);
+          final ChartColor areaColor = getAreaColor(progress, bar, anim, data, getColorRange(), c1, c0);
           final ChartColor outlineColor = getOutlineColor(progress, bar, anim, data, c1, c0);
           final ChartColor shadowColor = getCurrentShadow(anim, progress, bar, data, c1, c0);
 
@@ -141,7 +140,7 @@ public class LineContentImpl extends BasicLineContentImpl implements SampleValue
               final Double prevMaxValue = cube.get(yMeasure, prevSample, c1);
               if (prevMaxValue != null) {
 
-                final double px = xAxis.getSamplePosition(cube, prevSample);
+                final double px = xAxis.getSamplePosition(cube, prevSample, c1);
                 final double pyMax = yAxis.getPosition(anim.getValue(progress, bar, prevMaxValue));
 
                 switch (pass) {
@@ -291,35 +290,23 @@ public class LineContentImpl extends BasicLineContentImpl implements SampleValue
 
                   final double cx;
                   final double cy;
-                  final double rectX;
-                  final double rectY;
                   final double rectHeight = symbolWidth;
                   final double rectWidth = symbolWidth;
                   if (isRotated) {
                     cx = x + yMax;
                     cy = y + xx;
-                    rectX = cx - symbolWidth / 2.0;
-                    rectY = cy - symbolWidth / 2.0;
                   } else {
                     cx = x + xx;
                     cy = y + yMax;
-                    rectX = cx - symbolWidth / 2.0;
-                    rectY = cy - symbolWidth / 2.0;
                   }
+                  final double rectX = cx - symbolWidth / 2.0;
+                  final double rectY = cy - symbolWidth / 2.0;
 
                   final int anchor;
                   if (isRotated) {
-                    if (maxValue >= 0) {
-                      anchor = Renderer.EAST;
-                    } else {
-                      anchor = Renderer.WEST;
-                    }
+                    anchor = maxValue >= 0 ? Renderer.EAST : Renderer.WEST;
                   } else {
-                    if (maxValue >= 0) {
-                      anchor = Renderer.NORTH;
-                    } else {
-                      anchor = Renderer.SOUTH;
-                    }
+                    anchor = maxValue >= 0 ? Renderer.NORTH : Renderer.SOUTH;
                   }
 
                   // popup / links
@@ -355,9 +342,9 @@ public class LineContentImpl extends BasicLineContentImpl implements SampleValue
                 break;
             }
           }
-        }
-        if (regression != null) {
-          regression.addData(xx, avgY / avgCount);
+          if (c1 == 0 && regression != null) {
+            regression.addData(xx, avgY / avgCount);
+          }
         }
       }
     }
@@ -429,8 +416,8 @@ public class LineContentImpl extends BasicLineContentImpl implements SampleValue
                           PolynomialSplineFunction[][] cubics, int series,
                           Integer startSeries, int prevSample, int sample, ValueAxis yAxis,
                           PositionAxis sampleAxis) {
-    final double startX = sampleAxis.getSamplePosition(cube, prevSample);
-    final double endX = sampleAxis.getSamplePosition(cube, sample);
+    final double startX = sampleAxis.getSamplePosition(cube, prevSample, series);
+    final double endX = sampleAxis.getSamplePosition(cube, sample, series);
     final double[] xx = new double[(int) ((endX - startX + 1) * 2)];
     final double[] yy = new double[xx.length];
     int pos = 0;
@@ -494,8 +481,8 @@ public class LineContentImpl extends BasicLineContentImpl implements SampleValue
                       ContentAnimation anim, Cube cube,
                       PolynomialSplineFunction[][] cubics, int series, int prevSample,
                       int sample, PositionAxis sampleAxis) {
-    final double startX = sampleAxis.getSamplePosition(cube, prevSample);
-    final double endX = sampleAxis.getSamplePosition(cube, sample);
+    final double startX = sampleAxis.getSamplePosition(cube, prevSample, series);
+    final double endX = sampleAxis.getSamplePosition(cube, sample, series);
     final double[] xx = new double[(int) (endX - startX + 1)];
     final double[] yy = new double[xx.length];
     int pos = 0;

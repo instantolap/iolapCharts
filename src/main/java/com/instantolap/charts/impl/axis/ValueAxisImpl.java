@@ -181,6 +181,7 @@ public class ValueAxisImpl extends BasicScaleAxisImpl implements ValueAxis {
         texts[n] = prefix + r.format(format, v) + postfix;
 
         if (isVisible() && isShowLabels()) {
+          r.setFont(getFont());
           final double[] size = r.getTextSize(texts[n], getLabelRotation());
           neededWidth = Math.max(neededWidth, vertical ? size[0] : size[1]);
         }

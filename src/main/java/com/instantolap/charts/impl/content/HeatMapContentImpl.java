@@ -62,16 +62,16 @@ public class HeatMapContentImpl extends BasicHeatMapContentImpl implements Sampl
         if (!cube.isVisible(0, c0)) {
           continue;
         }
-        final double xx = xAxis.getSamplePosition(cube, c0);
-        final double cellWidth = xAxis.getSamplePosition(cube, c0 + 1) - xx;
-
         final double progress0 = (double) c0 / (double) (size0 - 1);
         for (int c1 = 0; c1 < size1; c1++) {
           if (!cube.isVisible(1, c1)) {
             continue;
           }
-          final double yy = yAxis.getSamplePosition(cube, c1);
-          final double cellHeight = yAxis.getSamplePosition(cube, c1 + 1) - yy;
+          final double xx = xAxis.getSamplePosition(cube, c0, c1);
+          final double cellWidth = xAxis.getSamplePosition(cube, c0 + 1, c1) - xx;
+
+          final double yy = yAxis.getSamplePosition(cube, c0, c1);
+          final double cellHeight = yAxis.getSamplePosition(cube, c0, c1 + 1) - yy;
           final double contentWidth = Math.min(cellWidth, cellHeight);
           final double cx = x + xx + cellWidth / 2;
           final double cy = y + yy + cellHeight / 2;

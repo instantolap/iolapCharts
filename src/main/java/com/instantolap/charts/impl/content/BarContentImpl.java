@@ -104,7 +104,7 @@ public class BarContentImpl extends BasicBarContentImpl implements SampleValueRe
           bar = 0;
         }
 
-        double xx = xAxis.getSamplePosition(cube, c0) + barPadding;
+        double xx = xAxis.getSamplePosition(cube, c0, 0) + barPadding;
         if (!isCentered) {
           xx -= sampleWidth / 2;
         }
