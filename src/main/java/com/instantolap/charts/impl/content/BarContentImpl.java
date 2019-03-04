@@ -41,8 +41,7 @@ public class BarContentImpl extends BasicBarContentImpl implements SampleValueRe
     boolean isRotated,
     ChartFont font,
     ChartColor background)
-    throws ChartException
-  {
+    throws ChartException {
 
     final Cube cube = getCube();
     if (cube == null) {
@@ -84,7 +83,7 @@ public class BarContentImpl extends BasicBarContentImpl implements SampleValueRe
     if (!isStacked) {
       barWidth -= (visibleSize1 - 1) * barSpacing;
       barWidth /= visibleSize1;
-      barPadding =  (xAxis.getSampleWidth() - (visibleSize1 * barWidth) - (visibleSize1 - 1) * barSpacing) / 2;
+      barPadding = (xAxis.getSampleWidth() - (visibleSize1 * barWidth) - (visibleSize1 - 1) * barSpacing) / 2;
     }
 
     double realBarWidth = barWidth;
@@ -118,7 +117,10 @@ public class BarContentImpl extends BasicBarContentImpl implements SampleValueRe
           // colors
           ChartColor sampleColor =
             getSampleColor(progress, bar, anim, data, c1, c0, isMultiColor());
-          final ChartColor outlineColor = getOutlineColor(progress, bar, anim, data, c1, c0);
+          ChartColor outlineColor = getOutlineColor(progress, bar, anim, data, c1, c0);
+          if (barWidth < 3) {
+            outlineColor = sampleColor;
+          }
           final ChartColor shadowColor = getCurrentShadow(anim, progress, bar, data, c1, c0);
 
           final String format = yAxis.getFormat();
@@ -213,14 +215,8 @@ public class BarContentImpl extends BasicBarContentImpl implements SampleValueRe
                 break;
 
               case 1:
-                // used color (outline for very small bars)
-/*                if ((realBarWidth <= 2) && (outlineColor != null)) {
-                  r.setColor(outlineColor);
-                } else {
-                  r.setColor(sampleColor);
-                }
-*/
                 // draw body
+                r.setColor(sampleColor);
                 r.fillRect(rectX, rectY, rectWidth, rectHeight);
 
                 // shine effect

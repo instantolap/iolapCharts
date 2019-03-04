@@ -109,6 +109,11 @@ public class JSONChartFactory {
       final LineContent lineContent = new LineContentImpl(theme);
       initLineContent(lineContent, json, data, 0);
       defaultContent = lineContent;
+    } else if ("timebar".equalsIgnoreCase(type)) {
+      chart = createTimeChart(json, data, theme);
+      final BarContent barContent = new BarContentImpl(theme);
+      initBarContent(barContent, json, data, 0);
+      defaultContent = barContent;
     } else if ("candle".equalsIgnoreCase(type)) {
       chart = createTimeChart(json, data, theme);
       final BarContent barContent = new BarContentImpl(theme);
