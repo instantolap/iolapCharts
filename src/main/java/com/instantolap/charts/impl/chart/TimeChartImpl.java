@@ -22,11 +22,11 @@ public class TimeChartImpl extends BasicMultiAxisChartImpl implements TimeChart 
 
     valueAxis1 = new ValueAxisImpl(theme);
     valueAxis1.setUseZeroAsBase(false);
-    valueAxis1.enableZoom(true);
+    valueAxis1.enableZoom(false);
 
     valueAxis2 = new ValueAxisImpl(theme);
     valueAxis2.setUseZeroAsBase(false);
-    valueAxis2.enableZoom(true);
+    valueAxis2.enableZoom(false);
 
     setAxes(timeAxis, valueAxis1, valueAxis2);
   }

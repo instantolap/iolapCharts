@@ -57,10 +57,13 @@ public class ScatterContentImpl extends BasicScatterContentImpl implements Value
     final double maxVZ = getMaxVZ(cube);
 
     // init regression
-    SimpleRegression regression = null;
+    SimpleRegression[] regressions = null;
     final ChartColor regressionColor = getRegressionColor();
     if (regressionColor != null) {
-      regression = new SimpleRegression();
+      regressions = new SimpleRegression[size1];
+      for (int n = 0; n < size1; n++) {
+        regressions[n] = new SimpleRegression();
+      }
     }
 
     // time animation?
@@ -92,16 +95,16 @@ public class ScatterContentImpl extends BasicScatterContentImpl implements Value
 
           Double timestamp = cube.get(Cube.MEASURE_TIME, c0, c1);
           boolean showOutline = true;
+          boolean addToRegression = true;
           if (timestamp != null && currentTime != null) {
             if (timestamp > currentTime) {
               continue;
+            } else if (timestamp < currentTime - visibleTime) {
+              addToRegression = false;
             }
 
             // fade older values
-            double fade = Math.pow(Math.min(1, Math.max(0,
-              1 - (currentTime - timestamp) / visibleTime
-            )), 2);
-
+            double fade = Math.pow(Math.min(1, Math.max(0, 1 - (currentTime - timestamp) / visibleTime)), 2);
             fade = Math.max(minFade, fade);
 
             // invisible? then skip
@@ -139,8 +142,8 @@ public class ScatterContentImpl extends BasicScatterContentImpl implements Value
             final double xx = xAxis.getPosition(vx);
             final double yy = yAxis.getPosition(vy);
 
-            if (regression != null) {
-              regression.addData(xx, yy);
+            if (regressions != null && addToRegression) {
+              regressions[c1].addData(xx, yy);
             }
 
             switch (pass) {
@@ -149,13 +152,17 @@ public class ScatterContentImpl extends BasicScatterContentImpl implements Value
                 final int symbol = data.getSymbol(c1);
 
                 if (shadowColor != null) {
-                  SymbolDrawer.draw(r, symbol, x + xx + xOffset, y + yy + yOffset, symbolWidth,
-                    shadowColor, shadowColor, background
+                  SymbolDrawer.draw(
+                    r, symbol,
+                    x + xx + xOffset, y + yy + yOffset,
+                    symbolWidth, shadowColor, shadowColor, background
                   );
                 }
 
-                SymbolDrawer.draw(r, symbol, x + xx, y + yy, symbolWidth, sampleColor, outlineColor,
-                  background
+                SymbolDrawer.draw(
+                  r, symbol,
+                  x + xx, y + yy,
+                  symbolWidth, sampleColor, outlineColor, background
                 );
                 break;
 
@@ -188,12 +195,14 @@ public class ScatterContentImpl extends BasicScatterContentImpl implements Value
     }
 
     // draw regression line?
-    if (regression != null) {
-      final double y0 = regression.predict(x);
-      final double y1 = regression.predict(x + width);
-      r.setColor(regressionColor);
-      r.setStroke(getRegressionStroke());
-      r.drawLine(x, y + y0, x + width, y + y1);
+    if (regressions != null) {
+      for (int n = 0; n < regressions.length; n++) {
+        final double y0 = regressions[n].predict(0);
+        final double y1 = regressions[n].predict(width);
+        r.setColor(regressionColor);
+        r.setStroke(getRegressionStroke());
+        r.drawLine(x, y + y0, x + width, y + y1);
+      }
     }
   }
 

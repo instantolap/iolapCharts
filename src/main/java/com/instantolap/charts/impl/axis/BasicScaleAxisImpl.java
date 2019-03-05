@@ -121,9 +121,9 @@ public abstract class BasicScaleAxisImpl extends BasicAxisImpl implements ScaleA
   public double getRadius(double v) {
     if (min == null || max == null) {
       return 0;
-    } else {
-      return (v - min) / (max - min) * size;
     }
+
+    return (v - min) / (max - min) * size;
   }
 
   @Override
@@ -148,6 +148,10 @@ public abstract class BasicScaleAxisImpl extends BasicAxisImpl implements ScaleA
 
   @Override
   public void zoom(double zoom, double center) {
+    if (min == null || max == null) {
+      return;
+    }
+
     final double v = (min + (max - min) * center);
     userMin = v + (min - v) * zoom;
     userMax = v + (max - v) * zoom;
@@ -157,6 +161,10 @@ public abstract class BasicScaleAxisImpl extends BasicAxisImpl implements ScaleA
 
   @Override
   public void translate(double shift) {
+    if (min == null || max == null) {
+      return;
+    }
+
     userMin = min + shift;
     userMax = max + shift;
 

@@ -67,11 +67,12 @@ public class SymbolDrawer {
     double x, double y,
     double size,
     ChartColor color, ChartColor outline, ChartColor background) {
+    if (size <= 0) {
+      return;
+    }
+
     final double xx = x - size / 2;
     final double yy = y - size / 2;
-    if (outline != null && size >= 3) {
-//      size -= 2;
-    }
 
     switch (symbol) {
       case SYMBOL_CIRCLE:
