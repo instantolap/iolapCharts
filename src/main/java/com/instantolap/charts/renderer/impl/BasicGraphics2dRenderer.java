@@ -11,6 +11,9 @@ import java.awt.geom.*;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TimeZone;
 
 
 public abstract class BasicGraphics2dRenderer extends BasicRenderer {
@@ -19,6 +22,7 @@ public abstract class BasicGraphics2dRenderer extends BasicRenderer {
 
   private Graphics2D graphics;
   private ChartColor color;
+  private final Map<String, SimpleDateFormat> dateFormats = new HashMap<>();
 
   protected void setGraphics(Graphics2D graphics) {
     this.graphics = graphics;
@@ -183,7 +187,13 @@ public abstract class BasicGraphics2dRenderer extends BasicRenderer {
 
   @Override
   public String format(String format, Date v) {
-    return new SimpleDateFormat(format).format(v);
+    SimpleDateFormat dateFormat = dateFormats.get(format);
+    if (dateFormat == null) {
+      dateFormat = new SimpleDateFormat(format);
+      dateFormats.put(format, dateFormat);
+      dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+    }
+    return dateFormat.format(v);
   }
 
   @Override

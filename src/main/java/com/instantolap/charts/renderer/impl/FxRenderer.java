@@ -21,6 +21,9 @@ import org.slf4j.LoggerFactory;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TimeZone;
 
 
 public class FxRenderer extends BasicRenderer {
@@ -31,6 +34,7 @@ public class FxRenderer extends BasicRenderer {
   private ChartColor color;
   private ChartFont font;
   private final Canvas image;
+  private final Map<String, SimpleDateFormat> dateFormats = new HashMap<>();
 
   public FxRenderer(Canvas image) {
     this.image = image;
@@ -221,7 +225,13 @@ public class FxRenderer extends BasicRenderer {
 
   @Override
   public String format(String format, Date v) {
-    return new SimpleDateFormat(format).format(v);
+    SimpleDateFormat dateFormat = dateFormats.get(format);
+    if (dateFormat == null) {
+      dateFormat = new SimpleDateFormat(format);
+      dateFormats.put(format, dateFormat);
+      dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+    }
+    return dateFormat.format(v);
   }
 
   @Override
