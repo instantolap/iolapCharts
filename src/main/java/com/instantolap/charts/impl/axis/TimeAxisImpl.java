@@ -1,6 +1,7 @@
 package com.instantolap.charts.impl.axis;
 
 import com.instantolap.charts.Cube;
+import com.instantolap.charts.TargetLine;
 import com.instantolap.charts.TimeAxis;
 import com.instantolap.charts.impl.data.SlicedCube;
 import com.instantolap.charts.impl.data.Theme;
@@ -99,20 +100,8 @@ public class TimeAxisImpl extends BasicScaleAxisImpl implements TimeAxis {
         }
         grids[n] = pos;
 
-        final String format;
-        if (v % (24 * 60 * 60 * 1000) == 0) {
-          format = "dd.MM";
-        } else if (v % 60000 == 0) {
-          format = "HH:mm";
-        } else if (v % 1000 == 0) {
-          format = "HH:mm:ss";
-        } else {
-          format = "HH:mm:ss SSS";
-        }
-        final Date date = new Date((long) v);
-
         // calc text width
-        texts[n] = prefix + r.format(format, date) + postfix;
+        texts[n] = getText(v, prefix, postfix, r);
 
         if (isShowLabels()) {
           final double[] size = r.getTextSize(texts[n], getLabelRotation());
@@ -124,6 +113,7 @@ public class TimeAxisImpl extends BasicScaleAxisImpl implements TimeAxis {
     }
 
     // padding
+    maxLabelSize = neededWidth;
     neededWidth += getTickWidth();
     if (isShowLabels()) {
       neededWidth += getLabelSpacing();
@@ -131,6 +121,35 @@ public class TimeAxisImpl extends BasicScaleAxisImpl implements TimeAxis {
 
     // title + padding
     neededWidth += getNeededTitleWidth(r, vertical);
+
+    // targets
+    double maxTargetSize = 0;
+    for (TargetLine target : getTargetLines()) {
+      final double[] size = r.getTextSize(target.text, getLabelRotation());
+      maxTargetSize = Math.max(maxTargetSize, vertical ? size[0] : size[1]);
+      target.valueText = getText(target.value, prefix, postfix, r);
+    }
+    if (maxTargetSize > 0) {
+      neededWidth += getLabelSpacing();
+    }
+    neededWidth += maxTargetSize;
+  }
+
+  private String getText(double v, String prefix, String postfix, Renderer r){
+    final String format;
+    if (v % (24 * 60 * 60 * 1000) == 0) {
+      format = "dd.MM";
+    } else if (v % 60000 == 0) {
+      format = "HH:mm";
+    } else if (v % 1000 == 0) {
+      format = "HH:mm:ss";
+    } else {
+      format = "HH:mm:ss SSS";
+    }
+    final Date date = new Date((long) v);
+
+    // calc text width
+    return prefix + r.format(format, date) + postfix;
   }
 
   @Override

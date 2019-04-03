@@ -52,6 +52,7 @@ public class ChartColor implements Serializable {
       a = 0xff;
       final int index = rgb.indexOf(",");
       if (index >= 0) {
+
         String o = rgb.substring(index + 1);
         o = StringHelper.trim(o);
         rgb = rgb.substring(0, index);

@@ -1,9 +1,6 @@
 package com.instantolap.charts.impl.canvas;
 
-import com.instantolap.charts.Axis;
-import com.instantolap.charts.CriticalArea;
-import com.instantolap.charts.TargetLine;
-import com.instantolap.charts.ValueAxis;
+import com.instantolap.charts.*;
 import com.instantolap.charts.impl.animation.CanvasAnimation;
 import com.instantolap.charts.impl.animation.FadeInCanvasAnim;
 import com.instantolap.charts.impl.data.Theme;
@@ -230,8 +227,8 @@ public class XYCanvasImpl extends BasicXYCanvasImpl {
 
   private void drawTargetLines(Renderer r, double x, double y, double width, double height, Axis axis) {
     if (axis != null) {
-      if (axis instanceof ValueAxis) {
-        final ValueAxis valueAxis = (ValueAxis) axis;
+      if (axis instanceof ScaleAxis) {
+        final ScaleAxis valueAxis = (ScaleAxis) axis;
         for (TargetLine target : valueAxis.getTargetLines()) {
           final double x0 = valueAxis.getPosition(target.value);
           r.setColor(target.color);

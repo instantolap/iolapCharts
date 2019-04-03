@@ -2,6 +2,7 @@ package com.instantolap.charts.impl.axis;
 
 import com.instantolap.charts.ScaleAxis;
 import com.instantolap.charts.ScaleAxisListener;
+import com.instantolap.charts.TargetLine;
 import com.instantolap.charts.impl.data.Theme;
 import com.instantolap.charts.impl.util.ArrayHelper;
 import com.instantolap.charts.renderer.*;
@@ -28,6 +29,9 @@ public abstract class BasicScaleAxisImpl extends BasicAxisImpl implements ScaleA
   protected double neededWidth;
   private boolean isZoomEnabled = true;
   private double zoomStep = 1.2;
+  protected final List<TargetLine> targets = new ArrayList<>();
+  protected boolean includeTargets = true;
+  protected double maxLabelSize;
 
   public BasicScaleAxisImpl(Theme theme) {
     super(theme);
@@ -106,6 +110,32 @@ public abstract class BasicScaleAxisImpl extends BasicAxisImpl implements ScaleA
   @Override
   public void setUserTick(Double stepSize) {
     this.userTick = stepSize;
+  }
+
+  @Override
+  public void clearTargets() {
+    targets.clear();
+  }
+
+  @Override
+  public void addTargetLine(
+    double value, String text, ChartColor color, ChartColor background, ChartStroke stroke) {
+    targets.add(new TargetLine(value, text, color, background, stroke));
+  }
+
+  @Override
+  public TargetLine[] getTargetLines() {
+    return targets.toArray(new TargetLine[0]);
+  }
+
+  @Override
+  public void setIncludeTargets(boolean includeTargets) {
+    this.includeTargets = includeTargets;
+  }
+
+  @Override
+  public boolean isIncludeTargets() {
+    return includeTargets;
   }
 
   @Override
@@ -297,6 +327,116 @@ public abstract class BasicScaleAxisImpl extends BasicAxisImpl implements ScaleA
         x, y, width, height, (ChartMouseDragListener) (dx, dy) -> doDrag(r, dx, dy));
     }
 
+    // target lines
+    ChartFont usedFont = getFont();
+    if (usedFont == null) {
+      usedFont = font;
+    }
+    r.setFont(usedFont);
+
+    final double tick = getTickWidth();
+    final double spacing = getLabelSpacing();
+    final double rot = getLabelRotation();
+
+    for (TargetLine target : getTargetLines()) {
+      final double pos = getPosition(target.value);
+      r.setColor(target.color);
+      if (isVertical()) {
+        if (flip) {
+          r.setColor(target.color);
+          r.drawLine(x + width - tick, y + pos, x + width, y + pos);
+
+          // background
+          if ((target.background != null) && (target.valueText != null)) {
+            r.setColor(target.background);
+            final double textHeight = ((r.getTextSize(target.valueText, rot)[1] + 4) / 2);
+            final double[] xx = new double[]{
+              x,
+              x + width,
+              x + width + textHeight,
+              x + width,
+              x};
+            final double[] yy = new double[]{
+              y + pos - textHeight,
+              y + pos - textHeight,
+              y + pos,
+              y + pos + textHeight,
+              y + pos + textHeight
+            };
+            r.fillPolygon(xx, yy);
+
+            r.setColor(target.color);
+            r.drawPolygon(xx, yy);
+          }
+
+          // text / value text
+          r.drawText(
+            x + width - tick - maxLabelSize - 2 * spacing, y + pos, target.text, rot, Renderer.EAST, false
+          );
+          if (target.valueText != null) {
+            r.drawText(x + width - tick - spacing, y + pos, target.valueText, rot, Renderer.EAST, false);
+          }
+        } else {
+          r.setColor(target.color);
+          r.drawLine(x, y + pos, x + tick, y + pos);
+
+          // background
+          if ((target.background != null) && (target.valueText != null)) {
+            r.setColor(target.background);
+          }
+
+          // text / value text
+          r.drawText(
+            x + tick + maxLabelSize + 2 * spacing, y + pos, target.text, rot, Renderer.WEST, false
+          );
+
+          if (target.valueText != null) {
+            r.drawText(x + tick + spacing, y + pos, target.valueText, rot, Renderer.WEST, false);
+          }
+        }
+      } else {
+        if (flip) {
+          r.setColor(target.color);
+          r.drawLine(x + pos, y + height - tick, x + pos, y + height);
+
+          // background
+          if ((target.background != null) && (target.valueText != null)) {
+            r.setColor(target.background);
+          }
+
+          // text / value text
+          r.drawText(
+            x + pos, y + height - tick - 2 * spacing - maxLabelSize, target.text, rot,
+            Renderer.SOUTH, false
+          );
+
+          if (target.valueText != null) {
+            r.drawText(
+              x + pos, y + height - tick - spacing, target.valueText, spacing, Renderer.SOUTH, false
+            );
+          }
+        } else {
+          r.setColor(target.color);
+          r.drawLine(x + pos, y, x + pos, y + tick);
+
+          // background
+          if ((target.background != null) && (target.valueText != null)) {
+            r.setColor(target.background);
+          }
+
+          // text / value text
+          r.drawText(
+            x + pos, y + tick + 2 * spacing + maxLabelSize, target.text, rot, Renderer.NORTH, false
+          );
+
+          if (target.valueText != null) {
+            r.drawText(
+              x + pos, y + tick + spacing, target.valueText, rot, Renderer.NORTH, false
+            );
+          }
+        }
+      }
+    }
   }
 
   @Override

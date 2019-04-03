@@ -1,5 +1,8 @@
 package com.instantolap.charts;
 
+import com.instantolap.charts.renderer.ChartColor;
+import com.instantolap.charts.renderer.ChartStroke;
+
 public interface ScaleAxis extends Axis {
 
   void clearMeasures();
@@ -51,4 +54,15 @@ public interface ScaleAxis extends Axis {
   void removeListener(ScaleAxisListener listener);
 
   void setGridPositions(double[] positions);
+
+  void clearTargets();
+
+  void addTargetLine(
+    double value, String text, ChartColor color, ChartColor background, ChartStroke stroke);
+
+  TargetLine[] getTargetLines();
+
+  boolean isIncludeTargets();
+
+  void setIncludeTargets(boolean include);
 }

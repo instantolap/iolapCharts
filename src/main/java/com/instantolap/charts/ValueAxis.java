@@ -1,7 +1,6 @@
 package com.instantolap.charts;
 
 import com.instantolap.charts.renderer.ChartColor;
-import com.instantolap.charts.renderer.ChartStroke;
 
 
 public interface ValueAxis extends ScaleAxis {
@@ -13,17 +12,6 @@ public interface ValueAxis extends ScaleAxis {
   Integer getDecimalCount();
 
   void setDecimalCount(Integer count);
-
-  void clearTargets();
-
-  void addTargetLine(
-    double value, String text, ChartColor color, ChartColor background, ChartStroke stroke);
-
-  TargetLine[] getTargetLines();
-
-  boolean isIncludeTargets();
-
-  void setIncludeTargets(boolean include);
 
   void addCriticalArea(double min, double max, String text, ChartColor color);
 

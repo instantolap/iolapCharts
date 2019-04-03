@@ -564,19 +564,8 @@ public class JSONChartFactory {
     // zoom
     axis.enableZoom(json.optBoolean("zoom", axis.isZoomEnabled()));
     axis.setZoomStep(json.optDouble("zoomstep", axis.getZoomStep()));
-  }
 
-  private static void initValueAxis(ValueAxis axis, JSONObject json, Data data)
-    throws JSONException {
-    initScaleAxis(axis, json, data);
-
-    axis.setFormat(json.optString("format", axis.getFormat()));
-
-    final String decimalCount = json.optString("decimalcount", null);
-    if (decimalCount != null) {
-      axis.setDecimalCount(Integer.parseInt(decimalCount));
-    }
-
+    // targets
     final JSONArray targets = json.optJSONArray("targets");
     if (targets != null) {
       for (int n = 0; n < targets.length(); n++) {
@@ -605,6 +594,18 @@ public class JSONChartFactory {
 
         axis.addTargetLine(value, text, targetColor, backgroundColor, targetStroke);
       }
+    }
+  }
+
+  private static void initValueAxis(ValueAxis axis, JSONObject json, Data data)
+    throws JSONException {
+    initScaleAxis(axis, json, data);
+
+    axis.setFormat(json.optString("format", axis.getFormat()));
+
+    final String decimalCount = json.optString("decimalcount", null);
+    if (decimalCount != null) {
+      axis.setDecimalCount(Integer.parseInt(decimalCount));
     }
 
     final JSONArray areas = json.optJSONArray("areas");

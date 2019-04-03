@@ -7,7 +7,6 @@ import com.instantolap.charts.ValueAxis;
 import com.instantolap.charts.impl.data.Theme;
 import com.instantolap.charts.renderer.ChartColor;
 import com.instantolap.charts.renderer.ChartFont;
-import com.instantolap.charts.renderer.ChartStroke;
 import com.instantolap.charts.renderer.Renderer;
 
 import java.util.ArrayList;
@@ -16,13 +15,10 @@ import java.util.List;
 
 public class ValueAxisImpl extends BasicScaleAxisImpl implements ValueAxis {
 
-  private final List<TargetLine> targets = new ArrayList<>();
   private final List<CriticalArea> areas = new ArrayList<>();
   private String format;
   private Integer decimalCount;
-  private double maxLabelSize;
   private boolean includeCriticalAreas = true;
-  private boolean includeTargets = true;
   private boolean useZeroAsBase = true;
 
   public ValueAxisImpl(Theme theme) {
@@ -236,117 +232,6 @@ public class ValueAxisImpl extends BasicScaleAxisImpl implements ValueAxis {
     }
 
     super.render(r, x, y, width, height, isCentered, flip, font);
-
-    // target lines
-    ChartFont usedFont = getFont();
-    if (usedFont == null) {
-      usedFont = font;
-    }
-    r.setFont(usedFont);
-
-    final double tick = getTickWidth();
-    final double spacing = getLabelSpacing();
-    final double rot = getLabelRotation();
-
-    for (TargetLine target : getTargetLines()) {
-      final double pos = getPosition(target.value);
-      r.setColor(target.color);
-      if (isVertical()) {
-        if (flip) {
-          r.setColor(target.color);
-          r.drawLine(x + width - tick, y + pos, x + width, y + pos);
-
-          // background
-          if ((target.background != null) && (target.valueText != null)) {
-            r.setColor(target.background);
-            final double textHeight = ((r.getTextSize(target.valueText, rot)[1] + 4) / 2);
-            final double[] xx = new double[]{
-              x,
-              x + width,
-              x + width + textHeight,
-              x + width,
-              x};
-            final double[] yy = new double[]{
-              y + pos - textHeight,
-              y + pos - textHeight,
-              y + pos,
-              y + pos + textHeight,
-              y + pos + textHeight
-            };
-            r.fillPolygon(xx, yy);
-
-            r.setColor(target.color);
-            r.drawPolygon(xx, yy);
-          }
-
-          // text / value text
-          r.drawText(
-            x + width - tick - maxLabelSize - 2 * spacing, y + pos, target.text, rot, Renderer.EAST, false
-          );
-          if (target.valueText != null) {
-            r.drawText(x + width - tick - spacing, y + pos, target.valueText, rot, Renderer.EAST, false);
-          }
-        } else {
-          r.setColor(target.color);
-          r.drawLine(x, y + pos, x + tick, y + pos);
-
-          // background
-          if ((target.background != null) && (target.valueText != null)) {
-            r.setColor(target.background);
-          }
-
-          // text / value text
-          r.drawText(
-            x + tick + maxLabelSize + 2 * spacing, y + pos, target.text, rot, Renderer.WEST, false
-          );
-
-          if (target.valueText != null) {
-            r.drawText(x + tick + spacing, y + pos, target.valueText, rot, Renderer.WEST, false);
-          }
-        }
-      } else {
-        if (flip) {
-          r.setColor(target.color);
-          r.drawLine(x + pos, y + height - tick, x + pos, y + height);
-
-          // background
-          if ((target.background != null) && (target.valueText != null)) {
-            r.setColor(target.background);
-          }
-
-          // text / value text
-          r.drawText(
-            x + pos, y + height - tick - 2 * spacing - maxLabelSize, target.text, rot,
-            Renderer.SOUTH, false
-          );
-
-          if (target.valueText != null) {
-            r.drawText(
-              x + pos, y + height - tick - spacing, target.valueText, spacing, Renderer.SOUTH, false
-            );
-          }
-        } else {
-          r.setColor(target.color);
-          r.drawLine(x + pos, y, x + pos, y + tick);
-
-          // background
-          if ((target.background != null) && (target.valueText != null)) {
-            r.setColor(target.background);
-          }
-
-          // text / value text
-          r.drawText(
-            x + pos, y + tick + 2 * spacing + maxLabelSize, target.text, rot, Renderer.NORTH, false
-          );
-
-          if (target.valueText != null) {
-            r.drawText(
-              x + pos, y + tick + spacing, target.valueText, rot, Renderer.NORTH, false
-            );
-          }
-        }
-      }
-    }
   }
 
   @Override
@@ -358,23 +243,6 @@ public class ValueAxisImpl extends BasicScaleAxisImpl implements ValueAxis {
   @Override
   public boolean isUseZeroAsBase() {
     return useZeroAsBase;
-  }
-
-
-  @Override
-  public void clearTargets() {
-    targets.clear();
-  }
-
-  @Override
-  public void addTargetLine(
-    double value, String text, ChartColor color, ChartColor background, ChartStroke stroke) {
-    targets.add(new TargetLine(value, text, color, background, stroke));
-  }
-
-  @Override
-  public TargetLine[] getTargetLines() {
-    return targets.toArray(new TargetLine[0]);
   }
 
   @Override
@@ -395,16 +263,6 @@ public class ValueAxisImpl extends BasicScaleAxisImpl implements ValueAxis {
   @Override
   public boolean isIncludeCriticalAreas() {
     return includeCriticalAreas;
-  }
-
-  @Override
-  public void setIncludeTargets(boolean includeTargets) {
-    this.includeTargets = includeTargets;
-  }
-
-  @Override
-  public boolean isIncludeTargets() {
-    return includeTargets;
   }
 
 }
