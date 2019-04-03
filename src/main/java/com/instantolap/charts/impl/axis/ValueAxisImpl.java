@@ -15,10 +15,8 @@ import java.util.List;
 
 public class ValueAxisImpl extends BasicScaleAxisImpl implements ValueAxis {
 
-  private final List<CriticalArea> areas = new ArrayList<>();
   private String format;
   private Integer decimalCount;
-  private boolean includeCriticalAreas = true;
   private boolean useZeroAsBase = true;
 
   public ValueAxisImpl(Theme theme) {
@@ -77,19 +75,6 @@ public class ValueAxisImpl extends BasicScaleAxisImpl implements ValueAxis {
         min = 0.0;
       } else if (useZeroAsBase && min > 0) {
         min = 0.0;
-      }
-
-      if (includeTargets) {
-        for (TargetLine target : getTargetLines()) {
-          min = Math.min(min, target.value);
-        }
-      }
-
-      if (includeCriticalAreas) {
-        for (CriticalArea area : getCriticalAreas()) {
-          min = Math.min(min, area.min);
-          min = Math.min(min, area.max);
-        }
       }
     }
 
@@ -239,30 +224,8 @@ public class ValueAxisImpl extends BasicScaleAxisImpl implements ValueAxis {
     this.useZeroAsBase = use;
   }
 
-
   @Override
   public boolean isUseZeroAsBase() {
     return useZeroAsBase;
   }
-
-  @Override
-  public void addCriticalArea(double min, double max, String text, ChartColor color) {
-    areas.add(new CriticalArea(min, max, text, color));
-  }
-
-  @Override
-  public CriticalArea[] getCriticalAreas() {
-    return areas.toArray(new CriticalArea[0]);
-  }
-
-  @Override
-  public void setIncludeCritialAreas(boolean include) {
-    this.includeCriticalAreas = include;
-  }
-
-  @Override
-  public boolean isIncludeCriticalAreas() {
-    return includeCriticalAreas;
-  }
-
 }

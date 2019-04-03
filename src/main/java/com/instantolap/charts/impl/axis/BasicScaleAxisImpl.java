@@ -1,5 +1,6 @@
 package com.instantolap.charts.impl.axis;
 
+import com.instantolap.charts.CriticalArea;
 import com.instantolap.charts.ScaleAxis;
 import com.instantolap.charts.ScaleAxisListener;
 import com.instantolap.charts.TargetLine;
@@ -32,6 +33,8 @@ public abstract class BasicScaleAxisImpl extends BasicAxisImpl implements ScaleA
   protected final List<TargetLine> targets = new ArrayList<>();
   protected boolean includeTargets = true;
   protected double maxLabelSize;
+  private final List<CriticalArea> areas = new ArrayList<>();
+  protected boolean includeCriticalAreas = true;
 
   public BasicScaleAxisImpl(Theme theme) {
     super(theme);
@@ -136,6 +139,26 @@ public abstract class BasicScaleAxisImpl extends BasicAxisImpl implements ScaleA
   @Override
   public boolean isIncludeTargets() {
     return includeTargets;
+  }
+
+  @Override
+  public void addCriticalArea(double min, double max, String text, ChartColor color) {
+    areas.add(new CriticalArea(min, max, text, color));
+  }
+
+  @Override
+  public CriticalArea[] getCriticalAreas() {
+    return areas.toArray(new CriticalArea[0]);
+  }
+
+  @Override
+  public void setIncludeCritialAreas(boolean include) {
+    this.includeCriticalAreas = include;
+  }
+
+  @Override
+  public boolean isIncludeCriticalAreas() {
+    return includeCriticalAreas;
   }
 
   @Override

@@ -125,15 +125,15 @@ public class XYCanvasImpl extends BasicXYCanvasImpl {
   private void drawAreas(Renderer r, double x, double y, double width, double height, Axis axis) {
     final int padding = 10;
     if (axis != null) {
-      if (axis instanceof ValueAxis) {
-        final ValueAxis valueAxis = (ValueAxis) axis;
-        for (CriticalArea area : valueAxis.getCriticalAreas()) {
+      if (axis instanceof ScaleAxis) {
+        final ScaleAxis scaleAxis = (ScaleAxis) axis;
+        for (CriticalArea area : scaleAxis.getCriticalAreas()) {
           final double min = Math.min(area.min, area.max);
           final double max = Math.max(area.min, area.max);
-          double x0 = valueAxis.getPosition(min);
-          double x1 = valueAxis.getPosition(max);
+          double x0 = scaleAxis.getPosition(min);
+          double x1 = scaleAxis.getPosition(max);
           r.setColor(area.color);
-          if (valueAxis.isVertical()) {
+          if (scaleAxis.isVertical()) {
             x0 = Math.max(0, Math.min(x0, height));
             x1 = Math.max(0, Math.min(x1, height));
             r.fillRect(x, y + x1, width, Math.abs(x0 - x1));
@@ -228,14 +228,14 @@ public class XYCanvasImpl extends BasicXYCanvasImpl {
   private void drawTargetLines(Renderer r, double x, double y, double width, double height, Axis axis) {
     if (axis != null) {
       if (axis instanceof ScaleAxis) {
-        final ScaleAxis valueAxis = (ScaleAxis) axis;
-        for (TargetLine target : valueAxis.getTargetLines()) {
-          final double x0 = valueAxis.getPosition(target.value);
+        final ScaleAxis scaleAxis = (ScaleAxis) axis;
+        for (TargetLine target : scaleAxis.getTargetLines()) {
+          final double x0 = scaleAxis.getPosition(target.value);
           r.setColor(target.color);
           if (target.stroke != null) {
             r.setStroke(target.stroke);
           }
-          if (valueAxis.isVertical()) {
+          if (scaleAxis.isVertical()) {
             r.drawLine(x, y + x0, x + width, y + x0);
           } else {
             r.drawLine(x + x0, y, x + x0, y + height);

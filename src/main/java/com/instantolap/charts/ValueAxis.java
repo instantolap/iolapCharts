@@ -13,14 +13,6 @@ public interface ValueAxis extends ScaleAxis {
 
   void setDecimalCount(Integer count);
 
-  void addCriticalArea(double min, double max, String text, ChartColor color);
-
-  CriticalArea[] getCriticalAreas();
-
-  void setIncludeCritialAreas(boolean include);
-
-  boolean isIncludeCriticalAreas();
-
   boolean isUseZeroAsBase();
 
   void setUseZeroAsBase(boolean use);

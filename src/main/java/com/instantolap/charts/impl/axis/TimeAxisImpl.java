@@ -1,5 +1,6 @@
 package com.instantolap.charts.impl.axis;
 
+import com.instantolap.charts.CriticalArea;
 import com.instantolap.charts.Cube;
 import com.instantolap.charts.TargetLine;
 import com.instantolap.charts.TimeAxis;
@@ -55,12 +56,38 @@ public class TimeAxisImpl extends BasicScaleAxisImpl implements TimeAxis {
       min = userMin;
     } else {
       min = cube.getMin(measures);
+
+      if (includeTargets) {
+        for (TargetLine target : getTargetLines()) {
+          min = Math.min(min, target.value);
+        }
+      }
+
+      if (includeCriticalAreas) {
+        for (CriticalArea area : getCriticalAreas()) {
+          min = Math.max(min, area.min);
+          min = Math.max(min, area.max);
+        }
+      }
     }
 
     if (userMax != null) {
       max = userMax;
     } else {
       max = cube.getMax(measures);
+
+      if (includeTargets) {
+        for (TargetLine target : getTargetLines()) {
+          max = Math.max(max, target.value);
+        }
+      }
+
+      if (includeCriticalAreas) {
+        for (CriticalArea area : getCriticalAreas()) {
+          max = Math.max(max, area.max);
+          max = Math.max(max, area.min);
+        }
+      }
     }
 
     // calc size

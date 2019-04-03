@@ -65,4 +65,12 @@ public interface ScaleAxis extends Axis {
   boolean isIncludeTargets();
 
   void setIncludeTargets(boolean include);
+
+  void addCriticalArea(double min, double max, String text, ChartColor color);
+
+  CriticalArea[] getCriticalAreas();
+
+  void setIncludeCritialAreas(boolean include);
+
+  boolean isIncludeCriticalAreas();
 }
