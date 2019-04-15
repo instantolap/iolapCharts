@@ -570,8 +570,11 @@ public class JSONChartFactory {
     if (targets != null) {
       for (int n = 0; n < targets.length(); n++) {
         final JSONObject target = targets.getJSONObject(n);
+        if (!target.has("value")) {
+          continue;
+        }
 
-        final double value = target.getDouble("value");
+        final double value = target.optDouble("value");
         final String text = target.optString("text");
         final String color = target.optString("color");
         final String background = target.optString("background");
@@ -595,23 +598,15 @@ public class JSONChartFactory {
         axis.addTargetLine(value, text, targetColor, backgroundColor, targetStroke);
       }
     }
-  }
 
-  private static void initValueAxis(ValueAxis axis, JSONObject json, Data data)
-    throws JSONException {
-    initScaleAxis(axis, json, data);
-
-    axis.setFormat(json.optString("format", axis.getFormat()));
-
-    final String decimalCount = json.optString("decimalcount", null);
-    if (decimalCount != null) {
-      axis.setDecimalCount(Integer.parseInt(decimalCount));
-    }
-
+    // areas
     final JSONArray areas = json.optJSONArray("areas");
     if (areas != null) {
       for (int n = 0; n < areas.length(); n++) {
         final JSONObject area = areas.getJSONObject(n);
+        if (!area.has("min") || !area.has("max")) {
+          continue;
+        }
 
         final double minArea = area.getDouble("min");
         final double maxArea = area.getDouble("max");
@@ -625,6 +620,18 @@ public class JSONChartFactory {
 
         axis.addCriticalArea(minArea, maxArea, text, targetColor);
       }
+    }
+  }
+
+  private static void initValueAxis(ValueAxis axis, JSONObject json, Data data)
+    throws JSONException {
+    initScaleAxis(axis, json, data);
+
+    axis.setFormat(json.optString("format", axis.getFormat()));
+
+    final String decimalCount = json.optString("decimalcount", null);
+    if (decimalCount != null) {
+      axis.setDecimalCount(Integer.parseInt(decimalCount));
     }
   }
 

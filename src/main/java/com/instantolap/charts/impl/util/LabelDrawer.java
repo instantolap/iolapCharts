@@ -16,6 +16,9 @@ public class LabelDrawer {
   public static void roundOutsideLabel(
     Renderer r, double x, double y, double len, double a, String text
   ) {
+    if (text == null) {
+      return;
+    }
 
     // calc anchor
     final int anchor = getAnchor(a);
@@ -48,6 +51,9 @@ public class LabelDrawer {
   public static void roundInsideLabel(
     Renderer r, double x, double y, double len, double a, String text
   ) {
+    if (text == null) {
+      return;
+    }
 
     // calc anchor
     final int anchor = invertAnchor(getAnchor(a));
@@ -84,6 +90,10 @@ public class LabelDrawer {
     int anchor, double rotation, ChartColor outsideColor, ChartColor insideColor, String text,
     ValueLabelType type
   ) {
+    if (text == null) {
+      return;
+    }
+
     final double[] size = r.getTextSize(text, rotation);
 
     switch (anchor) {
@@ -115,6 +125,10 @@ public class LabelDrawer {
     double x, double y, double h, double w, double s,
     int anchor, double rotation, String text
   ) {
+    if (text == null) {
+      return;
+    }
+
     switch (anchor) {
       case Renderer.EAST:
         r.drawText(x + w + s, y + h / 2, text, rotation, Renderer.WEST, true);
@@ -136,6 +150,10 @@ public class LabelDrawer {
     double x, double y, double h, double w, double s,
     int anchor, double rotation, String text
   ) {
+    if (text == null) {
+      return;
+    }
+
     switch (anchor) {
       case Renderer.EAST:
         r.drawText(x + w - s, y + h / 2, text, rotation, Renderer.EAST, true);

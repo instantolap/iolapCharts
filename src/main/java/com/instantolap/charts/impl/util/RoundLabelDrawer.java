@@ -29,6 +29,10 @@ public class RoundLabelDrawer {
   }
 
   public void add(double len, double a, ChartColor c1, ChartColor c2, String text, ValueLabelType type) {
+    if (text == null) {
+      return;
+    }
+
     a = correct(a);
     add(len, len, a, a, c1, c2, text, type);
   }
@@ -45,6 +49,10 @@ public class RoundLabelDrawer {
 
   public void add(
     double len1, double len2, double a1, double a2, ChartColor c1, ChartColor c2, String text, ValueLabelType type) {
+    if (text == null) {
+      return;
+    }
+
     while (a1 < 0) {
       a1 += Math.PI * 2;
       a2 += Math.PI * 2;
@@ -105,6 +113,10 @@ public class RoundLabelDrawer {
 
   public void autoLabel(
     double len1, double len2, double a1, double a2, ChartColor c1, ChartColor c2, String text) {
+    if (text == null) {
+      return;
+    }
+
     while (a1 < 0) {
       a1 += Math.PI * 2;
       a2 += Math.PI * 2;
@@ -244,9 +256,6 @@ public class RoundLabelDrawer {
   private static final class LabelComparator implements Comparator<Label>, Serializable {
 
     private boolean inverse;
-
-    public LabelComparator() {
-    }
 
     public LabelComparator(boolean inverse) {
       this.inverse = inverse;

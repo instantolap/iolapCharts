@@ -65,8 +65,8 @@ public class TimeAxisImpl extends BasicScaleAxisImpl implements TimeAxis {
 
       if (includeCriticalAreas) {
         for (CriticalArea area : getCriticalAreas()) {
-          min = Math.max(min, area.min);
-          min = Math.max(min, area.max);
+          min = Math.min(min, area.min);
+          min = Math.min(min, area.max);
         }
       }
     }

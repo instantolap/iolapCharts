@@ -33,6 +33,10 @@ public class StackedTransform extends BasicTransform {
             newCube.set(Cube.MEASURE_VALUE, neg, c0, c1);
           }
         }
+        final String link = cube.getString(Cube.MEASURE_LINK, c0, c1);
+        if (link != null) {
+          newCube.set(Cube.MEASURE_LINK, link, c0, c1);
+        }
       }
     }
 
