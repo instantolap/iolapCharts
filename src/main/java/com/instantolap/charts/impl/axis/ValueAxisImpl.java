@@ -5,12 +5,8 @@ import com.instantolap.charts.Cube;
 import com.instantolap.charts.TargetLine;
 import com.instantolap.charts.ValueAxis;
 import com.instantolap.charts.impl.data.Theme;
-import com.instantolap.charts.renderer.ChartColor;
 import com.instantolap.charts.renderer.ChartFont;
 import com.instantolap.charts.renderer.Renderer;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class ValueAxisImpl extends BasicScaleAxisImpl implements ValueAxis {
@@ -131,7 +127,7 @@ public class ValueAxisImpl extends BasicScaleAxisImpl implements ValueAxis {
       double tickV = v;
       while (tick > 0) {
         final double pos = getPosition(tickV);
-        if (pos < 0 || pos > size) {
+        if (Double.isNaN(pos) ||pos < 0 || pos > size) {
           break;
         }
 
