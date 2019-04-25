@@ -1,6 +1,7 @@
 package com.instantolap.charts.renderer;
 
 import com.instantolap.charts.renderer.util.StringHelper;
+import java.util.Objects;
 
 
 public class ChartFont {
@@ -91,7 +92,24 @@ public class ChartFont {
   }
 
   @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    ChartFont chartFont = (ChartFont) o;
+    return size == chartFont.size &&
+      bold == chartFont.bold &&
+      italic == chartFont.italic &&
+      Objects.equals(name, chartFont.name);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(name, size, bold, italic);
+  }
+
+  @Override
   public String toString() {
     return (italic ? "italic " : "") + (bold ? "bold " : "") + size + "px" + " " + name;
   }
+
 }

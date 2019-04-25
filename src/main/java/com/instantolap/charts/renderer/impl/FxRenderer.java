@@ -3,13 +3,19 @@ package com.instantolap.charts.renderer.impl;
 import com.instantolap.charts.impl.data.Theme;
 import com.instantolap.charts.renderer.*;
 import com.instantolap.charts.renderer.util.StringHelper;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TimeZone;
+import javafx.geometry.Bounds;
 import javafx.geometry.VPos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.LinearGradient;
-import javafx.scene.shape.StrokeLineCap;
-import javafx.scene.shape.StrokeLineJoin;
+import javafx.scene.shape.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
@@ -18,23 +24,19 @@ import javafx.scene.transform.Affine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TimeZone;
-
 
 public class FxRenderer extends BasicRenderer {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(FxRenderer.class);
 
+  private final Map<String, SimpleDateFormat> dateFormats = new HashMap<>();
+  private final Canvas image;
+
   private GraphicsContext graphics;
   private ChartColor color;
   private ChartFont font;
-  private final Canvas image;
-  private final Map<String, SimpleDateFormat> dateFormats = new HashMap<>();
+  private ChartStroke stroke;
+  private Rectangle clip;
 
   public FxRenderer(Canvas image) {
     this.image = image;
@@ -83,7 +85,13 @@ public class FxRenderer extends BasicRenderer {
 
   @Override
   public void drawLine(double x1, double y1, double x2, double y2) {
-    graphics.strokeLine(x1, y1, x2, y2);
+    if (clip != null && !(clip.contains(x1, y1) && clip.contains(x2, y2))) {
+      final Line line = new Line(x1, y1, x2, y2);
+      final Bounds b = Shape.intersect(line, clip).getBoundsInLocal();
+      graphics.strokeLine(b.getMinX(), b.getMaxY(), b.getMaxX(), b.getMinY());
+    } else {
+      graphics.strokeLine(x1, y1, x2, y2);
+    }
   }
 
   @Override
@@ -92,17 +100,20 @@ public class FxRenderer extends BasicRenderer {
       resetStroke();
       return;
     }
+    if (!stroke.equals(this.stroke)) {
+      this.stroke = stroke;
 
-    graphics.setLineWidth(stroke.getWidth());
-    graphics.setLineCap(StrokeLineCap.ROUND);
-    graphics.setLineJoin(StrokeLineJoin.ROUND);
+      graphics.setLineWidth(stroke.getWidth());
+      graphics.setLineCap(StrokeLineCap.ROUND);
+      graphics.setLineJoin(StrokeLineJoin.ROUND);
 
-    final double len1 = stroke.getLen1();
-    final double len2 = stroke.getLen2();
-    if ((len1 == 0) || (len2 == 0)) {
-      graphics.setLineDashes();
-    } else {
-      graphics.setLineDashes(len1, len2);
+      final double len1 = stroke.getLen1();
+      final double len2 = stroke.getLen2();
+      if ((len1 == 0) || (len2 == 0)) {
+        graphics.setLineDashes();
+      } else {
+        graphics.setLineDashes(len1, len2);
+      }
     }
   }
 
@@ -112,55 +123,54 @@ public class FxRenderer extends BasicRenderer {
     graphics.setLineCap(StrokeLineCap.ROUND);
     graphics.setLineJoin(StrokeLineJoin.ROUND);
     graphics.setLineDashes();
+    stroke = null;
   }
 
   @Override
   public void setFont(ChartFont font) {
-
-    // remember current font
     if (font == null) {
       font = new Theme().getDefaultFont();
     }
-    this.font = font;
+    if (!font.equals(this.font)) {
+      this.font = font;
 
-    FontWeight style = FontWeight.NORMAL;
-    if (font.isBold()) {
-      style = FontWeight.BOLD;
+      FontWeight style = FontWeight.NORMAL;
+      if (font.isBold()) {
+        style = FontWeight.BOLD;
+      }
+
+      FontPosture posture = FontPosture.REGULAR;
+      if (font.isItalic()) {
+        posture = FontPosture.ITALIC;
+      }
+
+      graphics.setFont(Font.font(font.getName(), style, posture, font.getSize()));
     }
-
-    FontPosture posture = FontPosture.REGULAR;
-    if (font.isItalic()) {
-      posture = FontPosture.ITALIC;
-    }
-
-    graphics.setFont(Font.font(font.getName(), style, posture, font.getSize()));
   }
 
   @Override
   public void fillRect(double x, double y, double width, double height) {
     prepareFillRect(x, y, width, height);
     graphics.fillRect(x, y, width, height);
-//    graphics.setPaint(null);
   }
 
   @Override
   public void fillRoundedRect(double x, double y, double width, double height, double arc) {
     prepareFillRect(x, y, width, height);
     graphics.fillRoundRect(x, y, width, height, arc, arc);
-//    graphics.setPaint(null);
   }
 
   @Override
   public void clipRoundedRect(double x, double y, double width, double height, double arc) {
-//    graphics.save();
-//    graphics.beginPath();
-//    graphics.rect(x, y, width, height);
-//    graphics.clip();
+    if (width > 0 && height > 0) {
+      clip = new Rectangle(x, y, width, height);
+      clip.setStrokeWidth(0);
+    }
   }
 
   @Override
   public void resetClip() {
-//    graphics.restore();
+    clip = null;
   }
 
   @Override
@@ -269,7 +279,7 @@ public class FxRenderer extends BasicRenderer {
   }
 
   @Override
-  public void openPopup(final RendererContent chart) throws ChartException {
+  public void openPopup(final RendererContent chart) {
   }
 
   @Override
@@ -382,8 +392,6 @@ public class FxRenderer extends BasicRenderer {
       double startX = x + Math.sin(Math.toRadians(a2)) * r1;
       double startY = y + Math.cos(Math.toRadians(a2)) * r1;
       if (round) {
-        if (Math.abs(a2 - a1) >= 360) {
-        }
         graphics.arc(x, y, r1, r1, a2, -arc);
       } else {
         double endX = x + Math.sin(Math.toRadians(a1)) * r1;
@@ -431,18 +439,17 @@ public class FxRenderer extends BasicRenderer {
     if (color == null) {
       color = ChartColor.BLACK;
     }
-    this.color = color;
-    final Color c = new Color(
-      color.getR() / 255.0,
-      color.getG() / 255.0,
-      color.getB() / 255.0,
-      color.getA() / 255.0
-    );
-    graphics.setStroke(c);
-    graphics.setFill(c);
+    if (!color.equals(this.color)) {
+      this.color = color;
+      final Color c = new Color(
+        color.getR() / 255.0,
+        color.getG() / 255.0,
+        color.getB() / 255.0,
+        color.getA() / 255.0
+      );
+      graphics.setStroke(c);
+      graphics.setFill(c);
+    }
   }
 
-  public Canvas getImage() {
-    return image;
-  }
 }

@@ -16,8 +16,13 @@ public class FxChartPanel extends Canvas {
 
   private static final String DEBOUNCE_THREAD_NAME = "iolap-javafx";
   private static final int DEFAULT_DEBOUNCE_TIME = 75;
+  private static final ScheduledExecutorService DEBOUNCE_EXECUTOR = newScheduledThreadPool(1, r -> {
+    final Thread thread = new Thread(r, DEBOUNCE_THREAD_NAME);
+    thread.setDaemon(true);
+    thread.setUncaughtExceptionHandler((t, e) -> e.printStackTrace());
+    return thread;
+  });
 
-  private final ScheduledExecutorService executor;
   private ScheduledFuture debounce;
   private int debounceTime = DEFAULT_DEBOUNCE_TIME;
 
@@ -27,13 +32,6 @@ public class FxChartPanel extends Canvas {
   private boolean isRendered;
 
   public FxChartPanel() {
-    this.executor = newScheduledThreadPool(1, r -> {
-      final Thread thread = new Thread(r, DEBOUNCE_THREAD_NAME);
-      thread.setDaemon(true);
-      thread.setUncaughtExceptionHandler((t, e) -> e.printStackTrace());
-      return thread;
-    });
-
     this.renderer = new FxRenderer(this) {
 
       @Override
@@ -43,7 +41,7 @@ public class FxChartPanel extends Canvas {
           return;
         }
 
-        executor.submit(() -> {
+        DEBOUNCE_EXECUTOR.submit(() -> {
           try {
             isAnimating = true;
             final long start = System.currentTimeMillis();
@@ -170,7 +168,7 @@ public class FxChartPanel extends Canvas {
       } else {
         // Debounce rendering until resizing stops
         if (debounce != null) debounce.cancel(true);
-        debounce = executor.schedule(() -> render(1, null), debounceTime, MILLISECONDS);
+        debounce = DEBOUNCE_EXECUTOR.schedule(() -> render(1, null), debounceTime, MILLISECONDS);
       }
     }
   }

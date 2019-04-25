@@ -1,8 +1,8 @@
 package com.instantolap.charts.renderer;
 
 import com.instantolap.charts.renderer.util.StringHelper;
-
 import java.io.Serializable;
+import java.util.Objects;
 
 
 @SuppressWarnings("serial")
@@ -69,4 +69,20 @@ public class ChartStroke implements Serializable {
   public ChartStroke setPattern(int len1, int len2) {
     return new ChartStroke(width, len1, len2);
   }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    ChartStroke that = (ChartStroke) o;
+    return Double.compare(that.width, width) == 0 &&
+      Double.compare(that.len1, len1) == 0 &&
+      Double.compare(that.len2, len2) == 0;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(width, len1, len2);
+  }
+
 }
