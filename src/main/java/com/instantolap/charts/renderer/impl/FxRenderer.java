@@ -152,15 +152,15 @@ public class FxRenderer extends BasicRenderer {
 
   @Override
   public void clipRoundedRect(double x, double y, double width, double height, double arc) {
-    graphics.save();
-    graphics.beginPath();
-    graphics.rect(x, y, width, height);
-    graphics.clip();
+//    graphics.save();
+//    graphics.beginPath();
+//    graphics.rect(x, y, width, height);
+//    graphics.clip();
   }
 
   @Override
   public void resetClip() {
-    graphics.restore();
+//    graphics.restore();
   }
 
   @Override

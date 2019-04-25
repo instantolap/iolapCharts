@@ -56,8 +56,8 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.1</version>
         <configuration>
-          <source>12</source>
-          <target>12</target>
+          <source>1.8</source>
+          <target>1.8</target>
         </configuration>
         <inherited>true</inherited>
       </plugin>
@@ -106,7 +106,7 @@
     <dependency>
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-controls</artifactId>
-      <version>12</version>
+      <version>11</version>
     </dependency>
   </dependencies>
 </project>

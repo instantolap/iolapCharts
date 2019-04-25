@@ -1,21 +1,39 @@
 package com.instantolap.charts.renderer.impl;
 
+import static java.util.concurrent.Executors.newScheduledThreadPool;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static javafx.application.Platform.runLater;
+
 import com.instantolap.charts.Chart;
 import com.instantolap.charts.renderer.ChartException;
 import com.instantolap.charts.renderer.HasAnimation;
-import javafx.application.Platform;
-import javafx.scene.canvas.Canvas;
-
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import javafx.scene.canvas.Canvas;
 
 public class FxChartPanel extends Canvas {
 
+  private static final String DEBOUNCE_THREAD_NAME = "iolap-javafx";
+  private static final int DEFAULT_DEBOUNCE_TIME = 75;
+
+  private final ScheduledExecutorService executor;
+  private ScheduledFuture debounce;
+  private int debounceTime = DEFAULT_DEBOUNCE_TIME;
+
+  private final FxRenderer renderer;
   private Chart chart;
-  private FxRenderer renderer;
   private boolean isAnimating;
   private boolean isRendered;
 
   public FxChartPanel() {
+    this.executor = newScheduledThreadPool(1, r -> {
+      final Thread thread = new Thread(r, DEBOUNCE_THREAD_NAME);
+      thread.setDaemon(true);
+      thread.setUncaughtExceptionHandler((t, e) -> e.printStackTrace());
+      return thread;
+    });
+
     this.renderer = new FxRenderer(this) {
 
       @Override
@@ -25,29 +43,28 @@ public class FxChartPanel extends Canvas {
           return;
         }
 
-        new Thread(() -> {
+        executor.submit(() -> {
           try {
             isAnimating = true;
             final long start = System.currentTimeMillis();
+
             while (true) {
+              final double diff = System.currentTimeMillis() - start;
+              final double progress = Math.min(1, diff / duration);
 
-              final long d = System.currentTimeMillis() - start;
-              final double progress = Math.min(1, (double) d / duration);
+              final CountDownLatch latch = new CountDownLatch(1);
+              render(progress, latch);
+              latch.await();
 
-              final CountDownLatch countDownLatch = new CountDownLatch(1);
-              render(progress, countDownLatch);
-              countDownLatch.await();
-
-              if (progress >= 1) {
-                break;
-              }
+              if (progress >= 1) break;
             }
+
           } catch (Exception e) {
             e.printStackTrace();
           } finally {
             isAnimating = false;
           }
-        }).start();
+        });
 
         setOnMouseMoved(event -> {
           try {
@@ -83,25 +100,34 @@ public class FxChartPanel extends Canvas {
         });
 
         setOnScroll(event -> {
-            renderer.mouseListeners.fireMouseWheel(
-              (int) event.getX(), (int) event.getY(), (int) event.getDeltaY()
-            );
-          }
-        );
+          renderer.mouseListeners.fireMouseWheel(
+            (int) event.getX(), (int) event.getY(), (int) event.getDeltaY()
+          );
+        });
       }
     };
+  }
+
+  public Chart getChart() {
+    return chart;
   }
 
   public void setChart(Chart chart) {
     this.chart = chart;
     this.chart.setRenderer(renderer);
-    Platform.runLater(() -> {
-      try {
-        this.chart.render();
-      } catch (ChartException e) {
-        e.printStackTrace();
-      }
-    });
+    try {
+      this.chart.render();
+    } catch (ChartException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public int getDebounceTime() {
+    return debounceTime;
+  }
+
+  public void setDebounceTime(int debounceTime) {
+    this.debounceTime = debounceTime;
   }
 
   @Override
@@ -136,16 +162,22 @@ public class FxChartPanel extends Canvas {
 
   @Override
   public void resize(double width, double height) {
-    super.setWidth(width);
-    super.setHeight(height);
+    setWidth(width);
+    setHeight(height);
     if (!isAnimating && isRendered) {
-      render(1, null);
+      if (chart.isAnimationEnabled()) {
+        render(1, null);
+      } else {
+        // Debounce rendering until resizing stops
+        if (debounce != null) debounce.cancel(true);
+        debounce = executor.schedule(() -> render(1, null), debounceTime, MILLISECONDS);
+      }
     }
   }
 
   private void render(double progress, CountDownLatch latch) {
     if (chart != null) {
-      Platform.runLater(() -> {
+      runLater(() -> {
         try {
           chart.render(progress);
         } catch (ChartException e) {
