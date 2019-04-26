@@ -23,6 +23,10 @@ public class FxChartPanel extends Canvas {
     return thread;
   });
 
+  public static void dispose() {
+    DEBOUNCE_EXECUTOR.shutdownNow();
+  }
+
   private ScheduledFuture<?> debounce;
   private int debounceTime = DEFAULT_DEBOUNCE_TIME;
 
@@ -31,9 +35,8 @@ public class FxChartPanel extends Canvas {
   private boolean isAnimating;
   private boolean isRendered;
 
-  public FxChartPanel() {
-    this.renderer = new FxRenderer(this) {
-
+  public FxChartPanel(boolean interactive) {
+    renderer = new FxRenderer(this) {
       @Override
       public void animate(final HasAnimation animated, final long duration) {
         if (duration <= 0) {
@@ -63,47 +66,49 @@ public class FxChartPanel extends Canvas {
             isAnimating = false;
           }
         });
-
-        setOnMouseMoved(event -> {
-          try {
-            renderer.mouseListeners.fireMouseMove((int) event.getX(), (int) event.getY());
-            renderer.fireMouseMove((int) event.getX(), (int) event.getY());
-          } catch (Exception e) {
-            renderer.showError(e);
-          }
-        });
-
-        setOnMouseDragged(event -> {
-          renderer.mouseListeners.fireMouseMove((int) event.getX(), (int) event.getY());
-        });
-
-        setOnMouseClicked(event -> {
-          renderer.fireMouseClick((int) event.getX(), (int) event.getY());
-        });
-
-        setOnMousePressed(event -> {
-          renderer.mouseListeners.fireMouseDown((int) event.getX(), (int) event.getY());
-        });
-
-        setOnMouseReleased(event -> {
-          renderer.mouseListeners.fireMouseUp((int) event.getX(), (int) event.getY());
-        });
-
-        setOnMouseExited(event -> {
-          try {
-            renderer.fireMouseOut((int) event.getX(), (int) event.getY());
-          } catch (Exception e) {
-            renderer.showError(e);
-          }
-        });
-
-        setOnScroll(event -> {
-          renderer.mouseListeners.fireMouseWheel(
-            (int) event.getX(), (int) event.getY(), (int) event.getDeltaY()
-          );
-        });
       }
     };
+
+    if (interactive) {
+      setOnMouseMoved(event -> {
+        try {
+          renderer.mouseListeners.fireMouseMove((int) event.getX(), (int) event.getY());
+          renderer.fireMouseMove((int) event.getX(), (int) event.getY());
+        } catch (Exception e) {
+          renderer.showError(e);
+        }
+      });
+
+      setOnMouseDragged(event -> {
+        renderer.mouseListeners.fireMouseMove((int) event.getX(), (int) event.getY());
+      });
+
+      setOnMouseClicked(event -> {
+        renderer.fireMouseClick((int) event.getX(), (int) event.getY());
+      });
+
+      setOnMousePressed(event -> {
+        renderer.mouseListeners.fireMouseDown((int) event.getX(), (int) event.getY());
+      });
+
+      setOnMouseReleased(event -> {
+        renderer.mouseListeners.fireMouseUp((int) event.getX(), (int) event.getY());
+      });
+
+      setOnMouseExited(event -> {
+        try {
+          renderer.fireMouseOut((int) event.getX(), (int) event.getY());
+        } catch (Exception e) {
+          renderer.showError(e);
+        }
+      });
+
+      setOnScroll(event -> {
+        renderer.mouseListeners.fireMouseWheel(
+          (int) event.getX(), (int) event.getY(), (int) event.getDeltaY()
+        );
+      });
+    }
   }
 
   public Chart getChart() {
