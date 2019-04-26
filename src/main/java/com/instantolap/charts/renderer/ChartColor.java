@@ -1,10 +1,10 @@
 package com.instantolap.charts.renderer;
 
 import com.instantolap.charts.renderer.util.StringHelper;
-
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 
 @SuppressWarnings("serial")
@@ -306,6 +306,23 @@ public class ChartColor implements Serializable {
 
   public ChartColor setOpacity(double progress) {
     return new ChartColor(r, g, b, (int) (a * progress), gradient);
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    ChartColor that = (ChartColor) o;
+    return r == that.r &&
+      g == that.g &&
+      b == that.b &&
+      a == that.a &&
+      gradient == that.gradient;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(r, g, b, a, gradient);
   }
 
   @Override

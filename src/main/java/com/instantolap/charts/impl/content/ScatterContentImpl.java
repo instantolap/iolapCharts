@@ -199,9 +199,11 @@ public class ScatterContentImpl extends BasicScatterContentImpl implements Value
       for (int n = 0; n < regressions.length; n++) {
         final double y0 = regressions[n].predict(0);
         final double y1 = regressions[n].predict(width);
-        r.setColor(regressionColor);
-        r.setStroke(getRegressionStroke());
-        r.drawLine(x, y + y0, x + width, y + y1);
+        if (!Double.isNaN(y0) && !Double.isNaN(y1)) {
+          r.setColor(regressionColor);
+          r.setStroke(getRegressionStroke());
+          r.drawLine(x, y + y0, x + width, y + y1);
+        }
       }
     }
   }
