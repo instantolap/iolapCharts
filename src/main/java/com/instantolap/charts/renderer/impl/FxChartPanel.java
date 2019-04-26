@@ -23,7 +23,7 @@ public class FxChartPanel extends Canvas {
     return thread;
   });
 
-  private ScheduledFuture debounce;
+  private ScheduledFuture<?> debounce;
   private int debounceTime = DEFAULT_DEBOUNCE_TIME;
 
   private final FxRenderer renderer;
