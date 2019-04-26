@@ -216,11 +216,15 @@ public class FxRenderer extends BasicRenderer {
 
   @Override
   public void drawCircle(double x, double y, double size) {
+    if (clip != null && !clip.contains(x, y)) return;
+
     graphics.strokeOval(x, y, size, size);
   }
 
   @Override
   public void fillCircle(double x, double y, double size) {
+    if (clip != null && !clip.contains(x, y)) return;
+
     prepareFillRect(x, y, size, size);
     graphics.fillOval(x, y, size, size);
   }
