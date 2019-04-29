@@ -599,6 +599,8 @@ public class JSONChartFactory {
       }
     }
 
+    axis.setIncludeCritialAreas(json.optBoolean("includetargets", axis.isIncludeTargets()));
+
     // areas
     final JSONArray areas = json.optJSONArray("areas");
     if (areas != null) {
@@ -621,6 +623,8 @@ public class JSONChartFactory {
         axis.addCriticalArea(minArea, maxArea, text, targetColor);
       }
     }
+
+    axis.setIncludeCritialAreas(json.optBoolean("includeareas", axis.isIncludeCriticalAreas()));
   }
 
   private static void initValueAxis(ValueAxis axis, JSONObject json, Data data)
