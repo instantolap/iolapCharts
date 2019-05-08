@@ -451,8 +451,8 @@ public class LineContentImpl extends BasicLineContentImpl implements SampleValue
       if (spline) {
         // TODO ?
       } else if (stepLine) {
-        r.drawLine(x + pyMax, y + px, x + yMax, y + px);
-        r.drawLine(x + yMax, y + px, x + yMax, y + xx);
+        r.drawLine(x + pyMax, y + px, x + pyMax, y + xx);
+        r.drawLine(x + pyMax, y + xx, x + yMax, y + xx);
       } else {
         r.drawLine(x + pyMax, y + px, x + yMax, y + xx);
       }
@@ -460,8 +460,8 @@ public class LineContentImpl extends BasicLineContentImpl implements SampleValue
       if (spline) {
         spline(r, progress, bar, x, y, anim, cube, cubics, c1, prevSample, c0, xAxis);
       } else if (stepLine) {
-        r.drawLine(x + px, y + pyMax, x + px, y + yMax);
-        r.drawLine(x + px, y + yMax, x + xx, y + yMax);
+        r.drawLine(x + px, y + pyMax, x + xx, y + pyMax);
+        r.drawLine(x + xx, y + pyMax, x + xx, y + yMax);
       } else {
         r.drawLine(x + px, y + pyMax, x + xx, y + yMax);
       }

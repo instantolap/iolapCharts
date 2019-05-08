@@ -8,6 +8,7 @@ import javafx.scene.canvas.Canvas;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 import static java.util.concurrent.Executors.newScheduledThreadPool;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
@@ -56,7 +57,7 @@ public class FxChartPanel extends Canvas {
 
               final CountDownLatch latch = new CountDownLatch(1);
               render(progress, latch);
-              latch.await();
+              latch.await(10, TimeUnit.SECONDS);
 
               if (progress >= 1) break;
             }
@@ -70,38 +71,38 @@ public class FxChartPanel extends Canvas {
       }
     };
 
-      setOnMouseMoved(event -> {
-        try {
-          renderer.mouseListeners.fireMouseMove((int) event.getX(), (int) event.getY());
-          renderer.fireMouseMove((int) event.getX(), (int) event.getY());
-        } catch (Exception e) {
-          renderer.showError(e);
-        }
-      });
-
-      setOnMouseDragged(event -> {
+    setOnMouseMoved(event -> {
+      try {
         renderer.mouseListeners.fireMouseMove((int) event.getX(), (int) event.getY());
-      });
+        renderer.fireMouseMove((int) event.getX(), (int) event.getY());
+      } catch (Exception e) {
+        renderer.showError(e);
+      }
+    });
 
-      setOnMouseClicked(event -> {
-        renderer.fireMouseClick((int) event.getX(), (int) event.getY());
-      });
+    setOnMouseDragged(event -> {
+      renderer.mouseListeners.fireMouseMove((int) event.getX(), (int) event.getY());
+    });
 
-      setOnMousePressed(event -> {
-        renderer.mouseListeners.fireMouseDown((int) event.getX(), (int) event.getY());
-      });
+    setOnMouseClicked(event -> {
+      renderer.fireMouseClick((int) event.getX(), (int) event.getY());
+    });
 
-      setOnMouseReleased(event -> {
-        renderer.mouseListeners.fireMouseUp((int) event.getX(), (int) event.getY());
-      });
+    setOnMousePressed(event -> {
+      renderer.mouseListeners.fireMouseDown((int) event.getX(), (int) event.getY());
+    });
 
-      setOnMouseExited(event -> {
-        try {
-          renderer.fireMouseOut((int) event.getX(), (int) event.getY());
-        } catch (Exception e) {
-          renderer.showError(e);
-        }
-      });
+    setOnMouseReleased(event -> {
+      renderer.mouseListeners.fireMouseUp((int) event.getX(), (int) event.getY());
+    });
+
+    setOnMouseExited(event -> {
+      try {
+        renderer.fireMouseOut((int) event.getX(), (int) event.getY());
+      } catch (Exception e) {
+        renderer.showError(e);
+      }
+    });
 
     if (interactive) {
       setOnScroll(event -> {
