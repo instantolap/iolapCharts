@@ -3,34 +3,32 @@ package com.instantolap.charts.renderer.impl;
 import com.instantolap.charts.Chart;
 import com.instantolap.charts.renderer.ChartException;
 import com.instantolap.charts.renderer.HasAnimation;
-import javafx.scene.canvas.Canvas;
-
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
+import javafx.scene.canvas.Canvas;
 
+import static java.lang.String.format;
 import static java.util.concurrent.Executors.newScheduledThreadPool;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static javafx.application.Platform.runLater;
 
 public class FxChartPanel extends Canvas {
 
-  private static final String DEBOUNCE_THREAD_NAME = "iolap-javafx";
+  private static final String DEBOUNCE_THREAD_NAME = "iolap-javafx-%d";
   private static final int DEFAULT_DEBOUNCE_TIME = 75;
-  private static final ScheduledExecutorService DEBOUNCE_EXECUTOR = newScheduledThreadPool(1, r -> {
-    final Thread thread = new Thread(r, DEBOUNCE_THREAD_NAME);
+  private static final int DEFAULT_TIMEOUT = 5;
+
+  private ScheduledFuture<?> debounce;
+  private int debounceTime = DEFAULT_DEBOUNCE_TIME;
+  private final ScheduledExecutorService debouncer = newScheduledThreadPool(1, r -> {
+    final Thread thread = new Thread(r);
+    thread.setName(format(DEBOUNCE_THREAD_NAME, thread.getId()));
     thread.setDaemon(true);
     thread.setUncaughtExceptionHandler((t, e) -> e.printStackTrace());
     return thread;
   });
-
-  public static void dispose() {
-    DEBOUNCE_EXECUTOR.shutdownNow();
-  }
-
-  private ScheduledFuture<?> debounce;
-  private int debounceTime = DEFAULT_DEBOUNCE_TIME;
 
   private final FxRenderer renderer;
   private Chart chart;
@@ -46,7 +44,7 @@ public class FxChartPanel extends Canvas {
           return;
         }
 
-        DEBOUNCE_EXECUTOR.submit(() -> {
+        debouncer.submit(() -> {
           try {
             isAnimating = true;
             final long start = System.currentTimeMillis();
@@ -57,7 +55,7 @@ public class FxChartPanel extends Canvas {
 
               final CountDownLatch latch = new CountDownLatch(1);
               render(progress, latch);
-              latch.await(10, TimeUnit.SECONDS);
+              latch.await(DEFAULT_TIMEOUT, SECONDS);
 
               if (progress >= 1) break;
             }
@@ -175,7 +173,7 @@ public class FxChartPanel extends Canvas {
       } else {
         // Debounce rendering until resizing stops
         if (debounce != null) debounce.cancel(true);
-        debounce = DEBOUNCE_EXECUTOR.schedule(() -> render(1, null), debounceTime, MILLISECONDS);
+        debounce = debouncer.schedule(() -> render(1, null), debounceTime, MILLISECONDS);
       }
     }
   }
