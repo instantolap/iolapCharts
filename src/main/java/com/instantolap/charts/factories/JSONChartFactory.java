@@ -561,6 +561,11 @@ public class JSONChartFactory {
     axis.setMaxLineCount(json.optInt("maxlinecount", axis.getMaxLineCount()));
     axis.setMinTickSize(json.optDouble("minticksize", axis.getMinTickSize()));
 
+    final String tickSize = json.optString("ticksize", null);
+    if (tickSize != null) {
+      axis.setUserTick(Double.parseDouble(tickSize));
+    }
+
     // zoom
     axis.enableZoom(json.optBoolean("zoom", axis.isZoomEnabled()));
     axis.setZoomStep(json.optDouble("zoomstep", axis.getZoomStep()));
@@ -752,6 +757,11 @@ public class JSONChartFactory {
       return content;
     } else if ("scatter".equalsIgnoreCase(type)) {
       final ScatterContent content = new ScatterContentImpl(theme);
+      initScatterContent(content, json, data, index);
+      return content;
+    } else if ("bubble".equalsIgnoreCase(type)) {
+      final ScatterContent content = new ScatterContentImpl(theme);
+      content.setBubble(true);
       initScatterContent(content, json, data, index);
       return content;
     } else if ("heatmap".equalsIgnoreCase(type)) {
