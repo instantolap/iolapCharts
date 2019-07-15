@@ -5,7 +5,7 @@
 
   <groupId>com.instantOLAP</groupId>
   <artifactId>charts</artifactId>
-  <version>1.0.16</version>
+  <version>1.0.17</version>
 
   <licenses>
     <license>
@@ -16,7 +16,7 @@
   </licenses>
 
   <name>iolapCharts</name>
-  <description>Java charting library for JavaFx, Swing, GWT and other output formats</description>
+  <description>Java charting library for JavaFX, Swing, GWT and other output formats</description>
   <url>http://www.instantolap.com</url>
 
   <properties>

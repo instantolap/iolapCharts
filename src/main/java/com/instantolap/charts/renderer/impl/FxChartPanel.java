@@ -6,6 +6,7 @@ import com.instantolap.charts.renderer.HasAnimation;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
+import javafx.scene.Cursor;
 import javafx.scene.canvas.Canvas;
 
 import static java.lang.String.format;
@@ -34,6 +35,8 @@ public class FxChartPanel extends Canvas {
   private Chart chart;
   private boolean isAnimating;
   private boolean isRendered;
+
+  private Cursor formerCursor;
 
   public FxChartPanel(boolean interactive) {
     renderer = new FxRenderer(this) {
@@ -70,11 +73,19 @@ public class FxChartPanel extends Canvas {
     };
 
     setOnMouseMoved(event -> {
+      final int x = (int) event.getX();
+      final int y = (int) event.getY();
       try {
-        renderer.mouseListeners.fireMouseMove((int) event.getX(), (int) event.getY());
-        renderer.fireMouseMove((int) event.getX(), (int) event.getY());
+        renderer.mouseListeners.fireMouseMove(x, y);
+        renderer.fireMouseMove(x, y);
       } catch (Exception e) {
         renderer.showError(e);
+      }
+      if (renderer.isClickable(x, y)) {
+        formerCursor = getCursor();
+        setCursor(Cursor.HAND);
+      } else {
+        setCursor(formerCursor != null ? formerCursor : Cursor.DEFAULT);
       }
     });
 

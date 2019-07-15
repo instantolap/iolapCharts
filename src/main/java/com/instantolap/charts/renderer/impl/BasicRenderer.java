@@ -158,6 +158,17 @@ public abstract class BasicRenderer implements Renderer {
     }
   }
 
+  protected boolean isClickable(int x, int y) {
+    for (Popup p : popups) {
+      if (p.isInside(this, x, y)) {
+        if (p.onMouseClick != null) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
   public ChartColor getColor() {
     return color;
   }

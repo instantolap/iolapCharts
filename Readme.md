@@ -110,7 +110,7 @@ To change the axis settings, add an object attribute with the name **scale**, **
 
 ### Shared attributes
 
-First of all, each axis can have a title. The title of an axis is controlled by the **title** property, the properties **color**, **titlefont** and **titleangle** (in degrees) control its appearence.
+First of all, each axis can have a title. The title of an axis is controlled by the **title** property, the properties **color**, **titlefont** and **titleangle** (in degrees) control its appearance.
 
     <chart><!--{
       data: { dimensions: [[Mon, Tue, Wed, Thu, Fri, Sat, Sun]], values: [10,20,30,80,70,50,35] },
@@ -119,7 +119,7 @@ First of all, each axis can have a title. The title of an axis is controlled by 
       samples: { title: Weekday, font: Courier New, titlecolor: green }
     }--></chart>
     
-With **line** and **showbaseline**, you can create lines for the axis, and **line** controls their color. The baseline is the the long vertical or horizontal line whichs separates the scale from the chart itself. And the tickwidth determines the size of the small lines connecting the baseline and the number.
+With **line** and **showbaseline**, you can create lines for the axis, and **line** controls their color. The baseline is the the long vertical or horizontal line which separates the scale from the chart itself. And the tickwidth determines the size of the small lines connecting the baseline and the number.
 
     <chart><!--{
       data: { dimensions: [[Mon, Tue, Wed, Thu, Fri, Sat, Sun]], values: [10,20,30,80,70,50,35] },
@@ -277,7 +277,7 @@ The **shadow**, **shadowxoffset** and **shadowyoffset** attributes add a shadow 
       content: { shadow: null }
     }--></chart>
     
-The boolean attributes **valuelabels**, **samplelabels** and **serieslabels** let the names of the series, samples or the value appear permanentley in the content. With **labelspacing**, the distance to the content can be changed. And the attributes **labelfont**, **labelcolor** and **labelangle** can be used to change their design:
+The boolean attributes **valuelabels**, **samplelabels** and **serieslabels** let the names of the series, samples or the value appear permanently in the content. With **labelspacing**, the distance to the content can be changed. And the attributes **labelfont**, **labelcolor** and **labelangle** can be used to change their design:
 
     <chart><!--{
       data: { dimensions: [[Mon, Tue, Wed, Thu, Fri, Sat, Sun]], values: [10,20,30,80,70,50,35] },
@@ -293,7 +293,7 @@ Like the labels, the popup texts can be enabled or disabled with **valuepopup**,
       content: { samplepopup: false, seriespopup: false, popupfont: Courier New }
     }--></chart>
     
-To add a text befor or behind the valuelabels or valuepopups, use the attributes **prefix** and **postfix**, e.g. to add the unit to unit:
+To add a text before or behind the valuelabels or valuepopups, use the attributes **prefix** and **postfix**, e.g. to add the unit to unit:
 
     <chart><!--{
       data: { dimensions: [[Mon, Tue, Wed, Thu, Fri, Sat, Sun]], values: [10,20,30,80,70,50,35] },
