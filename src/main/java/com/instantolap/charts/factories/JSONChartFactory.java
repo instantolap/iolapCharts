@@ -462,6 +462,11 @@ public class JSONChartFactory {
       initValueAxis(chart.getScaleAxis(), yData, data);
     }
 
+    final JSONObject scaleData2 = json.optJSONObject("scale2");
+    if (scaleData2 != null) {
+      initValueAxis(chart.getScaleAxis2(), scaleData2, data);
+    }
+
     return chart;
   }
 
@@ -565,6 +570,8 @@ public class JSONChartFactory {
     if (tickSize != null) {
       axis.setUserTick(Double.parseDouble(tickSize));
     }
+
+    axis.setShowGrid(json.optBoolean("grid", true));
 
     // zoom
     axis.enableZoom(json.optBoolean("zoom", axis.isZoomEnabled()));
