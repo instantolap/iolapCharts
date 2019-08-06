@@ -3,12 +3,6 @@ package com.instantolap.charts.renderer.impl;
 import com.instantolap.charts.impl.data.Theme;
 import com.instantolap.charts.renderer.*;
 import com.instantolap.charts.renderer.util.StringHelper;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TimeZone;
 import javafx.geometry.Bounds;
 import javafx.geometry.VPos;
 import javafx.scene.canvas.Canvas;
@@ -23,6 +17,13 @@ import javafx.scene.text.Text;
 import javafx.scene.transform.Affine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TimeZone;
 
 
 public class FxRenderer extends BasicRenderer {
@@ -216,14 +217,14 @@ public class FxRenderer extends BasicRenderer {
 
   @Override
   public void drawCircle(double x, double y, double size) {
-    if (clip != null && !clip.contains(x, y)) return;
+    if (clip != null && !clip.contains(x + size / 2, y + size / 2)) return;
 
     graphics.strokeOval(x, y, size, size);
   }
 
   @Override
   public void fillCircle(double x, double y, double size) {
-    if (clip != null && !clip.contains(x, y)) return;
+    if (clip != null && !clip.contains(x + size / 2, y + size / 2)) return;
 
     prepareFillRect(x, y, size, size);
     graphics.fillOval(x, y, size, size);
