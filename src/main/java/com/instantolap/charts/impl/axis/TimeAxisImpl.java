@@ -105,6 +105,22 @@ public class TimeAxisImpl extends BasicScaleAxisImpl implements TimeAxis {
         v += tick - min % tick;
       }
 
+      // use the local formatter to adjust timezone
+      if (tick == 3 * 60 * 60 * 1000) {
+        final int hour = Integer.parseInt(r.format("HH", new Date((long) v)));
+        v -= (hour % 3) * 60 * 60 * 1000;
+      } else if (tick == 6 * 60 * 60 * 1000) {
+        final int hour = Integer.parseInt(r.format("HH", new Date((long) v)));
+        v -= (hour % 6) * 60 * 60 * 1000;
+      } else if (tick > 6 * 60 * 60 * 1000) {
+        final int hour = Integer.parseInt(r.format("HH", new Date((long) v)));
+        v -= hour * 60 * 60 * 1000;
+      }
+
+      while (v < min) {
+        v += tick;
+      }
+
       int tickCount = 0;
       double tickV = v;
       while (tick > 0) {
@@ -136,6 +152,18 @@ public class TimeAxisImpl extends BasicScaleAxisImpl implements TimeAxis {
         }
 
         v += tick;
+
+        // adjust time saving?
+        final int hour = Integer.parseInt(r.format("HH", new Date((long) v)));
+        final double hourCorrection = (hour * 60 * 60 * 1000) % tick;
+        if (hourCorrection != 0) {
+          if (hourCorrection < tick / 2) {
+            v -= hourCorrection;
+          } else {
+            v += tick -hourCorrection;
+          }
+        }
+
       }
     }
 
@@ -162,21 +190,35 @@ public class TimeAxisImpl extends BasicScaleAxisImpl implements TimeAxis {
     neededWidth += maxTargetSize;
   }
 
-  private String getText(double v, String prefix, String postfix, Renderer r){
-    final String format;
-    if (v % (24 * 60 * 60 * 1000) == 0) {
-      format = "dd.MM";
-    } else if (v % 60000 == 0) {
-      format = "HH:mm";
-    } else if (v % 1000 == 0) {
-      format = "HH:mm:ss";
-    } else {
-      format = "HH:mm:ss SSS";
-    }
+  private String getText(double v, String prefix, String postfix, Renderer r) {
     final Date date = new Date((long) v);
 
     // calc text width
-    return prefix + r.format(format, date) + postfix;
+    String formatted = r.format("dd.MM HH:mm:ss SSS", date);
+
+    if (!formatted.endsWith(" 000")) {
+      // show milliseconds
+      formatted = formatted.substring(15);
+    } else if (!formatted.endsWith(":00 000")) {
+      // strip date
+      formatted = formatted.substring(6);
+      // show HH:mm:ss
+      formatted = formatted.substring(0, 8);
+    } else if (!formatted.endsWith(":00:00 000")) {
+      // strip date
+      formatted = formatted.substring(6);
+      // show HH:mm
+      formatted = formatted.substring(0, 5);
+    } else if (!formatted.endsWith(" 00:00:00 000")) {
+      // strip date
+      formatted = formatted.substring(6);
+      // show HH:mm
+      formatted = formatted.substring(0, 5);
+    } else {
+      // date only
+      formatted = formatted.substring(0, 5);
+    }
+    return prefix + formatted + postfix;
   }
 
   @Override

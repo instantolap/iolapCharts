@@ -23,7 +23,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.TimeZone;
 
 
 public class FxRenderer extends BasicRenderer {
@@ -244,7 +243,7 @@ public class FxRenderer extends BasicRenderer {
     if (dateFormat == null) {
       dateFormat = new SimpleDateFormat(format);
       dateFormats.put(format, dateFormat);
-      dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+//      dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
     }
     return dateFormat.format(v);
   }
