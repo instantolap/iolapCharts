@@ -84,6 +84,10 @@ public class ScaleHelper {
       // step *= 2;
       // }
 
+      // end of the world reached
+      if (Double.isInfinite(step)) {
+        break;
+      }
     }
 
     return step;
