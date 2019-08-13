@@ -88,7 +88,11 @@ public class FxRenderer extends BasicRenderer {
     if (clip != null && !(clip.contains(x1, y1) && clip.contains(x2, y2))) {
       final Line line = new Line(x1, y1, x2, y2);
       final Bounds b = Shape.intersect(line, clip).getBoundsInLocal();
-      graphics.strokeLine(b.getMinX(), b.getMaxY(), b.getMaxX(), b.getMinY());
+      if (((x1 < x2) && (y1 > y2)) || ((x1 > x2) && (y1 < y2))) {
+        graphics.strokeLine(b.getMinX(), b.getMaxY(), b.getMaxX(), b.getMinY());
+      } else {
+        graphics.strokeLine(b.getMinX(), b.getMinY(), b.getMaxX(), b.getMaxY());
+      }
     } else {
       graphics.strokeLine(x1, y1, x2, y2);
     }

@@ -160,7 +160,7 @@ public class TimeAxisImpl extends BasicScaleAxisImpl implements TimeAxis {
           if (hourCorrection < tick / 2) {
             v -= hourCorrection;
           } else {
-            v += tick -hourCorrection;
+            v += tick - hourCorrection;
           }
         }
 
@@ -232,7 +232,7 @@ public class TimeAxisImpl extends BasicScaleAxisImpl implements TimeAxis {
     if (userMin != null) {
       final int pos = seek(cube, userMin);
       if (pos >= 0) {
-        subCube.setDimensionStart(0, pos);
+        subCube.setDimensionStart(0, Math.max(0, pos - 1));
       }
     }
 

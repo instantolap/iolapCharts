@@ -130,6 +130,7 @@ public class LineContentImpl extends BasicLineContentImpl implements SampleValue
               avgCount++;
             }
 
+            // actions from the secondd data-point:
             if (c0 > 0) {
 
               // find last sample (don't change code, otherwise GWT compiler hangs)
