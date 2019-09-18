@@ -105,6 +105,14 @@ public class GWTRenderer extends BasicRenderer {
   }
 
   @Override
+  public void setLocale(String locale) {
+  }
+
+  @Override
+  public void setTimezoneId(String timezoneId) {
+  }
+
+  @Override
   protected double getTextLineWidth(String text) {
     return context.measureText(text).getWidth();
   }

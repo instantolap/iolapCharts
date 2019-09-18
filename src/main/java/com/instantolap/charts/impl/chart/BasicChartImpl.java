@@ -43,6 +43,7 @@ public abstract class BasicChartImpl implements Chart, HasAnimation, RendererLis
   private ChartColor titleColor, subTitleColor;
   private LinkOpener linkOpener;
   private double canvasX, canvasY, canvasWidth, canvasHeight;
+  private String timezoneId;
 
   public BasicChartImpl(Theme theme) {
     this.theme = theme;
@@ -639,6 +640,4 @@ public abstract class BasicChartImpl implements Chart, HasAnimation, RendererLis
   public LinkOpener getLinkOpener() {
     return linkOpener;
   }
-
-
 }

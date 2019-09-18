@@ -14,6 +14,10 @@ public interface Renderer {
   int SOUTH = 3;
   int CENTER = 4;
 
+  void setLocale(String locale);
+
+  void setTimezoneId(String timezoneId);
+
   void setSize(double width, double height);
 
   double getWidth();
@@ -87,8 +91,8 @@ public interface Renderer {
   void setCurrentPopup(Popup popup);
 
   void addPopup(double xx, double yy, double len0, double len1, double rad, double rad2,
-    boolean round, String popupText, ChartFont popupFont,
-    Runnable onMouseOver, Runnable onMouseOut, Runnable onMouseClick);
+                boolean round, String popupText, ChartFont popupFont,
+                Runnable onMouseOver, Runnable onMouseOut, Runnable onMouseClick);
 
   boolean inPath(double cx1, double cy1, double[] path);
 

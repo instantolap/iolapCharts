@@ -8,21 +8,14 @@ import org.slf4j.LoggerFactory;
 
 import java.awt.*;
 import java.awt.geom.*;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TimeZone;
 
 
-public abstract class BasicGraphics2dRenderer extends BasicRenderer {
+public abstract class BasicGraphics2dRenderer extends BasicDesktopRenderer {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(BasicGraphics2dRenderer.class);
 
   private Graphics2D graphics;
   private ChartColor color;
-  private final Map<String, SimpleDateFormat> dateFormats = new HashMap<>();
 
   protected void setGraphics(Graphics2D graphics) {
     this.graphics = graphics;
@@ -178,25 +171,6 @@ public abstract class BasicGraphics2dRenderer extends BasicRenderer {
   }
 
   @Override
-  public String format(String format, double v) {
-    if (format == null) {
-      return null;
-    }
-    return new DecimalFormat(format).format(v);
-  }
-
-  @Override
-  public String format(String format, Date v) {
-    SimpleDateFormat dateFormat = dateFormats.get(format);
-    if (dateFormat == null) {
-      dateFormat = new SimpleDateFormat(format);
-      dateFormats.put(format, dateFormat);
-      dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-    }
-    return dateFormat.format(v);
-  }
-
-  @Override
   public void animate(final HasAnimation animated, final long duration)
     throws ChartException {
     animated.render(1);
@@ -232,7 +206,7 @@ public abstract class BasicGraphics2dRenderer extends BasicRenderer {
   }
 
   @Override
-  public void openPopup(final RendererContent chart) throws ChartException {
+  public void openPopup(final RendererContent chart) {
     new Thread(() -> {
       try {
         final SwingRenderer swingRenderer = new SwingRenderer();

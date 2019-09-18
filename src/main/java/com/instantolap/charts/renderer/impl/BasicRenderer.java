@@ -6,8 +6,11 @@ import com.instantolap.charts.renderer.popup.Popup;
 import com.instantolap.charts.renderer.popup.RectPopup;
 import com.instantolap.charts.renderer.util.StringHelper;
 
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
 
 public abstract class BasicRenderer implements Renderer {

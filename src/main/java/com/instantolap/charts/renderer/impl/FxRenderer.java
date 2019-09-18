@@ -18,18 +18,11 @@ import javafx.scene.transform.Affine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
-
-public class FxRenderer extends BasicRenderer {
+public class FxRenderer extends BasicDesktopRenderer {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(FxRenderer.class);
 
-  private final Map<String, SimpleDateFormat> dateFormats = new HashMap<>();
   private final Canvas image;
 
   private GraphicsContext graphics;
@@ -231,25 +224,6 @@ public class FxRenderer extends BasicRenderer {
 
     prepareFillRect(x, y, size, size);
     graphics.fillOval(x, y, size, size);
-  }
-
-  @Override
-  public String format(String format, double v) {
-    if (format == null) {
-      return null;
-    }
-    return new DecimalFormat(format).format(v);
-  }
-
-  @Override
-  public String format(String format, Date v) {
-    SimpleDateFormat dateFormat = dateFormats.get(format);
-    if (dateFormat == null) {
-      dateFormat = new SimpleDateFormat(format);
-      dateFormats.put(format, dateFormat);
-//      dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-    }
-    return dateFormat.format(v);
   }
 
   @Override
