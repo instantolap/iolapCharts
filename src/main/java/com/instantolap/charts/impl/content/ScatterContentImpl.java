@@ -72,7 +72,7 @@ public class ScatterContentImpl extends BasicScatterContentImpl implements Value
     final Double minTime = cube.getMin(Cube.MEASURE_TIME);
     final Double maxTime = cube.getMax(Cube.MEASURE_TIME);
     Double currentTime = null;
-    if (minTime != null && maxTime != null && visibleTime != null) {
+    if (isValid(minTime) && isValid(maxTime) && isValid(visibleTime)) {
       anim = fadeAnimation;
       final double timeDifference = maxTime - minTime;
       currentTime = minTime + timeDifference * progress;
@@ -96,7 +96,7 @@ public class ScatterContentImpl extends BasicScatterContentImpl implements Value
           Double timestamp = cube.get(Cube.MEASURE_TIME, c0, c1);
           boolean showOutline = true;
           boolean addToRegression = true;
-          if (timestamp != null && currentTime != null) {
+          if (isValid(timestamp) && isValid(currentTime)) {
             if (timestamp > currentTime) {
               continue;
             } else if (timestamp < currentTime - visibleTime) {
@@ -137,7 +137,7 @@ public class ScatterContentImpl extends BasicScatterContentImpl implements Value
             symbolWidth = Math.max(symbolWidth, 1d);
           }
 
-          if (vx != null && vy != null) {
+          if (isValid(vx) && isValid(vy)) {
 
             final double xx = xAxis.getPosition(vx);
             final double yy = yAxis.getPosition(vy);

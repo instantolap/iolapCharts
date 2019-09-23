@@ -126,7 +126,7 @@ public class BarContentImpl extends BasicBarContentImpl implements SampleValueRe
           final String format = yAxis.getFormat();
           Double lowerValue = cube.get(getLowerMeasure(), c0, c1);
           final Double upperValue = cube.get(getMeasure(), c0, c1);
-          if (upperValue != null) {
+          if (isValid(upperValue)) {
             if (lowerValue == null) {
               lowerValue = 0.0;
             }
@@ -179,7 +179,7 @@ public class BarContentImpl extends BasicBarContentImpl implements SampleValueRe
             if (isStacked) {
               for (int n = c1 + 1; n < size1; n++) {
                 final Double o = cube.get(getMeasure(), c0, n);
-                if ((o != null) && (o * upperValue >= 0)) {
+                if (isValid(o) && (o * upperValue >= 0)) {
                   isLastValue = false;
                 }
               }
@@ -254,7 +254,7 @@ public class BarContentImpl extends BasicBarContentImpl implements SampleValueRe
 
                 final double xc = xx + realBarWidth / 2;
 
-                if (yMax != null) {
+                if (isValid(yMax)) {
                   if (isRotated) {
                     r.drawLine(x + by + bh, y + xc, x + yMax, y + xc);
                   } else {
@@ -262,7 +262,7 @@ public class BarContentImpl extends BasicBarContentImpl implements SampleValueRe
                   }
                 }
 
-                if (yMin != null) {
+                if (isValid(yMin)) {
                   if (isRotated) {
                     r.drawLine(x + yMin, y + xc, x + by, y + xc);
                   } else {

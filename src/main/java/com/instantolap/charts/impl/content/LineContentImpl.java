@@ -109,7 +109,7 @@ public class LineContentImpl extends BasicLineContentImpl implements SampleValue
           final ChartColor shadowColor = getCurrentShadow(anim, progress, bar, data, c1, c0);
 
           final Double maxValue = cube.get(yMeasure, c0, c1);
-          if (maxValue != null) {
+          if (isValid(maxValue)) {
 
             // find lower and higher y
             final double yMax = yAxis.getPosition(anim.getValue(progress, bar, maxValue));
@@ -118,7 +118,7 @@ public class LineContentImpl extends BasicLineContentImpl implements SampleValue
             if (isStacked) {
               for (int n = c1 + 1; n < size1; n++) {
                 final Double o = cube.get(yMeasure, c0, n);
-                if ((o != null) && (o * maxValue >= 0)) {
+                if ((isValid(o)) && (o * maxValue >= 0)) {
                   isLastValue = false;
                 }
               }
@@ -139,7 +139,7 @@ public class LineContentImpl extends BasicLineContentImpl implements SampleValue
                 prevSample = findLastIndexWithValue(cube, yMeasure, c0, c1);
               }
               final Double prevMaxValue = cube.get(yMeasure, prevSample, c1);
-              if (prevMaxValue != null) {
+              if (isValid(prevMaxValue)) {
 
                 final double px = xAxis.getSamplePosition(cube, prevSample, c1);
                 final double pyMax = yAxis.getPosition(anim.getValue(progress, bar, prevMaxValue));
@@ -371,7 +371,7 @@ public class LineContentImpl extends BasicLineContentImpl implements SampleValue
         for (int c0 = 0; c0 < size0; c0++) {
           final double progress0 = (double) c0 / (size0 - 1);
           final Double max = cube.get(getMeasure(), c0, c1);
-          if (max != null) {
+          if (isValid(max)) {
             maxX.add(c0);
             double dy = yAxis.getPosition(anim.getValue(progress, progress0, max));
             maxV.add(dy);
@@ -405,7 +405,7 @@ public class LineContentImpl extends BasicLineContentImpl implements SampleValue
   private int findLastIndexWithValue(Cube cube, String yMeasure, int c0, int c1) {
     int prevSample;
     for (prevSample = c0 - 1; prevSample >= 0; prevSample--) {
-      if (cube.get(yMeasure, prevSample, c1) != null) {
+      if (isValid(cube.get(yMeasure, prevSample, c1))) {
         break;
       }
     }

@@ -107,7 +107,7 @@ public class RoundBarContentImpl extends BasicBarContentImpl
 
           Double minValue = cube.get(Cube.MEASURE_LOWER, c0, c1);
           final Double maxValue = cube.get(Cube.MEASURE_VALUE, c0, c1);
-          if (maxValue != null) {
+          if (isValid(maxValue)) {
             if (minValue == null) {
               minValue = 0.0;
             }
@@ -155,7 +155,7 @@ public class RoundBarContentImpl extends BasicBarContentImpl
                 if (isStacked) {
                   for (int n = c1 + 1; n < size1; n++) {
                     final Double o = cube.get(Cube.MEASURE_VALUE, c0, n);
-                    if ((o != null) && (o * maxValue >= 0)) {
+                    if (isValid(o) && (o * maxValue >= 0)) {
                       isLastValue = false;
                     }
                   }

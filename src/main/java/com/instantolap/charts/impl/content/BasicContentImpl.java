@@ -53,4 +53,16 @@ public abstract class BasicContentImpl implements Content {
   public void setColorRange(int colorRange) {
     this.colorRange = colorRange;
   }
+
+  protected boolean isValid(Double v) {
+    if (v == null) {
+      return false;
+    } else if (Double.isNaN(v)) {
+      return false;
+    } else if (Double.isInfinite(v)) {
+      return false;
+    } else {
+      return true;
+    }
+  }
 }

@@ -32,9 +32,8 @@ public class MeterContentImpl extends BasicMeterContentImpl implements SampleVal
   @Override
   public void render(double progress, Renderer r, Data data, double x, double y,
                      double width, double height, PositionAxis xAxis, ValueAxis yAxis,
-    boolean isStacked, boolean isCentered, boolean isRotated,
-    ChartFont font, ChartColor background) throws ChartException
-  {
+                     boolean isStacked, boolean isCentered, boolean isRotated,
+                     ChartFont font, ChartColor background) throws ChartException {
 
     final Cube cube = getCube();
     if (cube == null) {
@@ -85,7 +84,7 @@ public class MeterContentImpl extends BasicMeterContentImpl implements SampleVal
           }
 
           Double v = cube.get(getMeasure(), c0, c1);
-          if (v != null) {
+          if (isValid(v)) {
             final double bar = (double) c0 / (size0 - 1);
             v = anim.getValue(progress, bar, v);
 
@@ -124,7 +123,7 @@ public class MeterContentImpl extends BasicMeterContentImpl implements SampleVal
                 final double arc1 = arc + Math.PI / 2;
                 final double oppSize = -size * 0.15;
 
-                final double x0 =  (cx + Math.sin(arc0) * pinSize);
+                final double x0 = (cx + Math.sin(arc0) * pinSize);
                 final double y0 = (cy - Math.cos(arc0) * pinSize);
                 final double x1 = (cx + Math.sin(arc1) * pinSize);
                 final double y1 = (cy - Math.cos(arc1) * pinSize);

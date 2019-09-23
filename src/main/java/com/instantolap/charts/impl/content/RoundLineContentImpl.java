@@ -87,7 +87,7 @@ public class RoundLineContentImpl extends BasicLineContentImpl implements Sample
 
           Double minValue = cube.get(getLowerMeasure(), c0, c1);
           final Double maxValue = cube.get(getMeasure(), c0, c1);
-          if (maxValue != null) {
+          if (isValid(maxValue)) {
             if (minValue == null) {
               minValue = 0.0;
             }
@@ -107,7 +107,7 @@ public class RoundLineContentImpl extends BasicLineContentImpl implements Sample
             final int prevN = (c0 + size0 - 1) % size0;
             Double prevMinValue = cube.get(getLowerMeasure(), prevN, c1);
             final Double prevMaxValue = cube.get(getMeasure(), prevN, c1);
-            if (prevMaxValue != null) {
+            if (isValid(prevMaxValue)) {
               if (prevMinValue == null) {
                 prevMinValue = 0.0;
               }
@@ -209,7 +209,7 @@ public class RoundLineContentImpl extends BasicLineContentImpl implements Sample
                   if (isStacked) {
                     for (int n = c1 + 1; n < size1; n++) {
                       final Double o = cube.get(getMeasure(), c0, n);
-                      if ((o != null) && (o * maxValue >= 0)) {
+                      if (isValid(o) && (o * maxValue >= 0)) {
                         isLastValue = false;
                       }
                     }

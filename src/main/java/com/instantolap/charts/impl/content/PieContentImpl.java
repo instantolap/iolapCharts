@@ -106,7 +106,7 @@ public class PieContentImpl extends BasicPieContentImpl implements SampleValueRe
           }
 
           final Double v = cube.get(getMeasure(), c0, c1);
-          if ((v != null) && (v >= 0)) {
+          if (isValid(v) && (v >= 0)) {
             total += v;
           }
         }
@@ -125,7 +125,7 @@ public class PieContentImpl extends BasicPieContentImpl implements SampleValueRe
           final ChartColor shadowColor = getCurrentShadow(anim, progress, bar, data, c1, c0);
 
           final Double v = cube.get(getMeasure(), c0, c1);
-          if ((v != null) && (v >= 0)) {
+          if (isValid(v) && (v >= 0)) {
             final double f = v / total;
             final double arc = f * (endAngle - startAngle);
             final double rad2 = rad + arc;
