@@ -251,8 +251,13 @@ public class TimeAxisImpl extends BasicScaleAxisImpl implements TimeAxis {
     int min = 0;
     int end = -1;
     while (min <= max) {
-      final int pos = (max + min) / 2;
-      final Double f = cube.get(getMeasure(), pos);
+      int pos = (max + min) / 2;
+      Double f = cube.get(getMeasure(), pos);
+      // there is no value at this cube position, search next
+      while (f == null && pos < max) {
+        pos++;
+        f = cube.get(getMeasure(), pos);
+      }
       if ((f != null) && (v < f)) {
         end = pos;
         max = pos - 1;

@@ -3,11 +3,12 @@ package com.instantolap.charts.renderer.impl;
 import com.instantolap.charts.Chart;
 import com.instantolap.charts.renderer.ChartException;
 import com.instantolap.charts.renderer.HasAnimation;
+import javafx.scene.Cursor;
+import javafx.scene.canvas.Canvas;
+
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
-import javafx.scene.Cursor;
-import javafx.scene.canvas.Canvas;
 
 import static java.lang.String.format;
 import static java.util.concurrent.Executors.newScheduledThreadPool;
@@ -98,7 +99,13 @@ public class FxChartPanel extends Canvas {
     });
 
     setOnMousePressed(event -> {
-      renderer.mouseListeners.fireMouseDown((int) event.getX(), (int) event.getY());
+      if (event.isControlDown()) {
+        renderer.mouseListeners.fireMouseWheel((int) event.getX(), (int) event.getY(), -1);
+      } else if (event.isShiftDown()) {
+        renderer.mouseListeners.fireMouseWheel((int) event.getX(), (int) event.getY(), 1);
+      } else {
+        renderer.mouseListeners.fireMouseDown((int) event.getX(), (int) event.getY());
+      }
     });
 
     setOnMouseReleased(event -> {
